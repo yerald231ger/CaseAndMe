@@ -94,6 +94,12 @@ namespace CaseAndMe.Data
                 .WithMany(p => p.OrdenesVentaDetalle)
                 .HasForeignKey(ovd => ovd.IdProducto);
             });
+
+            builder.Entity<MetodoEnvio>(build => { build.ToTable("tblMetodosEnvio"); });
+
+            builder.Entity<MetodoPago>(build => { build.ToTable("tblMetodosPago"); });
+
+            builder.Entity<ProductoSubCategoria>(build => { build.ToTable("tblProductosSubCategorias"); });
         }
     }
 }
