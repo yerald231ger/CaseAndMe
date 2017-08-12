@@ -72,7 +72,7 @@
                                     <img alt="Product" src="~/images/demo/@p.UrlImagen">
                                 </a>
                                 <div class="option">
-                                    <a href="#" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                    <a href="javascript:addToCart(@p.Id, '@p.Nombre', @p.Precio, '@p.UrlImagen');"  data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
                                 </div>
                             </div>
                             <h6><a href="detail.html">@p.Nombre</a></h6>
@@ -104,7 +104,7 @@
                                     <span class="label-tags"><span class="label label-danger arrowed">Nuevo!</span></span>
                                 </div>
                                 <div class="option">
-                                    <a href="#" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                    <a href="javascript:addToCart(@p.Id, '@p.Nombre', @p.Precio, '@p.UrlImagen');" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
                                 </div>
                             </div>
                             <h6><a href="detail.html">@p.Nombre</a></h6>
