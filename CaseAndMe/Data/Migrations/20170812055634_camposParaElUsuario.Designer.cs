@@ -8,9 +8,10 @@ using CaseAndMe.Data;
 namespace CaseAndMe.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170812055634_camposParaElUsuario")]
+    partial class camposParaElUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -22,6 +23,8 @@ namespace CaseAndMe.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<int?>("CiudadId");
 
                     b.Property<string>("Colonia");
 
@@ -76,7 +79,7 @@ namespace CaseAndMe.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCiudad");
+                    b.HasIndex("CiudadId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -113,6 +116,8 @@ namespace CaseAndMe.Data.Migrations
 
                     b.Property<bool>("EsActivo");
 
+                    b.Property<int?>("EstadoId");
+
                     b.Property<DateTime>("FechaAlt");
 
                     b.Property<DateTime>("FechaMod");
@@ -123,9 +128,9 @@ namespace CaseAndMe.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdEstado");
+                    b.HasIndex("EstadoId");
 
-                    b.ToTable("tblCiudades");
+                    b.ToTable("Ciudad");
                 });
 
             modelBuilder.Entity("CaseAndMe.Models.Estado", b =>
@@ -143,29 +148,13 @@ namespace CaseAndMe.Data.Migrations
 
                     b.Property<string>("Nombre");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdPais");
-
-                    b.ToTable("tblEstados");
-                });
-
-            modelBuilder.Entity("CaseAndMe.Models.Material", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("EsActivo");
-
-                    b.Property<DateTime>("FechaAlt");
-
-                    b.Property<DateTime>("FechaMod");
-
-                    b.Property<string>("Nombre");
+                    b.Property<int?>("PaisId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblMateriales");
+                    b.HasIndex("PaisId");
+
+                    b.ToTable("Estado");
                 });
 
             modelBuilder.Entity("CaseAndMe.Models.MetodoEnvio", b =>
@@ -277,7 +266,7 @@ namespace CaseAndMe.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblPaises");
+                    b.ToTable("Pais");
                 });
 
             modelBuilder.Entity("CaseAndMe.Models.Producto", b =>
@@ -440,25 +429,22 @@ namespace CaseAndMe.Data.Migrations
             modelBuilder.Entity("CaseAndMe.Models.ApplicationUser", b =>
                 {
                     b.HasOne("CaseAndMe.Models.Ciudad", "Ciudad")
-                        .WithMany("Users")
-                        .HasForeignKey("IdCiudad")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("CiudadId");
                 });
 
             modelBuilder.Entity("CaseAndMe.Models.Ciudad", b =>
                 {
                     b.HasOne("CaseAndMe.Models.Estado", "Estado")
                         .WithMany("Ciudades")
-                        .HasForeignKey("IdEstado")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EstadoId");
                 });
 
             modelBuilder.Entity("CaseAndMe.Models.Estado", b =>
                 {
                     b.HasOne("CaseAndMe.Models.Pais", "Pais")
                         .WithMany("Estados")
-                        .HasForeignKey("IdPais")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PaisId");
                 });
 
             modelBuilder.Entity("CaseAndMe.Models.OrdenVenta", b =>

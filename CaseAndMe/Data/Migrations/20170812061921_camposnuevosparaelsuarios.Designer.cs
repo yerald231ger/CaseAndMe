@@ -8,9 +8,10 @@ using CaseAndMe.Data;
 namespace CaseAndMe.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170812061921_camposnuevosparaelsuarios")]
+    partial class camposnuevosparaelsuarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -148,24 +149,6 @@ namespace CaseAndMe.Data.Migrations
                     b.HasIndex("IdPais");
 
                     b.ToTable("tblEstados");
-                });
-
-            modelBuilder.Entity("CaseAndMe.Models.Material", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("EsActivo");
-
-                    b.Property<DateTime>("FechaAlt");
-
-                    b.Property<DateTime>("FechaMod");
-
-                    b.Property<string>("Nombre");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tblMateriales");
                 });
 
             modelBuilder.Entity("CaseAndMe.Models.MetodoEnvio", b =>
