@@ -11,7 +11,9 @@ namespace CaseAndMe.Models
         public float Precio { get; set; }
         public string UrlImagen { get; set; }
 
-        public virtual ICollection<ProductoSubCategoria> ProductosSubCategorias { get; set; }
+        public int IdSubCategoria { get; set; }
+
+        public SubCategoria SubCategoria { get; set; }
         public virtual ICollection<OrdenVentaDetalle> OrdenesVentaDetalle { get; set; }
     }
 }

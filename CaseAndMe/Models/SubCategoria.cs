@@ -9,7 +9,7 @@ namespace CaseAndMe.Models
     {
         public int IdCategoria { get; set; }
         public virtual Categoria Categoria { get; set; }
-
-        public virtual ICollection<ProductoSubCategoria> ProductosSubCategorias { get; set; }
+        
+        public virtual ICollection<Producto> Productos { get; set; }
     }
 }
