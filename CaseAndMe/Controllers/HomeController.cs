@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CaseAndMe.Models;
 using CaseAndMe.Data;
-
+using CaseAndMe.ViewModels;
 
 namespace CaseAndMe.Controllers
 {
@@ -19,8 +19,7 @@ namespace CaseAndMe.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.pDestacados = context.Productos.Take(10).ToList();
-            ViewBag.pNuevos = context.Productos.OrderByDescending(x => x.Id).Take(10).ToList();
+           
             return View();
         }
 
