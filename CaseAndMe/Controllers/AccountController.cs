@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using CaseAndMe.Models;
 using CaseAndMe.Models.AccountViewModels;
 using CaseAndMe.Services;
+using CaseAndMe.Data;
 
 namespace CaseAndMe.Controllers
 {
@@ -24,6 +25,7 @@ namespace CaseAndMe.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
+        private ApplicationDbContext _dbContext;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -31,7 +33,8 @@ namespace CaseAndMe.Controllers
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,6 +42,7 @@ namespace CaseAndMe.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _dbContext = dbContext;
         }
 
         //
@@ -99,6 +103,7 @@ namespace CaseAndMe.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            ViewBag.Paises = _dbContext.Paises;
             return View();
         }
 
