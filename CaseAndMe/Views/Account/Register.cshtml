@@ -82,8 +82,11 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Pais</label>
         <div class="col-md-10">
-            <select asp-for="Pais" class="form-control" >
-
+            <select>
+                @foreach (var pais in (ICollection<Pais>)@ViewBag.Paises)
+                {
+                    <option value="@pais.Id">@pais.Nombre</option>
+                } 
             </select>
         </div>
     </div>

@@ -103,7 +103,7 @@ namespace CaseAndMe.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            ViewBag.Paises = _dbContext.Paises;
+            ViewBag.Paises = _dbContext.Paises.ToList();
             return View();
         }
 

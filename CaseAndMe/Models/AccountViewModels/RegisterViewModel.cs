@@ -56,10 +56,5 @@ namespace CaseAndMe.Models.AccountViewModels
         [Required]
         [Display(Name = "Estado")]
         public int Estado { get; set; }
-
-        [Required]
-        [Display(Name = "Pais")]
-        public ICollection<Pais> Pais { get; set; }
-
     }
 }
