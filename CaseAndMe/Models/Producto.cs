@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CaseAndMe.Models
 {
-    public class Producto : Comun
+    public class Producto : Comun<int>
     {
         public string Descripcion { get; set; }
         public float Precio { get; set; }

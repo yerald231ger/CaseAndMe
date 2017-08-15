@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using CaseAndMe.Data;
 using CaseAndMe.Models;
 using CaseAndMe.Services;
+using CaseAndMe.Services.Repository;
 
 namespace CaseAndMe
 {
@@ -52,6 +53,8 @@ namespace CaseAndMe
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            
+            services.AddTransient<IPaisRepository, PaisRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

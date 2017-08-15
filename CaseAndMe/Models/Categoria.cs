@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CaseAndMe.Models
 {
-    public class Categoria : Comun
+    public class Categoria : Comun<int>
     {
         public virtual ICollection<SubCategoria> SubCategorias { get; set; }
     }

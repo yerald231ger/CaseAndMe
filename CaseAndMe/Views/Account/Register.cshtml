@@ -82,12 +82,19 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Pais</label>
         <div class="col-md-10">
-            <select>
+            <select data-rel="Estados">
                 @foreach (var pais in (ICollection<Pais>)@ViewBag.Paises)
                 {
                     <option value="@pais.Id">@pais.Nombre</option>
-                } 
+                }
             </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Estado</label>
+        <div class="col-md-10">
+            <select id="Estados"></select>
         </div>
     </div>
 
@@ -96,8 +103,8 @@
         <div class="col-md-10">
             <input asp-for="Estado" class="form-control" />
             <span asp-validation-for="Estado" class="text-danger"></span>
-        </div>    
-    </div>    
+        </div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -108,4 +115,22 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        $("select").on("change", function () {
+            $this = this;
+            $.getJSON("http://localhost:54260/xhr/paises/" + this.value + "/estados", function (json) {
+                var $select = $("#" + $($this).attr("data-rel"));
+                $select.html("");
+                json.forEach(function (e, i) {
+                    option = document.createElement("option");
+                    option.value = e.id;
+                    option.innerHTML = e.nombre;
+                    $select.append(option);
+                });
+            })
+                .fail(function (data) {
+                    $select.html("");
+                });
+        });
+    </script>
 }

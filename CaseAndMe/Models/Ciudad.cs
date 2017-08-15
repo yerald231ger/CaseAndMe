@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CaseAndMe.Models
 {
-    public class Ciudad : Comun
+    public class Ciudad : Comun<int>
     {
         public int IdEstado { get; set; }
 

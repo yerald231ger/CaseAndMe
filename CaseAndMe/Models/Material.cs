@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CaseAndMe.Models
 {
-    public class Material : Comun
+    public class Material : Comun<int>
     {
     }
 }

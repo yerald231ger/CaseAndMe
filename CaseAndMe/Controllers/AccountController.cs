@@ -13,6 +13,7 @@ using CaseAndMe.Models;
 using CaseAndMe.Models.AccountViewModels;
 using CaseAndMe.Services;
 using CaseAndMe.Data;
+using CaseAndMe.Services.Repository;
 
 namespace CaseAndMe.Controllers
 {
@@ -24,8 +25,9 @@ namespace CaseAndMe.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IPaisRepository _paisRepository;
         private readonly string _externalCookieScheme;
-        private ApplicationDbContext _dbContext;
+        private ApplicationDbContext _dbContext;        
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -34,6 +36,7 @@ namespace CaseAndMe.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
+            IPaisRepository paisRepository,
             ApplicationDbContext dbContext)
         {
             _userManager = userManager;
@@ -42,6 +45,7 @@ namespace CaseAndMe.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _paisRepository = paisRepository;
             _dbContext = dbContext;
         }
 
@@ -103,7 +107,7 @@ namespace CaseAndMe.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            ViewBag.Paises = _dbContext.Paises.ToList();
+            ViewBag.Paises = _paisRepository.GetAll();
             return View();
         }
 
