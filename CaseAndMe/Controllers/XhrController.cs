@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using CaseAndMe.Services.Repository;
 using Newtonsoft.Json.Linq;
 using CaseAndMe.Models;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace CaseAndMe.Controllers
 {
@@ -14,17 +16,33 @@ namespace CaseAndMe.Controllers
     [Route("xhr")]
     public class XhrController : Controller
     {
+        private string cachekey = "xhrcontroller";
+
         [HttpGet("paises/{i:int}/estados")]
-        public JsonResult PaisEstados(int i)
+        public string PaisEstados(int i)
         {
-            return Json(_paisRepository.GetEstados(i).Select(e => new { e.Id, e.Nombre }));
+            var keyentry = $"{cachekey}-{nameof(PaisEstados)}-{i}";
+
+            if (!_cache.TryGetValue(keyentry, out string result))
+            {
+                result = JsonConvert.SerializeObject(_paisRepository.GetEstados(i).Select(e => new { e.Id, e.Nombre }));
+                
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(3));
+
+                _cache.Set(keyentry, result, cacheEntryOptions);
+            }
+
+            return result;
         }
 
         private IPaisRepository _paisRepository;
+        private IMemoryCache _cache;
 
-        public XhrController(IPaisRepository paisRepository)
+        public XhrController(IPaisRepository paisRepository, IMemoryCache cache)
         {
             _paisRepository = paisRepository;
+            _cache = cache;
         }
     }
 }

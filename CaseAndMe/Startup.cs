@@ -48,6 +48,7 @@ namespace CaseAndMe
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddMemoryCache();
             services.AddMvc();
 
             // Add application services.
