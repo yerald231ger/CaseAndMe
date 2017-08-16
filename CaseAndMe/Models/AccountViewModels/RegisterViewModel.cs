@@ -25,6 +25,10 @@ namespace CaseAndMe.Models.AccountViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+
+        [Required]
         [Display(Name = "Primer Apellido")]
         public string PrimerApellido { get; set; }
 
@@ -33,9 +37,11 @@ namespace CaseAndMe.Models.AccountViewModels
 
         [Required]
         [Display(Name = "Telefono")]
+        [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
 
         [Display(Name = "Telefono 2")]
+        [DataType(DataType.PhoneNumber)]
         public string Telefono2 { get; set; }
 
         [Required]
@@ -46,8 +52,10 @@ namespace CaseAndMe.Models.AccountViewModels
         [Display(Name = "Colonia")]
         public string Colonia { get; set; }
 
+        [Required]
+        [DataType(DataType.PostalCode)]
         [Display(Name = "Codigo Postal")]
-        public string CP { get; set; }
+        public int CP { get; set; }
 
         [Required]
         [Display(Name = "Ciudad")]
