@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace CaseAndMe.Services
@@ -13,9 +13,35 @@ namespace CaseAndMe.Services
     // For more details see this link https://go.microsoft.com/fwlink/?LinkID=532713
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
+        public IOptions<AuthMessageSenderOptions> _optionsAccessor { get; set; }
+
+        public AuthMessageSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
+        {
+            _optionsAccessor = optionsAccessor;
+        }
+
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            return Execute(Options.SendGridKey, subject, message, email);
+            // Plug in your email service here to send an email.
+            var _fromAddress = new MailAddress(_optionsAccessor.Value.EmailSender, "Case&Me Account Services");
+            var _toAddress = new MailAddress(email);
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(_fromAddress.Address, _optionsAccessor.Value.EmailSenderPassword)
+            };
+
+            var _mail = new MailMessage(_fromAddress, _toAddress);
+            _mail.Body = message;
+            _mail.Subject = subject;
+            _mail.IsBodyHtml = true;
+
+            return smtp.SendMailAsync(_mail);
         }
 
         public Task SendSmsAsync(string number, string message)
@@ -23,29 +49,5 @@ namespace CaseAndMe.Services
             // Plug in your SMS service here to send a text message.
             return Task.FromResult(0);
         }
-
-        public AuthMessageSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
-        {
-            Options = optionsAccessor.Value;
-        }
-
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager        
-
-        public Task Execute(string apiKey, string subject, string message, string email)
-        {
-            var client = new SendGridClient(apiKey);
-            var msg = new SendGridMessage()
-            {
-                From = new EmailAddress("test@example.com", "Example User"),
-                Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = message
-            };
-            msg.AddTo(new EmailAddress(email));
-            var r = client.SendEmailAsync(msg);
-            var d = r.Result;
-            return Task.FromResult(0);
-        }
-
     }
 }

@@ -7,7 +7,7 @@ namespace CaseAndMe.Services
 {
     public class AuthMessageSenderOptions
     {
-        public string SendGridUser { get; set; }
-        public string SendGridKey { get; set; }
+        public string EmailSender { get; set; }
+        public string EmailSenderPassword { get; set; }
     }
 }
