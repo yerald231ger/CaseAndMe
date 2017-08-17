@@ -121,7 +121,20 @@ namespace CaseAndMe.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Ciudad = model.Ciudad,
+                    Colonia = model.Colonia,
+                    FechaAlt = DateTime.Now,
+                    Direccion = model.Direccion,
+                    PhoneNumber = model.Telefono,
+                    IdEstado = model.Estado,
+                    Telefono = model.Telefono2,
+                    PrimerApellido = model.PrimerApellido,
+                    SegundoApellido = model.SegundoApellido
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

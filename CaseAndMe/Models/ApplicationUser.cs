@@ -11,17 +11,16 @@ namespace CaseAndMe.Models
     public class ApplicationUser : IdentityUser
     {
         public string Direccion { get; set; }
-        public int IdOrdenVenta { get; set; }
         public string PrimerApellido { get; set; }
         public string SegundoApellido { get; set; }
         public string Colonia { get; set; }
         public string Telefono { get; set; }
-        public string Telefono2 { get; set; }
+        public string Ciudad { get; set; }
         public DateTime FechaMod { get; set; }
         public DateTime FechaAlt { get; set; }
 
-        public int IdCiudad { get; set; }
-        public Ciudad Ciudad { get; set; }
+        public int IdEstado { get; set; }
+        public Estado Estado { get; set; }
 
         public virtual ICollection<OrdenVenta> OrdenesVenta { get; set; }
     }

@@ -36,13 +36,15 @@ namespace CaseAndMe.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("yerald231ger@gmail.com", "Joe Smith"),
+                From = new EmailAddress("test@example.com", "Example User"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
             };
             msg.AddTo(new EmailAddress(email));
-            return client.SendEmailAsync(msg);
+            var r = client.SendEmailAsync(msg);
+            var d = r.Result;
+            return Task.FromResult(0);
         }
 
     }

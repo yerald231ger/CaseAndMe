@@ -11,6 +11,5 @@ namespace CaseAndMe.Models
 
         public Estado Estado { get; set; }
         
-        public virtual ICollection<ApplicationUser> Users { get; set; }
     }
 }

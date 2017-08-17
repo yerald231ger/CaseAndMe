@@ -100,10 +100,6 @@ namespace CaseAndMe.Data
                 build.HasOne(c => c.Estado)
                 .WithMany(e => e.Ciudades)
                 .HasForeignKey(c => c.IdEstado);
-
-                build.HasMany(c => c.Users)
-                .WithOne(u => u.Ciudad)
-                .HasForeignKey(u => u.IdCiudad);
             });
 
             builder.Entity<Estado>(build =>
@@ -113,6 +109,10 @@ namespace CaseAndMe.Data
                 build.HasOne(e => e.Pais)
                 .WithMany(p => p.Estados)
                 .HasForeignKey(e => e.IdPais);
+
+                build.HasMany(e => e.Users)
+                .WithOne(u => u.Estado)
+                .HasForeignKey(u => u.IdEstado);
             });
 
             builder.Entity<Material>(build => { build.ToTable("tblMateriales"); });

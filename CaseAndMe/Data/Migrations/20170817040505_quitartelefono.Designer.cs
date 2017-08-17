@@ -8,9 +8,10 @@ using CaseAndMe.Data;
 namespace CaseAndMe.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170817040505_quitartelefono")]
+    partial class quitartelefono
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -42,6 +43,8 @@ namespace CaseAndMe.Data.Migrations
                     b.Property<DateTime>("FechaMod");
 
                     b.Property<int>("IdEstado");
+
+                    b.Property<int>("IdOrdenVenta");
 
                     b.Property<bool>("LockoutEnabled");
 

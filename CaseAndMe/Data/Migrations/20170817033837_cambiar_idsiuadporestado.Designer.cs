@@ -8,9 +8,10 @@ using CaseAndMe.Data;
 namespace CaseAndMe.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170817033837_cambiar_idsiuadporestado")]
+    partial class cambiar_idsiuadporestado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -43,6 +44,8 @@ namespace CaseAndMe.Data.Migrations
 
                     b.Property<int>("IdEstado");
 
+                    b.Property<int>("IdOrdenVenta");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -66,6 +69,8 @@ namespace CaseAndMe.Data.Migrations
                     b.Property<string>("SegundoApellido");
 
                     b.Property<string>("Telefono");
+
+                    b.Property<string>("Telefono2");
 
                     b.Property<bool>("TwoFactorEnabled");
 

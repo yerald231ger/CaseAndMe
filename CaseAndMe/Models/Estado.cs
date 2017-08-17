@@ -13,5 +13,6 @@ namespace CaseAndMe.Models
         public Pais Pais { get; set; }
 
         public virtual ICollection<Ciudad> Ciudades { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
     }
 }
