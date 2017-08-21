@@ -34,5 +34,31 @@ namespace CaseAndMe.Controllers
             return View();
         }
 
+        // GET: Checkout/checkoutProceed
+        public ActionResult CheckoutProceed()
+        {
+            return View();
+        }
+
+        // POST: Checkout/CheckoutProceed
+        [HttpPost]
+        public ActionResult CheckoutProceed(IFormCollection collection)
+        {
+            return View();
+        }
+
+        // GET: Checkout/Buy
+        public ActionResult Buy()
+        {
+            return View();
+        }
+
+        // POST: Checkout/Buy
+        [HttpPost]
+        public ActionResult Buy(IFormCollection collection)
+        {
+            return View();
+        }
+
     }
 }
