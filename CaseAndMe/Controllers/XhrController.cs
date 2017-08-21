@@ -36,11 +36,34 @@ namespace CaseAndMe.Controllers
             return result;
         }
 
+        [HttpGet("paises/{i:int}/estados")]
+        public string SearchArticles(string expression)
+        {
+            var keyentry = $"{cachekey}-{nameof(SearchArticles)}-{expression}";
+
+            if (!_cache.TryGetValue(keyentry, out string result))
+            {
+                result = JsonConvert.SerializeObject(_paisRepository.GetEstados(i).Select(e => new { e.Id, e.Nombre }));
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(3));
+
+                _cache.Set(keyentry, result, cacheEntryOptions);
+            }
+
+            return "";
+        }
+
         private IPaisRepository _paisRepository;
+        private IProductoRepository _productoRepository;
         private IMemoryCache _cache;
 
-        public XhrController(IPaisRepository paisRepository, IMemoryCache cache)
+        public XhrController(
+            IPaisRepository paisRepository, 
+            IMemoryCache cache,
+            IProductoRepository productoRepository)
         {
+            _productoRepository = productoRepository;
             _paisRepository = paisRepository;
             _cache = cache;
         }
