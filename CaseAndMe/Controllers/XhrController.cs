@@ -43,7 +43,7 @@ namespace CaseAndMe.Controllers
 
             if (!_cache.TryGetValue(keyentry, out string result))
             {
-                result = JsonConvert.SerializeObject(_paisRepository.GetEstados(i).Select(e => new { e.Id, e.Nombre }));
+                result = JsonConvert.SerializeObject(_productoRepository.FiltrarProductos(expression).Select(e => new { e.Id, e.Nombre }));
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromMinutes(3));
