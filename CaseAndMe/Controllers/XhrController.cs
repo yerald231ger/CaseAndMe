@@ -51,7 +51,7 @@ namespace CaseAndMe.Controllers
                 _cache.Set(keyentry, result, cacheEntryOptions);
             }
 
-            return "";
+            return result;
         }
 
         private IPaisRepository _paisRepository;

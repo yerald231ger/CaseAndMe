@@ -24,6 +24,7 @@ namespace CaseAndMe.Services.Repository
 
         public ICollection<Producto> FiltrarProductos(string expression)
         {
+            _dbSet.Contains(new Producto { Descripcion = expression, Nombre = expression });
             throw new NotImplementedException();
         }
 
