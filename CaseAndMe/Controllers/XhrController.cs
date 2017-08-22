@@ -36,14 +36,14 @@ namespace CaseAndMe.Controllers
             return result;
         }
 
-        [HttpGet("paises/{i:int}/estados")]
-        public string SearchArticles(string expression)
+        [HttpGet("search/{expresion}/productos")]
+        public string SearchArticles(string expresion)
         {
-            var keyentry = $"{cachekey}-{nameof(SearchArticles)}-{expression}";
+            var keyentry = $"{cachekey}-{nameof(SearchArticles)}-{expresion}";
 
             if (!_cache.TryGetValue(keyentry, out string result))
             {
-                result = JsonConvert.SerializeObject(_productoRepository.FiltrarProductos(expression).Select(e => new { e.Id, e.Nombre }));
+                result = JsonConvert.SerializeObject(_productoRepository.FiltrarProductos(expresion).Select(p => new { p.Id, p.Nombre }));
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromMinutes(3));

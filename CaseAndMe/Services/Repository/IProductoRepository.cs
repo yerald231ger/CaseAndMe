@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CaseAndMe.Services.Repository
@@ -24,8 +25,7 @@ namespace CaseAndMe.Services.Repository
 
         public ICollection<Producto> FiltrarProductos(string expression)
         {
-            _dbSet.Contains(new Producto { Descripcion = expression, Nombre = expression });
-            throw new NotImplementedException();
+            return _dbSet.Where(p => p.Nombre.Contains(expression)).ToList();
         }
 
         private bool _disposed = false;

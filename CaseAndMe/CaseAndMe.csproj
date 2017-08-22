@@ -8,15 +8,6 @@
   <PropertyGroup>
     <UserSecretsId>aspnet-CaseAndMe-0a1c3c7f-6430-435c-8bb5-28141d8efd67</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="wwwroot\images\demo\polo.jpg" />
-    <Content Include="wwwroot\lib\owl-carousel\owl-carousel.css" />
-    <Content Include="wwwroot\lib\owl-carousel\owl-carousel.js" />
-    <Content Include="wwwroot\lib\owl-carousel\owl-carousel.min.js" />
-    <Content Include="wwwroot\lib\owl-carousel\owl-theme.css" />
-    <Content Include="wwwroot\lib\owl-carousel\owl.css" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
