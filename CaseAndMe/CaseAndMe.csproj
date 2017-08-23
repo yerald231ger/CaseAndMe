@@ -8,8 +8,6 @@
   <PropertyGroup>
     <UserSecretsId>aspnet-CaseAndMe-0a1c3c7f-6430-435c-8bb5-28141d8efd67</UserSecretsId>
   </PropertyGroup>
-
-
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
