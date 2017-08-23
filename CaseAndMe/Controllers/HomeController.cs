@@ -19,6 +19,8 @@ namespace CaseAndMe.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.pDestacados = new List<Producto>();
+            ViewBag.pNuevos = new List<Producto>();
             if (context.Productos.Count() != 0)
             {
                 ViewBag.pDestacados = context.Productos.Take(10).ToList();
