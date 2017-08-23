@@ -7,36 +7,74 @@ namespace CaseAndMe.Models.FilterViewModels
 {
     public class ResultadoViewModel
     {
-        public string Resultado { get; set; }
-        public TopFilter TopFilter { get; set; }
-        public LeftFilter LeftFilter { get; set; }
+        public List<Producto> Productos { get; set; }
+        public TopFilterContainer TopFilter { get; set; }
+        public LeftFilterContainer LeftFilter { get; set; }
     }
-
-    public class TopFilter
+    
+    public class TopFilterContainer
     {
 
     }
 
-    public class LeftFilter
+    public class LeftFilterContainer
     {
+        public LeftFilterContainer()
+        {
+            FilterCategories = new List<FilterBase>();
+        }
+
+        public List<FilterBase> FilterCategories { get; }
+
+        public void Add(FilterBase filterCategory)
+        {
+            FilterCategories.Add(filterCategory);
+        }
     }
 
-    public class CategoryFilter : IFilterName<string>
+    public class CategoryFilter : FilterBase
     {
-        public string Name => "Categoria";
-        public IList<Filter<string>> Filters { get; set; }
+        public CategoryFilter() : base("Categoria", FilterType.Category)
+        {
+            CategoriesFilters = new List<Filter<string>>();
+        }
+
+        public List<Filter<string>> CategoriesFilters { get; }
+
+        public void Add(Filter<string> filter)
+        {
+            CategoriesFilters.Add(filter);
+        }
     }
 
-    public class MaterialFilter : IFilterName<string>
+    public class MaterialFilter : FilterBase
     {
-        public string Name => "Material";
-        public IList<Filter<string>> Filters { get; set; }
+        public MaterialFilter() : base("Material", FilterType.Material)
+        {
+            MaterialsFilters = new List<Filter<string>>();
+        }
+
+        public List<Filter<string>> MaterialsFilters { get; }
+
+        public void Add(Filter<string> filter)
+        {
+            MaterialsFilters.Add(filter);
+        }
     }
 
-    public class RangePriceFilter : IFilterName<RangePrice>
+    public class RangePriceFilter : FilterBase
     {
-        public string Name => "Rango de precios";
-        public IList<Filter<RangePrice>> Filters { get; set; }
+        public RangePriceFilter() : base("Rango de precios", FilterType.PriceRange)
+        {
+            RangesFilters = new List<Filter<RangePrice>>();
+        }
+
+        public List<Filter<RangePrice>> RangesFilters { get; }
+
+        public void Add(Filter<RangePrice> filter)
+        {
+            RangesFilters.Add(filter);
+        }
     }
 
     public class RangePrice
@@ -45,24 +83,40 @@ namespace CaseAndMe.Models.FilterViewModels
         public int MaxPrice { get; set; }
     }
 
-    public class RatingFilter : IFilterName<Stars>
+    public class RatingFilter : FilterBase
     {
-        public string Name => "Rating";
-        public IList<Filter<Stars>> Filters { get; set; }
+        public RatingFilter() : base("Rating", FilterType.Rating)
+        {
+            RatingsFilters = new List<Filter<Stars>>();
+        }
+
+        public List<Filter<Stars>> RatingsFilters { get; }
+
+        public void Add(Filter<Stars> filter)
+        {
+            RatingsFilters.Add(filter);
+        }
     }
 
-    public enum Stars { One, Two, Three, Fourt, Five }
+    public enum Stars { One = 1, Two, Three, Fourt, Five }
+    public enum FilterType { Brand, Model, PriceRange, Rating, Category, Color, Material }
 
-    public interface IFilterName<TFilter>
+    public class FilterBase
     {
-        string Name { get; }
-        IList<Filter<TFilter>> Filters { get; set; }
-    }
+        public FilterBase(string name, FilterType filter)
+        {
+            Name = name;
+            FilterType = filter;
+        }
+
+        public string Name { get; }
+        public FilterType FilterType { get; }
+    }    
 
     public class Filter<TFilter>
     {
-        public bool Selected { get; }
-        public TFilter TypeFilter { get; set; }
+        public bool Selected { get; set; }
+        public TFilter Value { get; set; }
         public int Matched { get; set; }
     }
 }
