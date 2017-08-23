@@ -19,44 +19,50 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class LeftFilter
     {
-        
     }
 
-    //public class CateforyFilter : IFilter
-    //{
-    //    public string Name => "Categoria";
-    //    public Stars Stars { get; set; }
-    //}
+    public class CategoryFilter : IFilterName<string>
+    {
+        public string Name => "Categoria";
+        public IList<Filter<string>> Filters { get; set; }
+    }
 
-    //public class MaterialFilter : IFilter 
-    //{
-    //    public string Name => "Material";
-    //    public IList<string> Materiales { get; set; }
-    //}
+    public class MaterialFilter : IFilterName<string>
+    {
+        public string Name => "Material";
+        public IList<Filter<string>> Filters { get; set; }
+    }
 
-    //public class RangePriceFilter : IFilter<>
-    //{
-    //    public string Name => "Rango de precios";
-    //    public Stars Stars { get; set; }
-    //}
+    public class RangePriceFilter : IFilterName<RangePrice>
+    {
+        public string Name => "Rango de precios";
+        public IList<Filter<RangePrice>> Filters { get; set; }
+    }
 
-    //public class RangePrice
-    //{
+    public class RangePrice
+    {
+        public int MinPrice { get; set; }
+        public int MaxPrice { get; set; }
+    }
 
-    //}
+    public class RatingFilter : IFilterName<Stars>
+    {
+        public string Name => "Rating";
+        public IList<Filter<Stars>> Filters { get; set; }
+    }
 
-    //public class RatingFilter : IFilter<Stars>
-    //{
-    //    public string Name => "Rating";
-    //    public IList<Dictionary<Stars, bool>> Selecteds { get; set; }
-    //}
+    public enum Stars { One, Two, Three, Fourt, Five }
 
-    //public enum Stars { One, Two, Three, Fourt, Five }
+    public interface IFilterName<TFilter>
+    {
+        string Name { get; }
+        IList<Filter<TFilter>> Filters { get; set; }
+    }
 
     public class Filter<TFilter>
     {
-        bool Name { get; }
-        TFilter TypeFilter { get; set; }
-        int Matched { get; set; }
+        public bool Selected { get; }
+        public TFilter TypeFilter { get; set; }
+        public int Matched { get; set; }
     }
 }
