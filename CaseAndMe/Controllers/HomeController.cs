@@ -19,8 +19,12 @@ namespace CaseAndMe.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.pDestacados = context.Productos.Take(10).ToList();
-            ViewBag.pNuevos = context.Productos.OrderByDescending(x => x.Id).Take(10).ToList();
+            if (context.Productos.Count() != 0)
+            {
+                ViewBag.pDestacados = context.Productos.Take(10).ToList();
+                ViewBag.pNuevos = context.Productos.OrderByDescending(x => x.Id).Take(10).ToList();
+            }
+
             return View();
         }
 
