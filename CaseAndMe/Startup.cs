@@ -60,7 +60,6 @@ namespace CaseAndMe
 
             services.AddTransient<IPaisRepository, PaisRepository>();
             services.AddTransient<IProductoRepository, ProductoRepository>();
-
             services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 

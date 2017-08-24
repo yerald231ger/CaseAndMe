@@ -27,7 +27,9 @@ namespace CaseAndMe.Controllers
         private readonly IServiceProvider _serviceProvider;
 
 
-        public FilterController(IProductoRepository productoRepository, IRazorViewEngine viewEngine,
+        public FilterController(
+            IProductoRepository productoRepository, 
+            IRazorViewEngine viewEngine,
             ITempDataProvider tempDataProvider,
             IServiceProvider serviceProvider)
         {
@@ -45,25 +47,24 @@ namespace CaseAndMe.Controllers
             )
         {
 
-
-            var filters = new LeftFilterContainer();
+            var filters = new LeftFilterContainer(GetSringView);
 
             var productos = _productoRepository.FiltrarProductos(expresion);
 
-            var mf = new MaterialFilter();
+            var mf = new MaterialFilter("Components/Filters/_MaterialFilter");
             mf.Add(new Filter<string> { Value = "MA" });
             mf.Add(new Filter<string> { Value = "MS" });
 
-            var cf = new CategoryFilter();
+            var cf = new CategoryFilter("Components/Filters/_CategoryFilter");
             cf.Add(new Filter<string> { Value = "A" });
             cf.Add(new Filter<string> { Value = "C" });
 
-            var rf = new RatingFilter();
+            var rf = new RatingFilter("Components/Filters/_RatingFilter");
             rf.Add(new Filter<Stars> { Value = Stars.One });
             rf.Add(new Filter<Stars> { Value = Stars.Three });
             rf.Add(new Filter<Stars> { Value = Stars.Five });
 
-            var rpf = new RangePriceFilter();
+            var rpf = new RangePriceFilter("Components/Filters/_RangesPriceFilter");
             rpf.Add(new Filter<RangePrice> { Value = new RangePrice { MinPrice = 1, MaxPrice = 2 } });
             rpf.Add(new Filter<RangePrice> { Value = new RangePrice { MinPrice = 1, MaxPrice = 2 } });
 
@@ -72,20 +73,11 @@ namespace CaseAndMe.Controllers
             filters.Add(cf);
             filters.Add(mf);
 
-            var taskMf = GetSringView("Components/Filters/_MaterialFilter", mf);
-            var taskCf = GetSringView("Components/Filters/_CategoryFilter", cf);
-            var taskRf = GetSringView("Components/Filters/_RatingFilter", rf);
-            var taskRpf = GetSringView("Components/Filters/_RangesPriceFilter", rpf);
-
-            rpf.ViewString = taskRpf.Result;
-            rf.ViewString = taskRf.Result;
-            cf.ViewString = taskCf.Result;
-            mf.ViewString = taskMf.Result;
-
+            filters.RenderViews();
             return View(new ResultadoViewModel { Productos = productos.ToList(), LeftFilter = filters });
         }
 
-        private async Task<HtmlString> GetSringView<TModel>(string viewPath, TModel model)
+        private HtmlString GetSringView<TModel>(string viewPath, TModel model)
         {
             var actionContext = GetActionContext();
             var viewEngineResult = _viewEngine.FindView(actionContext, viewPath, false);
@@ -114,7 +106,7 @@ namespace CaseAndMe.Controllers
                     output,
                     new HtmlHelperOptions());
 
-                await view.RenderAsync(viewContext);
+                view.RenderAsync(viewContext).Wait();
                 return new HtmlString(output.ToString());
             }
         }

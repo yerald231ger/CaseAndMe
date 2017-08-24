@@ -20,9 +20,12 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class LeftFilterContainer
     {
-        public LeftFilterContainer()
+        private Func<string, FilterBase, HtmlString> _renderAction;
+
+        public LeftFilterContainer(Func<string, FilterBase, HtmlString> renderAction)
         {
             FilterCategories = new List<FilterBase>();
+            _renderAction = renderAction;
         }
 
         public List<FilterBase> FilterCategories { get; }
@@ -31,11 +34,32 @@ namespace CaseAndMe.Models.FilterViewModels
         {
             FilterCategories.Add(filterCategory);
         }
+
+        public void RenderViews()
+        {
+            var taskFilters = new Task<HtmlString>[FilterCategories.Count];
+
+            for (int i = 0; i < taskFilters.Length; i++)
+            {
+                var path = FilterCategories[i].ViewPath;
+                var obj = FilterCategories[i];
+                taskFilters[i] = Task.Factory.StartNew(() => _renderAction(path, obj));
+            }
+
+            Task.WaitAll(taskFilters);
+
+            for (int i = 0; i < taskFilters.Length; i++)
+                FilterCategories[i].ViewString = taskFilters[i].Result;
+        }
     }
 
     public class CategoryFilter : FilterBase
     {
-        public CategoryFilter() : base("Categoria", FilterType.Category)
+        public CategoryFilter():base()
+        {
+            CategoriesFilters = new List<Filter<string>>();
+        }
+        public CategoryFilter(string viewPath) : base("Categoria", viewPath, FilterType.Category)
         {
             CategoriesFilters = new List<Filter<string>>();
         }
@@ -50,7 +74,11 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class MaterialFilter : FilterBase
     {
-        public MaterialFilter() : base("Material", FilterType.Material)
+        public MaterialFilter():base()
+        {
+            MaterialsFilters = new List<Filter<string>>();
+        }
+        public MaterialFilter(string viewPath) : base("Material", viewPath, FilterType.Material)
         {
             MaterialsFilters = new List<Filter<string>>();
         }
@@ -65,7 +93,11 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class RangePriceFilter : FilterBase
     {
-        public RangePriceFilter() : base("Rango de precios", FilterType.PriceRange)
+        public RangePriceFilter():base()
+        {
+            RangesFilters = new List<Filter<RangePrice>>();
+        }
+        public RangePriceFilter(string viewPath) : base("Rango de precios", viewPath, FilterType.PriceRange)
         {
             RangesFilters = new List<Filter<RangePrice>>();
         }
@@ -86,7 +118,12 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class RatingFilter : FilterBase
     {
-        public RatingFilter() : base("Rating", FilterType.Rating)
+        public RatingFilter():base()
+        {
+            RatingsFilters = new List<Filter<Stars>>();
+        }
+
+        public RatingFilter(string viewPath) : base("Rating", viewPath, FilterType.Rating)
         {
             RatingsFilters = new List<Filter<Stars>>();
         }
@@ -96,7 +133,7 @@ namespace CaseAndMe.Models.FilterViewModels
         public void Add(Filter<Stars> filter)
         {
             RatingsFilters.Add(filter);
-        }        
+        }
     }
 
     public enum Stars { One = 1, Two, Three, Fourt, Five }
@@ -104,14 +141,18 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class FilterBase
     {
-        public FilterBase(string name, FilterType filter)
+        public FilterBase() { }
+
+        public FilterBase(string name, string viewPath,FilterType filter)
         {
             Name = name;
             FilterType = filter;
+            ViewPath = viewPath;
         }
 
         public string Name { get; }
         public FilterType FilterType { get; }
+        public string ViewPath { get; }
         public HtmlString ViewString { get; set; }
     }
 
