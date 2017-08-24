@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Html;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace CaseAndMe.Models.FilterViewModels
         public TopFilterContainer TopFilter { get; set; }
         public LeftFilterContainer LeftFilter { get; set; }
     }
-    
+
     public class TopFilterContainer
     {
 
@@ -95,7 +96,7 @@ namespace CaseAndMe.Models.FilterViewModels
         public void Add(Filter<Stars> filter)
         {
             RatingsFilters.Add(filter);
-        }
+        }        
     }
 
     public enum Stars { One = 1, Two, Three, Fourt, Five }
@@ -111,7 +112,8 @@ namespace CaseAndMe.Models.FilterViewModels
 
         public string Name { get; }
         public FilterType FilterType { get; }
-    }    
+        public HtmlString ViewString { get; set; }
+    }
 
     public class Filter<TFilter>
     {

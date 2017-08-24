@@ -1,0 +1,14 @@
+@model CategoryFilter
+@for (int i = 0; i < Model.CategoriesFilters.Count; i++)
+{
+    <ul>
+        <li>
+            <input type="checkbox" name="categoryFilter.CategoriesFilters[@i].Selected" value="true" style="display: flex" onclick="submit()" />
+            <label>
+                Rating: @Model.CategoriesFilters[i].Value
+            </label>
+            <label>(@Model.CategoriesFilters[i].Matched)</label>
+            <input type="hidden" name="categoryFilter.CategoriesFilters[@i].Value" value="@Model.CategoriesFilters[i].Value" />
+        </li>
+    </ul>
+}

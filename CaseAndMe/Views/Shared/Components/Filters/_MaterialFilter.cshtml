@@ -1,0 +1,14 @@
+@model MaterialFilter
+@for (int i = 0; i < Model.MaterialsFilters.Count; i++)
+{
+    <ul>
+        <li>
+            <input type="checkbox" name="materialFilter.MaterialsFilters[@i].Selected" value="true" style="display: flex" onclick="submit()" />
+            <label>
+                Rating: @Model.MaterialsFilters[i].Value
+            </label>
+            <label>(@Model.MaterialsFilters[i].Matched)</label>
+            <input type="hidden" name="materialFilter.MaterialsFilters[@i].Value" value="@Model.MaterialsFilters[i].Value" />
+        </li>
+    </ul>
+}

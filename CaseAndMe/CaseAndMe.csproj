@@ -33,6 +33,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\UnitOfWork\" />
+    <Folder Include="Views\Shared\Components\Filters\" />
+    <Folder Include="Views\Shared\Components\" />
   </ItemGroup>
 
 </Project>

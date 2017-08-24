@@ -1,0 +1,13 @@
+@model RangePriceFilter
+@{ var prf = Model; }
+@for (int i = 0; i < prf.RangesFilters.Count; i++)
+{
+    <ul>
+        <li>
+            <input type="checkbox" name="rangePriceFilter.RangesFilters[@i].Selected" value="true" style="display: flex" onclick="submit()" />
+            <input type="text" name="rangePriceFilter.RangesFilters[@i].Value.MinPrice" value="@prf.RangesFilters[i].Value.MinPrice" /> -
+            <input type="text" name="rangePriceFilter.RangesFilters[@i].Value.MaxPrice" value="@prf.RangesFilters[i].Value.MaxPrice" />
+            <label>(@prf.RangesFilters[i].Matched)</label>
+        </li>
+    </ul>
+}
