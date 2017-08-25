@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
+using CaseAndMe.Models;
 
 namespace CaseAndMe.Controllers
 {
@@ -28,7 +29,7 @@ namespace CaseAndMe.Controllers
 
 
         public FilterController(
-            IProductoRepository productoRepository, 
+            IProductoRepository productoRepository,
             IRazorViewEngine viewEngine,
             ITempDataProvider tempDataProvider,
             IServiceProvider serviceProvider)
@@ -43,38 +44,96 @@ namespace CaseAndMe.Controllers
             RatingFilter ratingFilter,
             RangePriceFilter rangePriceFilter,
             MaterialFilter materialFilter,
-            CategoryFilter categoryFilter
+            CategoryFilter categoryFilter,
+            List<Producto> productos
             )
         {
+            productos = _productoRepository.FiltrarProductos(expresion);
 
-            var filters = new LeftFilterContainer(GetSringView);
-
-            var productos = _productoRepository.FiltrarProductos(expresion);
-
-            var mf = new MaterialFilter("Components/Filters/_MaterialFilter");
-            mf.Add(new Filter<string> { Value = "MA" });
-            mf.Add(new Filter<string> { Value = "MS" });
-
-            var cf = new CategoryFilter("Components/Filters/_CategoryFilter");
-            cf.Add(new Filter<string> { Value = "A" });
-            cf.Add(new Filter<string> { Value = "C" });
-
-            var rf = new RatingFilter("Components/Filters/_RatingFilter");
-            rf.Add(new Filter<Stars> { Value = Stars.One });
-            rf.Add(new Filter<Stars> { Value = Stars.Three });
-            rf.Add(new Filter<Stars> { Value = Stars.Five });
-
-            var rpf = new RangePriceFilter("Components/Filters/_RangesPriceFilter");
-            rpf.Add(new Filter<RangePrice> { Value = new RangePrice { MinPrice = 1, MaxPrice = 2 } });
-            rpf.Add(new Filter<RangePrice> { Value = new RangePrice { MinPrice = 1, MaxPrice = 2 } });
-
-            filters.Add(rf);
-            filters.Add(rpf);
-            filters.Add(cf);
-            filters.Add(mf);
-
+            var filters = SetUpFilters(productos);
+            
             filters.RenderViews();
             return View(new ResultadoViewModel { Productos = productos.ToList(), LeftFilter = filters });
+        }
+
+        private LeftFilterContainer SetUpFilters(List<Producto> productos)
+        {
+            var fbt = new Task<FilterBase>[]
+            {
+                GetCategoryFilter(productos),
+                GetRangePriceFilter(productos)
+            };
+
+            Task.WaitAll(fbt);
+
+            var leftFilter = new LeftFilterContainer(GetSringView);
+            foreach (var fb in fbt)
+                leftFilter.Add(fb.Result);
+
+            return leftFilter;
+        }
+
+        private Task<FilterBase> GetCategoryFilter(List<Producto> productos)
+        {
+            return Task.Factory.StartNew<FilterBase>(() =>
+           {
+               var subCategories = productos.GroupBy(p => p.SubCategoria, (k, v) => new Filter<String>
+               {
+                   Value = k.Nombre,
+                   Matched = v.Count()
+               }).ToList();
+
+               var categories = productos.GroupBy(p => p.SubCategoria.Categoria, (k, v) => new Filter<String>
+               {
+                   Value = k.Nombre,
+                   Matched = v.Count()
+               }).ToList();
+
+               if (categories.Count > 1)
+                   subCategories.AddRange(subCategories);
+
+               var cf = new CategoryFilter("Components/Filters/_CategoryFilter");
+               subCategories.ForEach(c => cf.Add(c));
+               return cf;
+           });
+        }
+
+        private Task<FilterBase> GetRangePriceFilter(List<Producto> productos)
+        {
+            return Task.Factory.StartNew<FilterBase>(() =>
+            {
+                var rangep = productos.GroupBy(p => p.Precio, (k, v) => new { Matched = v.Count(), Value = k }).ToList();
+
+                var min = rangep.Min(p => p.Value);
+                var max = rangep.Max(p => p.Value);
+
+                var r1 = max - min;
+                var r2 = r1 / 5;
+
+                var rangesPrices = new List<Filter<RangePrice>>();
+
+                for (float i = min; i < max; i = i + r2)
+                {
+                    var rp = new Filter<RangePrice>
+                    {
+                        Value = new RangePrice
+                        {
+                            MinPrice = i,
+                            MaxPrice = i + r2
+                        }
+                    };
+
+                    var selected = rangep.Where(p => (p.Value >= rp.Value.MinPrice && p.Value <= rp.Value.MaxPrice)).ToList();
+                    rp.Matched = selected.Sum(s => s.Matched);
+                    selected.ForEach(s => rangep.Remove(s));
+                    rangesPrices.Add(rp);
+                }
+
+                var rpf = new RangePriceFilter("Components/Filters/_RangesPriceFilter");
+                rangesPrices.ForEach(rp => rpf.Add(rp));
+
+                return rpf;
+            });
         }
 
         private HtmlString GetSringView<TModel>(string viewPath, TModel model)

@@ -112,8 +112,8 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class RangePrice
     {
-        public int MinPrice { get; set; }
-        public int MaxPrice { get; set; }
+        public float MinPrice { get; set; }
+        public float MaxPrice { get; set; }
     }
 
     public class RatingFilter : FilterBase

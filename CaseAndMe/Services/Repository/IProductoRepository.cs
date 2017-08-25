@@ -11,7 +11,7 @@ namespace CaseAndMe.Services.Repository
 {
     public interface IProductoRepository : IRepository<Producto, int>
     {
-        ICollection<Producto> FiltrarProductos(string expression);
+        List<Producto> FiltrarProductos(string expression);
     }
 
     public class ProductoRepository : Repository<Producto, int>, IProductoRepository, IDisposable
@@ -23,9 +23,9 @@ namespace CaseAndMe.Services.Repository
             _dbSet = _context.Set<Producto>();
         }
 
-        public ICollection<Producto> FiltrarProductos(string expression)
+        public List<Producto> FiltrarProductos(string expression)
         {
-            return _dbSet.Where(p => p.Nombre.Contains(expression)).ToList();
+            return _dbSet.Where(p => p.Nombre.Contains(expression)).Include(p => p.SubCategoria.Categoria).ToList();
         }
 
         private bool _disposed = false;
