@@ -41,19 +41,18 @@ namespace CaseAndMe.Controllers
         }
 
         public IActionResult Index(string expresion,
-            RatingFilter ratingFilter,
             RangePriceFilter rangePriceFilter,
-            MaterialFilter materialFilter,
             CategoryFilter categoryFilter,
             List<Producto> productos
             )
         {
             productos = _productoRepository.FiltrarProductos(expresion);
 
-            var filters = SetUpFilters(productos);
-            
-            filters.RenderViews();
-            return View(new ResultadoViewModel { Productos = productos.ToList(), LeftFilter = filters });
+            var leftFilter = SetUpFilters(productos);
+
+            leftFilter.RenderViews();
+
+            return View(new ResultadoViewModel { Productos = productos.ToList(), LeftFilter =  leftFilter });
         }
 
         private LeftFilterContainer SetUpFilters(List<Producto> productos)
@@ -69,6 +68,7 @@ namespace CaseAndMe.Controllers
             var leftFilter = new LeftFilterContainer(GetSringView);
             foreach (var fb in fbt)
                 leftFilter.Add(fb.Result);
+
 
             return leftFilter;
         }

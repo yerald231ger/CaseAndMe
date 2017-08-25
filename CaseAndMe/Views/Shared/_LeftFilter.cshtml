@@ -1,15 +1,6 @@
 @model LeftFilterContainer
 
-<form id="cam-filter" asp-controller="Filter" asp-action="Index" method="post">
-
-    @foreach (var fc in Model.FilterCategories)
-    {
-        @fc.ViewString;
-    }
-
-    <script>
-        function submit() {
-            document.getElementById("cam-filter").submit()
-        }
-    </script>
-</form>
+@foreach (var fc in Model.FilterCategories)
+{
+    @fc.ViewString;
+}

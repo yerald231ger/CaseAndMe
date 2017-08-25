@@ -3,57 +3,67 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container m-t-3">
-    <div class="row">
-        <div style="width: 260px">
-            @Html.Partial("_LeftFilter", Model.LeftFilter)
-        </div>
-        <div style="width: 900px">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Productos[0].Nombre)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Productos[0].Descripcion)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Productos[0].Precio)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Productos[0].UrlImagen)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Productos)
-                    {
+<form id="cam-filter" asp-controller="Filter" asp-action="Index" method="post">
+
+    <div class="container m-t-3">
+        <div class="row">
+            <div style="width: 260px">
+                @Html.Partial("_LeftFilter", Model.LeftFilter)
+            </div>
+            <div style="width: 900px">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Descripcion)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Precio)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UrlImagen)
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].Descripcion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].Precio)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].UrlImagen)
+                            </th>
+                            <th></th>
+                            
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Productos.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].Nombre)
+                                    <input type="hidden" asp-for="@Model.Productos[i].Id" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].Precio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].UrlImagen)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@Model.Productos[i].Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@Model.Productos[i].Id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@Model.Productos[i].Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
+    <script>
+        function submit() {
+            document.getElementById("cam-filter").submit()
+        }
+    </script>
+</form>
 
 
