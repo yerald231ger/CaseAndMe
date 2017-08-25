@@ -27,7 +27,7 @@
                                 @Html.DisplayNameFor(model => model.Productos[0].UrlImagen)
                             </th>
                             <th></th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>
@@ -37,6 +37,10 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => Model.Productos[i].Nombre)
                                     <input type="hidden" asp-for="@Model.Productos[i].Id" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].Precio" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].Nombre" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].SubCategoria.Nombre" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].SubCategoria.Categoria.Nombre" />
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => Model.Productos[i].Descripcion)
@@ -47,11 +51,6 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => Model.Productos[i].UrlImagen)
                                 </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@Model.Productos[i].Id">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@Model.Productos[i].Id">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@Model.Productos[i].Id">Delete</a>
-                                </td>
                             </tr>
                         }
                     </tbody>
@@ -61,6 +60,7 @@
     </div>
     <script>
         function submit() {
+            
             document.getElementById("cam-filter").submit()
         }
     </script>

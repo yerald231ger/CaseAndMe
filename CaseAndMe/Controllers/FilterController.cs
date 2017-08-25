@@ -46,13 +46,37 @@ namespace CaseAndMe.Controllers
             List<Producto> productos
             )
         {
-            productos = _productoRepository.FiltrarProductos(expresion);
-
+            if (productos.Count == 0)
+            {
+                productos = _productoRepository.FiltrarProductos(expresion);
+            }
+                        
             var leftFilter = SetUpFilters(productos);
+            
 
             leftFilter.RenderViews();
 
             return View(new ResultadoViewModel { Productos = productos.ToList(), LeftFilter =  leftFilter });
+        }
+
+        private void ApplyFilters(RangePriceFilter rpf, CategoryFilter cf, ref List<Producto> productos)
+        {
+            var rangePrices = rpf.RangesFilters.Where(rp => rp.Selected).ToList();
+            var categories = cf.CategoriesFilters.Where(rp => rp.Selected).ToList();
+
+            foreach (var producto in productos)
+            {
+            }
+
+
+            productos = null;
+            
+        }
+
+        private LeftFilterContainer MixFilter(RangePriceFilter rpf, CategoryFilter cf)
+        {
+            
+            return null;
         }
 
         private LeftFilterContainer SetUpFilters(List<Producto> productos)
