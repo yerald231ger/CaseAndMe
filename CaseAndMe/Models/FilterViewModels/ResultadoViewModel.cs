@@ -55,11 +55,7 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class CategoryFilter : FilterBase
     {
-        public CategoryFilter():base()
-        {
-            CategoriesFilters = new List<Filter<string>>();
-        }
-        public CategoryFilter(string viewPath) : base("Categoria", viewPath, FilterType.Category)
+        public CategoryFilter() : base("Categoria", "Components/Filters/_CategoryFilter", FilterType.Category)
         {
             CategoriesFilters = new List<Filter<string>>();
         }
@@ -74,11 +70,7 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class MaterialFilter : FilterBase
     {
-        public MaterialFilter():base()
-        {
-            MaterialsFilters = new List<Filter<string>>();
-        }
-        public MaterialFilter(string viewPath) : base("Material", viewPath, FilterType.Material)
+        public MaterialFilter() : base("Material", "Components/Filters/_MaterialFilter", FilterType.Material)
         {
             MaterialsFilters = new List<Filter<string>>();
         }
@@ -93,11 +85,7 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class RangePriceFilter : FilterBase
     {
-        public RangePriceFilter():base()
-        {
-            RangesFilters = new List<Filter<RangePrice>>();
-        }
-        public RangePriceFilter(string viewPath) : base("Rango de precios", viewPath, FilterType.PriceRange)
+        public RangePriceFilter() : base("Rango de precios", "Components/Filters/_RangesPriceFilter", FilterType.PriceRange)
         {
             RangesFilters = new List<Filter<RangePrice>>();
         }
@@ -118,12 +106,8 @@ namespace CaseAndMe.Models.FilterViewModels
 
     public class RatingFilter : FilterBase
     {
-        public RatingFilter():base()
-        {
-            RatingsFilters = new List<Filter<Stars>>();
-        }
 
-        public RatingFilter(string viewPath) : base("Rating", viewPath, FilterType.Rating)
+        public RatingFilter() : base("Rating", "Components/Filters/_RatingFilter", FilterType.Rating)
         {
             RatingsFilters = new List<Filter<Stars>>();
         }
@@ -143,7 +127,7 @@ namespace CaseAndMe.Models.FilterViewModels
     {
         public FilterBase() { }
 
-        public FilterBase(string name, string viewPath,FilterType filter)
+        protected FilterBase(string name, string viewPath, FilterType filter)
         {
             Name = name;
             FilterType = filter;
@@ -152,7 +136,7 @@ namespace CaseAndMe.Models.FilterViewModels
 
         public string Name { get; }
         public FilterType FilterType { get; }
-        public string ViewPath { get; set; }
+        public string ViewPath { get; }
         public HtmlString ViewString { get; set; }
     }
 

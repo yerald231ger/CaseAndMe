@@ -56,8 +56,6 @@ namespace CaseAndMe.Controllers
             }
             else if(string.IsNullOrEmpty(expresion))
             {
-                rangePriceFilter.ViewPath = "Components/Filters/_RangesPriceFilter";
-                categoryFilter.ViewPath = "Components/Filters/_CategoryFilter";
                 ApplyFilters(rangePriceFilter, categoryFilter, ref productos);
                 leftFilter = SetUpFilter(new List<FilterBase> { categoryFilter, rangePriceFilter });
             }
@@ -143,7 +141,7 @@ namespace CaseAndMe.Controllers
                if (categories.Count > 1)
                    subCategories.AddRange(categories);
 
-               var cf = new CategoryFilter("Components/Filters/_CategoryFilter");
+               var cf = new CategoryFilter();
                subCategories.ForEach(c => cf.Add(c));
                return cf;
            });
@@ -180,7 +178,7 @@ namespace CaseAndMe.Controllers
                     rangesPrices.Add(rp);
                 }
 
-                var rpf = new RangePriceFilter("Components/Filters/_RangesPriceFilter");
+                var rpf = new RangePriceFilter();
                 rangesPrices.ForEach(rp => rpf.Add(rp));
 
                 return rpf;
