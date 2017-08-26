@@ -3,12 +3,14 @@
 {
     <ul>
         <li>
-            <input type="checkbox" name="materialFilter.MaterialsFilters[@i].Selected" value="true" style="display: flex" onclick="submit()" />
-            <label>
-                Rating: @Model.MaterialsFilters[i].Value
-            </label>
-            <label>(@Model.MaterialsFilters[i].Matched)</label>
-            <input type="hidden" name="materialFilter.MaterialsFilters[@i].Value" value="@Model.MaterialsFilters[i].Value" />
+            <input asp-for="@Model.MaterialsFilters[i].Selected" type="checkbox" onclick="submit()" style="display:initial"/>
+            <label asp-for="@Model.MaterialsFilters[i].Value" />
+            <label asp-for="@Model.MaterialsFilters[i].Matched" />
+
+            @*Inputs Escondidos*@
+            <input asp-for="@Model.MaterialsFilters[i].Value" type="hidden" />
+            <input asp-for="@Model.MaterialsFilters[i].Matched" type="hidden" />
+            <input asp-for="@Model.MaterialsFilters[i].Selected" type="hidden" />
         </li>
     </ul>
 }

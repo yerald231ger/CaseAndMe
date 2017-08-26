@@ -152,7 +152,7 @@ namespace CaseAndMe.Models.FilterViewModels
 
         public string Name { get; }
         public FilterType FilterType { get; }
-        public string ViewPath { get; }
+        public string ViewPath { get; set; }
         public HtmlString ViewString { get; set; }
     }
 

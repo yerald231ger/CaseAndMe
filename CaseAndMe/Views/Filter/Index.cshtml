@@ -26,19 +26,23 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Productos[0].UrlImagen)
                             </th>
-                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].SubCategoria.Nombre)
+                            </th>
 
                         </tr>
                     </thead>
                     <tbody>
                         @for (int i = 0; i < Model.Productos.Count; i++)
                         {
-                            <tr>
+                            <tr style="display : @(Model.Productos[i].EsActivo ? "table-row": "none" )">
                                 <td>
                                     @Html.DisplayFor(modelItem => Model.Productos[i].Nombre)
                                     <input type="hidden" asp-for="@Model.Productos[i].Id" />
                                     <input type="hidden" asp-for="@Model.Productos[i].Precio" />
                                     <input type="hidden" asp-for="@Model.Productos[i].Nombre" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].UrlImagen" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].Descripcion" />
                                     <input type="hidden" asp-for="@Model.Productos[i].SubCategoria.Nombre" />
                                     <input type="hidden" asp-for="@Model.Productos[i].SubCategoria.Categoria.Nombre" />
                                 </td>
@@ -50,6 +54,9 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => Model.Productos[i].UrlImagen)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].SubCategoria.Nombre)
                                 </td>
                             </tr>
                         }

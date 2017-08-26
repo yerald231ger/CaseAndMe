@@ -46,40 +46,72 @@ namespace CaseAndMe.Controllers
             List<Producto> productos
             )
         {
+            LeftFilterContainer leftFilter = null;
+
             if (productos.Count == 0)
             {
                 productos = _productoRepository.FiltrarProductos(expresion);
+                var filters = CreateFilters(productos);
+                leftFilter = SetUpFilter(filters);
             }
-                        
-            var leftFilter = SetUpFilters(productos);
-            
+            else if(string.IsNullOrEmpty(expresion))
+            {
+                rangePriceFilter.ViewPath = "Components/Filters/_RangesPriceFilter";
+                categoryFilter.ViewPath = "Components/Filters/_CategoryFilter";
+                ApplyFilters(rangePriceFilter, categoryFilter, ref productos);
+                leftFilter = SetUpFilter(new List<FilterBase> { categoryFilter, rangePriceFilter });
+            }
 
             leftFilter.RenderViews();
 
-            return View(new ResultadoViewModel { Productos = productos.ToList(), LeftFilter =  leftFilter });
+            return View(new ResultadoViewModel { Productos = productos.ToList(), LeftFilter = leftFilter });
         }
+
 
         private void ApplyFilters(RangePriceFilter rpf, CategoryFilter cf, ref List<Producto> productos)
         {
             var rangePrices = rpf.RangesFilters.Where(rp => rp.Selected).ToList();
             var categories = cf.CategoriesFilters.Where(rp => rp.Selected).ToList();
 
-            foreach (var producto in productos)
-            {
-            }
+            if ((categories.Count + rangePrices.Count) > 0)
+                foreach (var producto in productos)
+                {
+                    producto.EsActivo = false;
+                    categories.ForEach(c =>
+                    {
+                        if (c.Value == producto.SubCategoria.Nombre || c.Value == producto.SubCategoria.Categoria.Nombre)
+                        {
+                            producto.EsActivo = true;
+                            return;
+                        }
+                    });
 
+                    if (producto.EsActivo)
+                        continue;
 
-            productos = null;
-            
+                    rangePrices.ForEach(rp =>
+                    {
+                        if (producto.Precio >= rp.Value.MinPrice && producto.Precio <= rp.Value.MaxPrice)
+                        {
+                            producto.EsActivo = true;
+                            return;
+                        }
+                    });
+                }
+            else
+                productos.ForEach(p => p.EsActivo = true);
         }
 
-        private LeftFilterContainer MixFilter(RangePriceFilter rpf, CategoryFilter cf)
+        private LeftFilterContainer SetUpFilter(List<FilterBase> filters)
         {
-            
-            return null;
+            var leftFilter = new LeftFilterContainer(GetSringView);
+            foreach (var fb in filters)
+                leftFilter.Add(fb);
+
+            return leftFilter;
         }
 
-        private LeftFilterContainer SetUpFilters(List<Producto> productos)
+        private List<FilterBase> CreateFilters(List<Producto> productos)
         {
             var fbt = new Task<FilterBase>[]
             {
@@ -89,32 +121,27 @@ namespace CaseAndMe.Controllers
 
             Task.WaitAll(fbt);
 
-            var leftFilter = new LeftFilterContainer(GetSringView);
-            foreach (var fb in fbt)
-                leftFilter.Add(fb.Result);
-
-
-            return leftFilter;
+            return fbt.Select(t => t.Result).ToList();
         }
 
         private Task<FilterBase> GetCategoryFilter(List<Producto> productos)
         {
             return Task.Factory.StartNew<FilterBase>(() =>
            {
-               var subCategories = productos.GroupBy(p => p.SubCategoria, (k, v) => new Filter<String>
+               var subCategories = productos.GroupBy(p => p.SubCategoria.Nombre, (k, v) => new Filter<String>
                {
-                   Value = k.Nombre,
+                   Value = k,
                    Matched = v.Count()
                }).ToList();
 
-               var categories = productos.GroupBy(p => p.SubCategoria.Categoria, (k, v) => new Filter<String>
+               var categories = productos.GroupBy(p => p.SubCategoria.Categoria.Nombre, (k, v) => new Filter<String>
                {
-                   Value = k.Nombre,
+                   Value = k,
                    Matched = v.Count()
                }).ToList();
 
                if (categories.Count > 1)
-                   subCategories.AddRange(subCategories);
+                   subCategories.AddRange(categories);
 
                var cf = new CategoryFilter("Components/Filters/_CategoryFilter");
                subCategories.ForEach(c => cf.Add(c));

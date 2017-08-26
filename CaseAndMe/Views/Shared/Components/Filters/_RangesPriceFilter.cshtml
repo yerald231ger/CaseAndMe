@@ -3,10 +3,13 @@
 {
     <ul>
         <li>
-            <input type="checkbox" name="rangePriceFilter.RangesFilters[@i].Selected" value="true" style="display: flex" onclick="submit()" />
-            <input type="text" name="rangePriceFilter.RangesFilters[@i].Value.MinPrice" value="@Model.RangesFilters[i].Value.MinPrice" /> -
-            <input type="text" name="rangePriceFilter.RangesFilters[@i].Value.MaxPrice" value="@Model.RangesFilters[i].Value.MaxPrice" />
-            <label>(@Model.RangesFilters[i].Matched)</label>
+            <input asp-for="@Model.RangesFilters[i].Selected" type="checkbox" onclick="submit()" style="display:initial"/>
+            <input asp-for="@Model.RangesFilters[i].Value.MinPrice" type="text" /> - <input asp-for="@Model.RangesFilters[i].Value.MaxPrice" type="text" />            
+            (@Html.ValueFor(m => m.RangesFilters[i].Matched))
+            
+            @*Inputs Escondidos*@
+            <input asp-for="@Model.RangesFilters[i].Matched" type="hidden" />
+            <input asp-for="@Model.RangesFilters[i].Selected" type="hidden" />
         </li>
     </ul>
 }
