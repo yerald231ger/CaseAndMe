@@ -50,11 +50,13 @@ namespace CaseAndMe.Controllers
 
             if (productos.Count == 0)
             {
+                expresion = (string.IsNullOrEmpty(expresion)) ? "case" : expresion;
+
                 productos = _productoRepository.FiltrarProductos(expresion);
                 var filters = CreateFilters(productos);
                 leftFilter = SetUpFilter(filters);
             }
-            else if(string.IsNullOrEmpty(expresion))
+            else
             {
                 ApplyFilters(rangePriceFilter, categoryFilter, ref productos);
                 leftFilter = SetUpFilter(new List<FilterBase> { categoryFilter, rangePriceFilter });
