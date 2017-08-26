@@ -119,6 +119,7 @@ namespace CaseAndMe.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            ViewBag.Paises = _paisRepository.GetAll();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser

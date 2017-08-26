@@ -60,15 +60,15 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-cart">
                         <div id="ComboboxCartPanel">
-                            
+
                         </div>
 
 
                         <div class="subtotal-cart">Subtotal: <span id="subtotalCart">$00.00</span></div>
                         <div class="text-center">
                             <div class="btn-group" role="group" aria-label="View Cart and Checkout Button">
-                                <button class="btn btn-default btn-sm" type="button"><i class="fa fa-shopping-cart"></i> View Cart</button>
-                                <button class="btn btn-default btn-sm" type="button"><i class="fa fa-check"></i> Checkout</button>
+                                <button class="btn btn-default btn-sm" type="button"><i class="fa fa-shopping-cart"></i> Ver Carrito</button>
+                                <button class="btn btn-default btn-sm" type="button"><i class="fa fa-check"></i> Comprar</button>
                             </div>
                         </div>
                     </div>
@@ -89,12 +89,39 @@
                     <i class="fa fa-shopping-cart"></i> Cart : 4 items
                 </a>
             </div>
+            @{
+                var cn = this.ViewContext.RouteData.Values["controller"].ToString();
+                var an = this.ViewContext.RouteData.Values["action"].ToString();
+            }
             <div class="collapse navbar-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.html">Inicio</a></li>
-                    <li><a href="products.html">Productos</a></li>
-                    <li><a  asp-area="" asp-controller="Checkout" asp-action="Cart">Carrito</a></li>
-                    <li><a href="checkout.html">Checkout</a></li>
+                    @if (cn == "Home")
+                    {<li class="active"><a asp-controller="Home" asp-action="Index">Inicio</a></li>}
+                    else
+                    {<li><a asp-controller="Home" asp-action="Index">Inicio</a></li>}
+
+                    @if (cn == "Productos")
+                    {
+                    <li class="active"><a asp-controller="Productos" asp-action="Index">Productos</a></li>}
+                    else
+                    {
+                    <li><a asp-controller="Productos" asp-action="Index">Productos</a></li>}
+                    
+                    @if (cn == "Checkout" && an == "Cart")
+                    {
+                        <li class="active"><a asp-area="" asp-controller="Checkout" asp-action="Cart">Carrito</a></li>}
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Checkout" asp-action="Cart">Carrito</a></li>}
+
+                    @if (cn == "Checkout" && an == "CheckoutProceed")
+                    {
+                        <li class="active"><a asp-controller="Checkout" asp-action="CheckoutProceed">Comprar</a></li>}
+                    else
+                    {
+                        <li><a asp-controller="Checkout" asp-action="CheckoutProceed">Comprar</a></li>}
+
+                    
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right navbar-feature visible-lg">
