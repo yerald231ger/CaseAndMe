@@ -1,0 +1,16 @@
+@model MaterialFilter
+@for (int i = 0; i < Model.MaterialsFilters.Count; i++)
+{
+    <ul>
+        <li>
+            <input asp-for="@Model.MaterialsFilters[i].Selected" type="checkbox" onclick="submit()" style="display:initial"/>
+            <label asp-for="@Model.MaterialsFilters[i].Value" />
+            <label asp-for="@Model.MaterialsFilters[i].Matched" />
+
+            @*Inputs Escondidos*@
+            <input asp-for="@Model.MaterialsFilters[i].Value" type="hidden" />
+            <input asp-for="@Model.MaterialsFilters[i].Matched" type="hidden" />
+            <input asp-for="@Model.MaterialsFilters[i].Selected" type="hidden" />
+        </li>
+    </ul>
+}

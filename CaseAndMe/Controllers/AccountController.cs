@@ -12,6 +12,8 @@ using Microsoft.Extensions.Options;
 using CaseAndMe.Models;
 using CaseAndMe.Models.AccountViewModels;
 using CaseAndMe.Services;
+using CaseAndMe.Data;
+using CaseAndMe.Services.Repository;
 
 namespace CaseAndMe.Controllers
 {
@@ -23,7 +25,9 @@ namespace CaseAndMe.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IPaisRepository _paisRepository;
         private readonly string _externalCookieScheme;
+        private ApplicationDbContext _dbContext;        
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -31,7 +35,9 @@ namespace CaseAndMe.Controllers
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IPaisRepository paisRepository,
+            ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,6 +45,8 @@ namespace CaseAndMe.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _paisRepository = paisRepository;
+            _dbContext = dbContext;
         }
 
         //
@@ -99,6 +107,7 @@ namespace CaseAndMe.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            ViewBag.Paises = _paisRepository.GetAll();
             return View();
         }
 
@@ -112,16 +121,29 @@ namespace CaseAndMe.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Ciudad = model.Ciudad,
+                    Colonia = model.Colonia,
+                    FechaAlt = DateTime.Now,
+                    Direccion = model.Direccion,
+                    PhoneNumber = model.Telefono,
+                    IdEstado = model.Estado,
+                    Telefono = model.Telefono2,
+                    PrimerApellido = model.PrimerApellido,
+                    SegundoApellido = model.SegundoApellido
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                        $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToLocal(returnUrl);
@@ -278,11 +300,11 @@ namespace CaseAndMe.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                 // Send an email with this link
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                //return View("ForgotPasswordConfirmation");
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using CaseAndMe.Data;
 using CaseAndMe.Models;
 using CaseAndMe.Services;
+using CaseAndMe.Services.Repository;
 
 namespace CaseAndMe
 {
@@ -43,15 +44,23 @@ namespace CaseAndMe
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>((confg) =>
+            {
+                confg.SignIn.RequireConfirmedEmail = true;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddMemoryCache();
             services.AddMvc();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.AddTransient<IPaisRepository, PaisRepository>();
+            services.AddTransient<IProductoRepository, ProductoRepository>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,16 @@
+@model RatingFilter
+@for (int i = 0; i < Model.RatingsFilters.Count; i++)
+{
+    <ul>
+        <li>
+            <input asp-for="@Model.RatingsFilters[i].Selected" type="checkbox" onclick="submit()" style="display:initial"/>
+            <label asp-for="@Model.RatingsFilters[i].Value" />
+            <label asp-for="@Model.RatingsFilters[i].Matched" />
+
+            @*Inputs escodidos*@
+            <input asp-for="@Model.RatingsFilters[i].Value" type="hidden" />
+            <input asp-for="@Model.RatingsFilters[i].Matched" type="hidden" />
+            <input asp-for="@Model.RatingsFilters[i].Selected" type="hidden" />
+        </li>
+    </ul>
+}

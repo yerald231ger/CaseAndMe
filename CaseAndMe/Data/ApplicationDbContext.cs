@@ -21,8 +21,10 @@ namespace CaseAndMe.Data
         public virtual DbSet<OrdenVenta> OrdenesVentas { get; set; }
         public virtual DbSet<OrdenVentaDetalle> OrdenesVentasDetalle { get; set; }
         public virtual DbSet<Producto> Productos { get; set; }
-        public virtual DbSet<ProductoSubCategoria> ProductosSubCategorias { get; set; }
         public virtual DbSet<SubCategoria> SubCategorias { get; set; }
+        public virtual DbSet<Pais> Paises { get; set; }
+        public virtual DbSet<Estado> Estados { get; set; }
+        public virtual DbSet<Ciudad> Ciudad { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,10 +43,10 @@ namespace CaseAndMe.Data
             builder.Entity<Producto>(build =>
             {
                 build.ToTable("tblProductos");
-                
-                build.HasMany(p => p.ProductosSubCategorias)
-                .WithOne(psc => psc.Producto)
-                .HasForeignKey(psc => psc.IdProducto);
+
+                build.HasOne(p => p.SubCategoria)
+                .WithMany(sc => sc.Productos)
+                .HasForeignKey(p => p.IdSubCategoria);
             });
 
             builder.Entity<Categoria>(build =>
@@ -59,10 +61,6 @@ namespace CaseAndMe.Data
             builder.Entity<SubCategoria>(build =>
             {
                 build.ToTable("tblSubCategorias");
-
-                build.HasMany(sb => sb.ProductosSubCategorias)
-                .WithOne(psc => psc.SubCategoria)
-                .HasForeignKey(psc => psc.IdSubCategoria);
             });
 
             builder.Entity<OrdenVenta>(build =>
@@ -95,11 +93,36 @@ namespace CaseAndMe.Data
                 .HasForeignKey(ovd => ovd.IdProducto);
             });
 
+            builder.Entity<Ciudad>(build =>
+            {
+                build.ToTable("tblCiudades");
+
+                build.HasOne(c => c.Estado)
+                .WithMany(e => e.Ciudades)
+                .HasForeignKey(c => c.IdEstado);
+            });
+
+            builder.Entity<Estado>(build =>
+            {
+                build.ToTable("tblEstados");
+
+                build.HasOne(e => e.Pais)
+                .WithMany(p => p.Estados)
+                .HasForeignKey(e => e.IdPais);
+
+                build.HasMany(e => e.Users)
+                .WithOne(u => u.Estado)
+                .HasForeignKey(u => u.IdEstado);
+            });
+
+            builder.Entity<Material>(build => { build.ToTable("tblMateriales"); });
+
+            builder.Entity<Pais>(build => { build.ToTable("tblPaises"); });
+
             builder.Entity<MetodoEnvio>(build => { build.ToTable("tblMetodosEnvio"); });
 
             builder.Entity<MetodoPago>(build => { build.ToTable("tblMetodosPago"); });
 
-            builder.Entity<ProductoSubCategoria>(build => { build.ToTable("tblProductosSubCategorias"); });
         }
     }
 }

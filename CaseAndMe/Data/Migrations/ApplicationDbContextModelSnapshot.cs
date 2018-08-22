@@ -23,15 +23,25 @@ namespace CaseAndMe.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("Ciudad");
+
+                    b.Property<string>("Colonia");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("Direccion");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<int>("IdOrdenVenta");
+                    b.Property<DateTime>("FechaAlt");
+
+                    b.Property<DateTime>("FechaMod");
+
+                    b.Property<int>("IdEstado");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -49,7 +59,13 @@ namespace CaseAndMe.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("PrimerApellido");
+
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("SegundoApellido");
+
+                    b.Property<string>("Telefono");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -57,6 +73,8 @@ namespace CaseAndMe.Data.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdEstado");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -84,6 +102,68 @@ namespace CaseAndMe.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tblCategorias");
+                });
+
+            modelBuilder.Entity("CaseAndMe.Models.Ciudad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("EsActivo");
+
+                    b.Property<DateTime>("FechaAlt");
+
+                    b.Property<DateTime>("FechaMod");
+
+                    b.Property<int>("IdEstado");
+
+                    b.Property<string>("Nombre");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdEstado");
+
+                    b.ToTable("tblCiudades");
+                });
+
+            modelBuilder.Entity("CaseAndMe.Models.Estado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("EsActivo");
+
+                    b.Property<DateTime>("FechaAlt");
+
+                    b.Property<DateTime>("FechaMod");
+
+                    b.Property<int>("IdPais");
+
+                    b.Property<string>("Nombre");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdPais");
+
+                    b.ToTable("tblEstados");
+                });
+
+            modelBuilder.Entity("CaseAndMe.Models.Material", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("EsActivo");
+
+                    b.Property<DateTime>("FechaAlt");
+
+                    b.Property<DateTime>("FechaMod");
+
+                    b.Property<string>("Nombre");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblMateriales");
                 });
 
             modelBuilder.Entity("CaseAndMe.Models.MetodoEnvio", b =>
@@ -178,6 +258,26 @@ namespace CaseAndMe.Data.Migrations
                     b.ToTable("tblOrdenesVentaDetalle");
                 });
 
+            modelBuilder.Entity("CaseAndMe.Models.Pais", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CountryISO");
+
+                    b.Property<bool>("EsActivo");
+
+                    b.Property<DateTime>("FechaAlt");
+
+                    b.Property<DateTime>("FechaMod");
+
+                    b.Property<string>("Nombre");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblPaises");
+                });
+
             modelBuilder.Entity("CaseAndMe.Models.Producto", b =>
                 {
                     b.Property<int>("Id")
@@ -191,6 +291,8 @@ namespace CaseAndMe.Data.Migrations
 
                     b.Property<DateTime>("FechaMod");
 
+                    b.Property<int>("IdSubCategoria");
+
                     b.Property<string>("Nombre");
 
                     b.Property<float>("Precio");
@@ -199,31 +301,9 @@ namespace CaseAndMe.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblProductos");
-                });
-
-            modelBuilder.Entity("CaseAndMe.Models.ProductoSubCategoria", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("EsActivo");
-
-                    b.Property<DateTime>("FechaAlt");
-
-                    b.Property<DateTime>("FechaMod");
-
-                    b.Property<int>("IdProducto");
-
-                    b.Property<int>("IdSubCategoria");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdProducto");
-
                     b.HasIndex("IdSubCategoria");
 
-                    b.ToTable("tblProductosSubCategorias");
+                    b.ToTable("tblProductos");
                 });
 
             modelBuilder.Entity("CaseAndMe.Models.SubCategoria", b =>
@@ -355,6 +435,30 @@ namespace CaseAndMe.Data.Migrations
                     b.ToTable("tblUserToken");
                 });
 
+            modelBuilder.Entity("CaseAndMe.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("CaseAndMe.Models.Estado", "Estado")
+                        .WithMany("Users")
+                        .HasForeignKey("IdEstado")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CaseAndMe.Models.Ciudad", b =>
+                {
+                    b.HasOne("CaseAndMe.Models.Estado", "Estado")
+                        .WithMany("Ciudades")
+                        .HasForeignKey("IdEstado")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CaseAndMe.Models.Estado", b =>
+                {
+                    b.HasOne("CaseAndMe.Models.Pais", "Pais")
+                        .WithMany("Estados")
+                        .HasForeignKey("IdPais")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("CaseAndMe.Models.OrdenVenta", b =>
                 {
                     b.HasOne("CaseAndMe.Models.MetodoEnvio", "MetodoEnvio")
@@ -385,15 +489,10 @@ namespace CaseAndMe.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CaseAndMe.Models.ProductoSubCategoria", b =>
+            modelBuilder.Entity("CaseAndMe.Models.Producto", b =>
                 {
-                    b.HasOne("CaseAndMe.Models.Producto", "Producto")
-                        .WithMany("ProductosSubCategorias")
-                        .HasForeignKey("IdProducto")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("CaseAndMe.Models.SubCategoria", "SubCategoria")
-                        .WithMany("ProductosSubCategorias")
+                        .WithMany("Productos")
                         .HasForeignKey("IdSubCategoria")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

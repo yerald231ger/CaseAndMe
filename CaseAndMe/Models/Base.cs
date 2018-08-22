@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace CaseAndMe.Models
 {
-    public class Base
+    public class Base<TKey>
     {
-        public int Id { get; set; }
+        public TKey Id { get; set; }
         public DateTime FechaMod { get; set; }
         public DateTime FechaAlt { get; set; }
         public bool EsActivo { get; set; }

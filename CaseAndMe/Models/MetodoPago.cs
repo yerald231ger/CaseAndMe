@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CaseAndMe.Models
 {
-    public class MetodoPago : Comun
+    public class MetodoPago : Comun<int>
     {
         public virtual ICollection<OrdenVenta> OrdenesVenta { get; set; }
     }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CaseAndMe.Models
 {
-    public class Comun : Base
+    public class Comun<TKey> : Base<TKey>
     {
         public string Nombre { get; set; }
     }

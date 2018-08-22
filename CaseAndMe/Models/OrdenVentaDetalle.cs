@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CaseAndMe.Models
 {
-    public class OrdenVentaDetalle : Base
+    public class OrdenVentaDetalle : Base<int>
     {
         public int Cantidad { get; set; }
 

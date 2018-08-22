@@ -1,0 +1,76 @@
+@model ResultadoViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form id="cam-filter" asp-controller="Filter" asp-action="Index" method="post">
+
+    <div class="container m-t-3">
+        <div class="row">
+            <div style="width: 260px">
+                @Html.Partial("_LeftFilter", Model.LeftFilter)
+            </div>
+            <div style="width: 900px">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].Descripcion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].Precio)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].UrlImagen)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Productos[0].SubCategoria.Nombre)
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Productos.Count; i++)
+                        {
+                            <tr style="display : @(Model.Productos[i].EsActivo ? "table-row": "none" )">
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].Nombre)
+                                    <input type="hidden" asp-for="@Model.Productos[i].Id" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].Precio" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].Nombre" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].UrlImagen" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].Descripcion" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].SubCategoria.Nombre" />
+                                    <input type="hidden" asp-for="@Model.Productos[i].SubCategoria.Categoria.Nombre" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].Precio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].UrlImagen)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Productos[i].SubCategoria.Nombre)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submit() {
+            
+            document.getElementById("cam-filter").submit()
+        }
+    </script>
+</form>
+
+

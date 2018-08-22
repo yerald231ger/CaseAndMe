@@ -23,5 +23,46 @@ namespace CaseAndMe.Models.AccountViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+
+        [Required]
+        [Display(Name = "Primer Apellido")]
+        public string PrimerApellido { get; set; }
+
+        [Display(Name = "Segundo Apellido")]
+        public string SegundoApellido { get; set; }
+
+        [Required]
+        [Display(Name = "Telefono")]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
+
+        [Display(Name = "Telefono 2")]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono2 { get; set; }
+
+        [Required]
+        [Display(Name = "Dirección")]
+        public string Direccion { get; set; }
+
+        [Required]
+        [Display(Name = "Colonia")]
+        public string Colonia { get; set; }
+
+        [Required]
+        [DataType(DataType.PostalCode)]
+        [Display(Name = "Codigo Postal")]
+        public int CP { get; set; }
+
+        [Required]
+        [Display(Name = "Ciudad")]
+        public string Ciudad { get; set; }
+
+        [Required]
+        [Display(Name = "Estado")]
+        public int Estado { get; set; }
     }
 }
