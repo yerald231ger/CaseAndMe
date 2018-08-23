@@ -1,4 +1,5 @@
-﻿using CaseAndMe.Services.Repository;
+﻿using CaseAndMeWeb.Services.Repository;
+using CaseAndMeWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,23 @@ namespace CaseAndMeWeb.Controllers
 {
     public class HomeController : Controller
     {
-        public IPaisRepository _paisRepository { get; }
-
-        public HomeController(IPaisRepository paisRepository)
+        public ApplicationDbContext context { get; set; }
+        
+        public HomeController(ApplicationDbContext context)
         {
-            _paisRepository = paisRepository;
+            this.context = context;
         }
 
         public ActionResult Index()
         {
-            var d = _paisRepository.GetAll();
+            ViewBag.pDestacados = new List<Producto>();
+            ViewBag.pNuevos = new List<Producto>();
+            if (context.Productos.Count() != 0)
+            {
+                ViewBag.pDestacados = context.Productos.Take(10).ToList();
+                ViewBag.pNuevos = context.Productos.OrderByDescending(x => x.Id).Take(10).ToList();
+            }
+
             return View();
         }
 

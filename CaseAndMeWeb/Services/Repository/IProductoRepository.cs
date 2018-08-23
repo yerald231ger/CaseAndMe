@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-namespace CaseAndMe.Services.Repository
+namespace CaseAndMeWeb.Services.Repository
 {
     public interface IProductoRepository : IRepository<Producto, int>
     {

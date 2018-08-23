@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CaseAndMeWeb.Models;
+using CaseAndMeWeb.Services;
+using Microsoft.Owin.Logging;
+using CaseAndMeWeb.Services.Repository;
 
 namespace CaseAndMeWeb.Controllers
 {
@@ -17,12 +20,24 @@ namespace CaseAndMeWeb.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly IEmailSender _emailSender;
+        private readonly ISmsSender _smsSender;
+        private readonly ILogger _logger;
+        private readonly IPaisRepository _paisRepository;
+        private readonly string _externalCookieScheme;
+        private ApplicationDbContext _dbContext;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
+            //IOptions<IdentityCookieOptions> identityCookieOptions,
+            IEmailSender emailSender,
+            ISmsSender smsSender,
+            ILoggerFactory loggerFactory,
+            IPaisRepository paisRepository,
+            ApplicationDbContext dbContext)
         {
             UserManager = userManager;
             SignInManager = signInManager;

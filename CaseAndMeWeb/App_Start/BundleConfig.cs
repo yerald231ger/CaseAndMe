@@ -20,11 +20,16 @@ namespace CaseAndMeWeb
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/owl-carousel.js",
+                      "~/Scripts/site.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/font-awesome.css",
+                      "~/Content/owl-carousel.css",
+                      "~/Content/owl-theme.css",
                       "~/Content/site.css"));
         }
     }

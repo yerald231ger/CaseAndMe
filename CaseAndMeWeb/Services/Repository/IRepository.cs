@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CaseAndMe.Services.Repository
+namespace CaseAndMeWeb.Services.Repository
 {
     public interface IRepository<TEntity, TKey> where TEntity : Base<TKey>
     {
