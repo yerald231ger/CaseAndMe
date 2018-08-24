@@ -5,6 +5,12 @@ using System;
 
 using Unity;
 using Unity.Injection;
+using System.Data.Entity;
+using Unity.AspNet.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web;
+using Microsoft.Owin.Security;
 
 namespace CaseAndMeWeb
 {
@@ -48,7 +54,13 @@ namespace CaseAndMeWeb
             // container.RegisterType<IProductRepository, ProductRepository>();
 
             container.RegisterType<IPaisRepository, PaisRepository>();
-            container.RegisterType<IProductoRepository, ProductoRepository>();            
+            container.RegisterType<IProductoRepository, ProductoRepository>();
+
+            container.RegisterType<DbContext, ApplicationDbContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new PerRequestLifetimeManager());
+            container.RegisterType<ApplicationUserManager>(new PerRequestLifetimeManager());
+            container.RegisterType<IAuthenticationManager>(new InjectionFactory(c => HttpContext.Current.GetOwinContext().Authentication));
+            container.RegisterType<ApplicationSignInManager>(new PerRequestLifetimeManager());
         }
     }
 }
