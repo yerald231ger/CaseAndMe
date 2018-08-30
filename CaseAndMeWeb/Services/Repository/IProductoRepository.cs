@@ -15,7 +15,7 @@ namespace CaseAndMeWeb.Services.Repository
     {
         private DbSet<Producto> _dbSet { get; set; }
 
-        public ProductoRepository(ApplicationDbContext context) : base(context)
+        public ProductoRepository(DbContext context) : base(context)
         {
             _dbSet = _context.Set<Producto>();
         }

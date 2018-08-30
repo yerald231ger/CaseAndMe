@@ -15,7 +15,7 @@ namespace CaseAndMeWeb.Services.Repository
     {
         private DbSet<Pais> _dbSet { get; set; }
 
-        public PaisRepository(ApplicationDbContext context) : base(context)
+        public PaisRepository(DbContext context) : base(context)
         {
             _dbSet = _context.Set<Pais>();
         }
