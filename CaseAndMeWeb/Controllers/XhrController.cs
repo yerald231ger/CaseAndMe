@@ -8,16 +8,24 @@ using Newtonsoft.Json;
 
 namespace CaseAndMeWeb.Controllers
 {
-    [RoutePrefix("/xhr")]
+    [RoutePrefix("xhr")]
     public class XhrController : ApiController
     {
         [HttpGet]
-        public ICollection<Pais> PaisEstados(int i)
+        [Route("Paises")]
+
+        public ICollection<KeyValuePair<int, string>> Paises()
         {
-            var p = _paisRepository.GetAll();
-            return p;
+            return _paisRepository.GetAll().Select(p => new KeyValuePair<int, string>(p.Id, p.Nombre)).ToList();
         }
-        
+
+        [HttpGet]
+        [Route("Paises/{i:int}/Estados")]
+        public ICollection<KeyValuePair<int, string>> ObtenerEstadosPais(int i)
+        {
+            return _paisRepository.GetEstados(i).Select(e => new KeyValuePair<int, string>(e.Id, e.Nombre)).ToList();
+        }
+
         private IPaisRepository _paisRepository;
         private IProductoRepository _productoRepository;
 

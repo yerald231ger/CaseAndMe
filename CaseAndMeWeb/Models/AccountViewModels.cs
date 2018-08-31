@@ -64,6 +64,39 @@ namespace CaseAndMeWeb.Models
 
     public class RegisterViewModel
     {
+
+        [Required]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+
+        [Required]
+        [Display(Name = "Apellido Paterno")]
+        public string PrimerApellido { get; set; }
+
+        [Display(Name = "Apellido Materno")]
+        public string SegundoApellido { get; set; }
+
+        [Required]
+        [Display(Name = "Colonia")]
+        public string Colonia { get; set; }
+
+        [Required]
+        [Display(Name = "Telefono")]
+        [RegularExpression("^[0-9]+([;]([0-9]+))*$")]
+        public string Telefono { get; set; }
+
+        [Required]
+        [Display(Name = "Ciudad")]
+        public string Ciudad { get; set; }
+
+        [Required]
+        [Display(Name = "Estado")]
+        public int Estado { get; set; }
+
+        [Required]
+        [Display(Name = "Pais")]
+        public int Pais { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
