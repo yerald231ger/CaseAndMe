@@ -21,7 +21,7 @@ namespace CaseAndMeWeb.Services.Repository
         }
 
         public ICollection<Estado> GetEstados(int idPais)
-        {            
+        {           
             return _dbSet.Include(p => p.Estados).First(p => p.Id == idPais).Estados;
         }
 

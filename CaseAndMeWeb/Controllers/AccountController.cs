@@ -9,6 +9,7 @@ using CaseAndMeWeb.Models;
 using CaseAndMeWeb.Services;
 using Microsoft.Owin.Logging;
 using CaseAndMeWeb.Services.Repository;
+using System;
 
 namespace CaseAndMeWeb.Controllers
 {
@@ -155,7 +156,15 @@ namespace CaseAndMeWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FechaMod = DateTime.Now,
+                    FechaAlt = DateTime.Now
+                };
+
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

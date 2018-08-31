@@ -227,6 +227,10 @@
     <Compile Include="Migrations\201808221655458_inicial.Designer.cs">
       <DependentUpon>201808221655458_inicial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808310002293_estado.opcional.cs" />
+    <Compile Include="Migrations\201808310002293_estado.opcional.Designer.cs">
+      <DependentUpon>201808310002293_estado.opcional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\FilterViewModels\ResultadoViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -488,6 +492,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201808221655458_inicial.resx">
       <DependentUpon>201808221655458_inicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808310002293_estado.opcional.resx">
+      <DependentUpon>201808310002293_estado.opcional.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

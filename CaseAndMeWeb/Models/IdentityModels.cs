@@ -64,11 +64,15 @@ namespace CaseAndMeWeb.Models
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);     
-            builder.Entity<ApplicationUser>().ToTable("tblUser");
             builder.Entity<IdentityRole>().ToTable("tblRole");
             builder.Entity<IdentityUserClaim>().ToTable("tblUserClaim");
             builder.Entity<IdentityUserRole>().ToTable("tblUserRole");
             builder.Entity<IdentityUserLogin>().ToTable("tblUserLogin");
+
+            var tblUser = builder.Entity<ApplicationUser>();
+
+            tblUser.ToTable("tblUser");
+            tblUser.HasOptional(u => u.Estado);
 
             var tblProducto = builder.Entity<Producto>();
 
@@ -133,11 +137,6 @@ namespace CaseAndMeWeb.Models
                 .HasRequired(e => e.Pais)
                 .WithMany(p => p.Estados)
                 .HasForeignKey(e => e.IdPais);
-
-            tblEstado
-                .HasMany(e => e.Users)
-                .WithRequired(u => u.Estado)
-                .HasForeignKey(u => u.IdEstado);
 
             builder.Entity<Material>().ToTable("tblMateriales");
 
