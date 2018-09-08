@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaseAndMe", "CaseAndMe\CaseAndMe.csproj", "{81FB843A-7EE4-4E53-923F-CE663FF20957}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaseAndMeWeb", "CaseAndMeWeb\CaseAndMeWeb.csproj", "{B89C9FDF-53FC-4976-93F7-D0F7CB76D699}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{81FB843A-7EE4-4E53-923F-CE663FF20957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81FB843A-7EE4-4E53-923F-CE663FF20957}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81FB843A-7EE4-4E53-923F-CE663FF20957}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81FB843A-7EE4-4E53-923F-CE663FF20957}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B89C9FDF-53FC-4976-93F7-D0F7CB76D699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B89C9FDF-53FC-4976-93F7-D0F7CB76D699}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B89C9FDF-53FC-4976-93F7-D0F7CB76D699}.Release|Any CPU.ActiveCfg = Release|Any CPU

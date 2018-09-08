@@ -23,8 +23,8 @@ namespace CaseAndMeWeb.Controllers
             ViewBag.pNuevos = new List<Producto>();
             if (context.Productos.Count() != 0)
             {
-                ViewBag.pDestacados = context.Productos.Take(10).ToList();
-                ViewBag.pNuevos = context.Productos.OrderByDescending(x => x.Id).Take(10).ToList();
+                ViewBag.pDestacados = context.Productos.Where(x=> x.EsActivo == true).Take(10).ToList();
+                ViewBag.pNuevos = context.Productos.Where(x => x.EsActivo == true).OrderByDescending(x => x.Id).Take(10).ToList();
             }
 
             return View();
