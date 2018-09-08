@@ -9,6 +9,9 @@ using CaseAndMeWeb.Models;
 using CaseAndMeWeb.Services;
 using Microsoft.Owin.Logging;
 using CaseAndMeWeb.Services.Repository;
+using System;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace CaseAndMeWeb.Controllers
 {
@@ -20,16 +23,14 @@ namespace CaseAndMeWeb.Controllers
         private readonly string _externalCookieScheme;
         private ApplicationDbContext _dbContext;
 
-        public AccountController()
-        {
-        }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
-            ApplicationDbContext dbContext)
+            ApplicationDbContext dbContext, IPaisRepository paisRepository)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             _dbContext = dbContext;
+            _paisRepository = paisRepository;
         }
 
         public ApplicationSignInManager SignInManager
@@ -38,9 +39,9 @@ namespace CaseAndMeWeb.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -124,7 +125,7 @@ namespace CaseAndMeWeb.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -143,6 +144,19 @@ namespace CaseAndMeWeb.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var paises = _paisRepository.GetAll();
+            var listItemsPaises = new List<SelectListItem>();
+            var paisDefault = 1;
+
+            foreach (var p in paises)
+                listItemsPaises.Add(new SelectListItem
+                {
+                    Text = p.Nombre,
+                    Value = p.Id.ToString(),
+                    Selected = p.Id == paisDefault
+                });
+
+            ViewBag.Paises = listItemsPaises;
             return View();
         }
 
@@ -155,11 +169,19 @@ namespace CaseAndMeWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FechaMod = DateTime.Now,
+                    FechaAlt = DateTime.Now
+                };
+
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -438,6 +460,8 @@ namespace CaseAndMeWeb.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
+
+        private IPaisRepository _paisRepository { get; }
 
         private void AddErrors(IdentityResult result)
         {
