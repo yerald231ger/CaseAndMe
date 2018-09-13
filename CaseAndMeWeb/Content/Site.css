@@ -200,73 +200,73 @@
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Thin/RobotoDraft-Thin.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Thin/RobotoDraft-Thin.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Thin/RobotoDraft-Thin.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Thin/RobotoDraft-Thin.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Thin/RobotoDraft-Thin.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Thin/RobotoDraft-Thin.ttf?v=1.0.0) format("truetype");
   font-weight: 100;
   font-style: normal;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Light/RobotoDraft-Light.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Light/RobotoDraft-Light.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Light/RobotoDraft-Light.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Light/RobotoDraft-Light.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Light/RobotoDraft-Light.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Light/RobotoDraft-Light.ttf?v=1.0.0) format("truetype");
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Regular/RobotoDraft-Regular.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Regular/RobotoDraft-Regular.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Regular/RobotoDraft-Regular.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Regular/RobotoDraft-Regular.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Regular/RobotoDraft-Regular.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Regular/RobotoDraft-Regular.ttf?v=1.0.0) format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Regular/RobotoDraft-Regular.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Regular/RobotoDraft-Regular.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Regular/RobotoDraft-Regular.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Regular/RobotoDraft-Regular.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Regular/RobotoDraft-Regular.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Regular/RobotoDraft-Regular.ttf?v=1.0.0) format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Italic/RobotoDraft-Italic.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Italic/RobotoDraft-Italic.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Italic/RobotoDraft-Italic.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Italic/RobotoDraft-Italic.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Italic/RobotoDraft-Italic.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Italic/RobotoDraft-Italic.ttf?v=1.0.0) format("truetype");
   font-weight: 400;
   font-style: italic;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Italic/RobotoDraft-Italic.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Italic/RobotoDraft-Italic.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Italic/RobotoDraft-Italic.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Italic/RobotoDraft-Italic.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Italic/RobotoDraft-Italic.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Italic/RobotoDraft-Italic.ttf?v=1.0.0) format("truetype");
   font-weight: 400;
   font-style: italic;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Medium/RobotoDraft-Medium.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Medium/RobotoDraft-Medium.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Medium/RobotoDraft-Medium.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Medium/RobotoDraft-Medium.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Medium/RobotoDraft-Medium.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Medium/RobotoDraft-Medium.ttf?v=1.0.0) format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Bold/RobotoDraft-Bold.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Bold/RobotoDraft-Bold.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Bold/RobotoDraft-Bold.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Bold/RobotoDraft-Bold.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Bold/RobotoDraft-Bold.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Bold/RobotoDraft-Bold.ttf?v=1.0.0) format("truetype");
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Bold/RobotoDraft-Bold.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Bold/RobotoDraft-Bold.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Bold/RobotoDraft-Bold.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Bold/RobotoDraft-Bold.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Bold/RobotoDraft-Bold.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Bold/RobotoDraft-Bold.ttf?v=1.0.0) format("truetype");
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.ttf?v=1.0.0) format("truetype");
   font-weight: 700;
   font-style: italic;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/BoldItalic/RobotoDraft-BoldItalic.ttf?v=1.0.0) format("truetype");
   font-weight: 700;
   font-style: italic;
 }
 @font-face {
   font-family: RobotoDraft;
-  src: url(../Content/fonts/robotodraft/Black/RobotoDraft-Black.woff2?v=1.0.0) format("woff2"), url(../Content/fonts/robotodraft/Black/RobotoDraft-Black.woff?v=1.0.0) format("woff"), url(../Content/fonts/robotodraft/Black/RobotoDraft-Black.ttf?v=1.0.0) format("truetype");
+  src: url(fonts/robotodraft/Black/RobotoDraft-Black.woff2?v=1.0.0) format("woff2"), url(fonts/robotodraft/Black/RobotoDraft-Black.woff?v=1.0.0) format("woff"), url(fonts/robotodraft/Black/RobotoDraft-Black.ttf?v=1.0.0) format("truetype");
   font-weight: 900;
   font-style: normal;
 }
@@ -321,10 +321,13 @@ a,
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-input[type=checkbox],
-input[type=radio] {
-  display: none;
+.input-qty div input[type=text] {
+  height: 36px;
 }
+/*input[type=checkbox],
+input[type=radio] {
+    display: none;
+}*/
 input[type=checkbox] + span::before,
 input[type=radio] + span::before {
   font-family: 'fontAwesome';
@@ -832,6 +835,10 @@ input[type=radio]:checked + span::before {
   margin-top: 15px;
   color: #777;
   background-color: #e7e7e7;
+  /*position: initial;
+    right: 0;
+    bottom: 0;
+    left: 0;*/
 }
 .footer ul {
   line-height: 1.7;
@@ -1733,4 +1740,31 @@ input[type=radio]:checked + span::before {
   left: 5px;
   font-size: 9px;
   font-weight: normal;
+}
+/*Upload image Preview Controll*/
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+#img-upload {
+  width: 100%;
+}
+
+.accountlink {
+    color: #FFFFFF;
 }

@@ -1,0 +1,61 @@
+﻿@model CaseAndMeWeb.Models.Categoria
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container m-t-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title"><span>Editar Categoria</span></div>
+                <p style="text-align:left; margin-bottom:10px;">
+                    <a href="@Url.Action("Index", "Category")" class="btn btn-info">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        Regresar a la lista
+                    </a>
+                </p>
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EsActivo" class="control-label col-md-2">Activo</label>
+                        <div class="col-md-8">
+                            @Html.CheckBoxFor(m => m.EsActivo, new { @checked = "checked" })
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-2"></div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

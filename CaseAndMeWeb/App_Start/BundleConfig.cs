@@ -23,6 +23,8 @@ namespace CaseAndMeWeb
                       
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/owl-carousel.js",
+                      "~/Scripts/jquery-confirm.js",
+                      "~/Scripts/jquery.bootstrap-touchspin.js",
                       "~/Scripts/site.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -30,7 +32,16 @@ namespace CaseAndMeWeb
                       "~/Content/font-awesome.css",
                       "~/Content/owl-carousel.css",
                       "~/Content/owl-theme.css",
+                      "~/Content/jquery.bootstrap-touchspin.css",
+                      "~/Content/jquery-confirm.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
+                        "~/Scripts/Datatables/datatables.js"));
+
+            bundles.Add(new StyleBundle("~/Content/datatables").Include(
+                      "~/Content/Datatables/datatables.css",
+                     "~/Content/Datatables/datatables.Theme.css"));
         }
     }
 }
