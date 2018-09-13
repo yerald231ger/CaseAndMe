@@ -144,9 +144,12 @@ namespace CaseAndMeWeb.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var paises = _paisRepository.GetAll();
-            var listItemsPaises = new List<SelectListItem>();
             var paisDefault = 1;
+            var paises = _paisRepository.GetAll();
+            var estados = _paisRepository.GetEstados(paisDefault);
+
+            var listItemsPaises = new List<SelectListItem>();
+            var listItemsEstados = new List<SelectListItem>();
 
             foreach (var p in paises)
                 listItemsPaises.Add(new SelectListItem
@@ -156,7 +159,15 @@ namespace CaseAndMeWeb.Controllers
                     Selected = p.Id == paisDefault
                 });
 
+            foreach (var p in estados)
+                listItemsEstados.Add(new SelectListItem
+                {
+                    Text = p.Nombre,
+                    Value = p.Id.ToString()
+                });
+
             ViewBag.Paises = listItemsPaises;
+            ViewBag.Estados = listItemsEstados;
             return View();
         }
 
@@ -171,12 +182,18 @@ namespace CaseAndMeWeb.Controllers
             {
                 var user = new ApplicationUser
                 {
+                    Nombre = model.Nombre,
+                    PrimerApellido = model.PrimerApellido,
+                    SegundoApellido = model.SegundoApellido,
+                    Telefono = model.Telefono,
+                    Colonia = model.Colonia,
+                    CP = model.CP,
+                    IdEstado = model.Estado,
                     UserName = model.Email,
                     Email = model.Email,
                     FechaMod = DateTime.Now,
-                    FechaAlt = DateTime.Now
+                    FechaAlt = DateTime.Now                    
                 };
-
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
