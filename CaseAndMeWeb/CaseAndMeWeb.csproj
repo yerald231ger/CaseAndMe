@@ -235,6 +235,10 @@
     <Compile Include="Migrations\201808310002293_estado.opcional.Designer.cs">
       <DependentUpon>201808310002293_estado.opcional.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.cs" />
+    <Compile Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.Designer.cs">
+      <DependentUpon>201809132248289_Campo.Cp.En.ApplicationUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\FilterViewModels\ResultadoViewModel.cs" />
@@ -853,6 +857,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808310002293_estado.opcional.resx">
       <DependentUpon>201808310002293_estado.opcional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.resx">
+      <DependentUpon>201809132248289_Campo.Cp.En.ApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

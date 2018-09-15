@@ -90,6 +90,10 @@ namespace CaseAndMeWeb.Models
         public string Ciudad { get; set; }
 
         [Required]
+        [Display(Name = "Codigo Postal")]
+        public int CP { get; set; }
+
+        [Required]
         [Display(Name = "Estado")]
         public int Estado { get; set; }
 
