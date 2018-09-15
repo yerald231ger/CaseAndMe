@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="title"><span>Nuevo Producto</span></div>
-
+            <p style="text-align:left; margin-bottom:10px;">@Html.ActionLink("< Regresar a la lista", "Index", null, new { @class = "btn btn-info" })</p>
             @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
@@ -61,7 +61,7 @@
                                     <label for="EsActivo" class="control-label col-md-2">Activo</label>
                                     <div class="col-md-8">
                                         @Html.CheckBoxFor(model => model.EsActivo, new { @checked = "checked" })
-                                        
+
                                     </div>
 
                                 </div>
