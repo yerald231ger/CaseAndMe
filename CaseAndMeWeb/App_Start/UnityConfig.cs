@@ -1,6 +1,14 @@
+using CaseAndMeWeb.Models;
+using CaseAndMeWeb.Services.Repository;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 using System;
-
+using System.Data.Entity;
+using System.Web;
 using Unity;
+using Unity.AspNet.Mvc;
+using Unity.Injection;
 
 namespace CaseAndMeWeb
 {
@@ -42,6 +50,14 @@ namespace CaseAndMeWeb
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
+            container.RegisterType<IPaisRepository, PaisRepository>();
+            container.RegisterType<IProductoRepository, ProductoRepository>();
+
+            container.RegisterType<DbContext, ApplicationDbContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new PerRequestLifetimeManager());
+            container.RegisterType<ApplicationUserManager>(new PerRequestLifetimeManager());
+            container.RegisterType<IAuthenticationManager>(new InjectionFactory(c => HttpContext.Current.GetOwinContext().Authentication));
+            container.RegisterType<ApplicationSignInManager>(new PerRequestLifetimeManager());
         }
     }
 }
