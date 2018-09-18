@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.Designer.cs">
       <DependentUpon>201809132248289_Campo.Cp.En.ApplicationUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809182308146_eliminar.el.estadoid.cs" />
+    <Compile Include="Migrations\201809182308146_eliminar.el.estadoid.Designer.cs">
+      <DependentUpon>201809182308146_eliminar.el.estadoid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\FilterViewModels\ResultadoViewModel.cs" />
@@ -857,6 +861,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.resx">
       <DependentUpon>201809132248289_Campo.Cp.En.ApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809182308146_eliminar.el.estadoid.resx">
+      <DependentUpon>201809182308146_eliminar.el.estadoid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
