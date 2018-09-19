@@ -24,11 +24,8 @@ namespace CaseAndMeWeb.Controllers
         private ApplicationDbContext _dbContext;
 
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
-            ApplicationDbContext dbContext, IPaisRepository paisRepository)
+        public AccountController(ApplicationDbContext dbContext, IPaisRepository paisRepository)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
             _dbContext = dbContext;
             _paisRepository = paisRepository;
         }
