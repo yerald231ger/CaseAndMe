@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
@@ -14,34 +11,32 @@ namespace CaseAndMeWeb.Services
 
     public class EmailSender : IEmailSender
     {
-        public EmailSender()
-        {
-
-        }
-
         public Task SendEmailAsync(string email, string subject, string message)
         {
 
-            var _fromAddress = new MailAddress("caseandme.gerardo@gmail.com", "Angar Account Services");
-            var _toAddress = new MailAddress(email);
-
-            var smtp = new SmtpClient
-            {
+            var fromAddress = new MailAddress("caseandme.gerardo@gmail.com", "Angar Account Services");
+            
+            var smtpClient = new SmtpClient
+            {                
                 Host = "smtp.gmail.com",
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(_fromAddress.Address, "!@Ger231")
+                Timeout = 300000,
+                Credentials = new NetworkCredential(fromAddress.Address, "!@Ger231")
             };
 
-            var _mail = new MailMessage(_fromAddress, _toAddress);
-            _mail.Body = message;
-            _mail.Subject = subject;
-            _mail.IsBodyHtml = true;
+            var mailMessage = new MailMessage
+            {
+                Body = message,
+                Subject = subject,
+                IsBodyHtml = true, 
+                From = fromAddress
+            };
+            mailMessage.To.Add(email);
 
-            return smtp.SendMailAsync(_mail);
-
+            return smtpClient.SendMailAsync(mailMessage);
         }
 
         //public Task SendEmailAsync(string email, string subject, string message)
