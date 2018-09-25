@@ -13,6 +13,7 @@ namespace CaseAndMeWeb.Services
     {
         public Task SendEmailAsync(string email, string subject, string message)
         {
+            
 
             var fromAddress = new MailAddress("caseandme.gerardo@gmail.com", "Angar Account Services");
             
