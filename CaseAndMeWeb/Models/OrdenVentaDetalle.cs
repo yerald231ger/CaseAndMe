@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 
 namespace CaseAndMeWeb.Models
 {
@@ -15,6 +12,7 @@ namespace CaseAndMeWeb.Models
         public int IdProducto { get; set; }
         public Producto Producto { get; set; }
 
-
+        public int idDipositivo { get; set; }
+        public Dispositivo Dispositivo { get; set; }
     }
 }

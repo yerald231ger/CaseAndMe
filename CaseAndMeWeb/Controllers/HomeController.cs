@@ -21,6 +21,15 @@ namespace CaseAndMeWeb.Controllers
         {
             ViewBag.pDestacados = new List<Producto>();
             ViewBag.pNuevos = new List<Producto>();
+            var Subcategorias = context.SubCategorias.Include("Categoria").ToList(); 
+            ViewBag.pSubcategorias = Subcategorias;
+
+            var Categorias = context.Categorias.ToList(); 
+            ViewBag.pCategorias = Categorias;
+
+            ViewBag.Dispositivos = context.Dispositivo.ToList();
+            ViewBag.Materiales = context.Material.ToList();
+
             if (context.Productos.Count() != 0)
             {
                 ViewBag.pDestacados = context.Productos.Where(x=> x.EsActivo == true).Take(10).ToList();

@@ -27,7 +27,7 @@
                 <div class="col-sm-8 col-md-6 search-box m-t-2">
                     <form asp-controller="Filter" asp-action="Index" method="post">
                         <div class="input-group">
-                            <input type="text" name="expresion" class="form-control search-input" aria-label="Buscar producto..." placeholder="Search here..." autocomplete="off">
+                            <input type="text" name="expresion" class="form-control search-input" aria-label="Buscar producto..." placeholder="Buscar..." autocomplete="off">
                             <div class="input-group-btn">
                                 <button type="submit" class="btn btn-default btn-search"><i class="fa fa-search"></i></button>
                             </div>
@@ -44,11 +44,11 @@
                         </div>
 
 
-                        <div class="subtotal-cart">Subtotal: <span id="subtotalCart">$00.00</span></div>
+                        <div class="subtotal-cart">Total: <span id="subtotalCart">$00.00</span></div>
                         <div class="text-center">
                             <div class="btn-group" role="group" aria-label="View Cart and Checkout Button">
-                                <button class="btn btn-default btn-sm" type="button"><i class="fa fa-shopping-cart"></i> View Cart</button>
-                                <button class="btn btn-default btn-sm" type="button"><i class="fa fa-check"></i> Checkout</button>
+                                <button class="btn btn-default btn-sm" type="button" onclick="location.href = '/Checkout/Cart';" ><i class="fa fa-shopping-cart"></i> Mi Carrito</button>
+                                <button class="btn btn-default btn-sm" type="button" onclick="location.href = '/Checkout/Buy';" ><i class="fa fa-check"></i> Comprar</button>
                             </div>
                         </div>
                     </div>
@@ -72,9 +72,9 @@
             <div class="collapse navbar-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="~/">Inicio</a></li>
-                    <li><a href="products.html">Productos</a></li>
-                    <li><a asp-area="" asp-controller="Checkout" asp-action="Cart">Carrito</a></li>
-                    <li><a href="~/Checkout/Cart">Checkout</a></li>
+                    <li><a href="#">Productos</a></li>
+                    <li><a href="~/Checkout/Cart" asp-action="Cart">Mi Carrito</a></li>
+                    
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right navbar-feature visible-lg">

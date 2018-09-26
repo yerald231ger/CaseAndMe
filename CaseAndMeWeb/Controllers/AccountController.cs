@@ -144,7 +144,7 @@ namespace CaseAndMeWeb.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var paisDefault = 1;
+            var paisDefault = 142;
             var paises = _paisRepository.GetAll();
             var estados = _paisRepository.GetEstados(paisDefault);
 
@@ -186,6 +186,8 @@ namespace CaseAndMeWeb.Controllers
                     PrimerApellido = model.PrimerApellido,
                     SegundoApellido = model.SegundoApellido,
                     Telefono = model.Telefono,
+                    Direccion = model.Direccion,
+                    Ciudad = model.Ciudad,
                     Colonia = model.Colonia,
                     CP = model.CP,
                     IdEstado = model.Estado,

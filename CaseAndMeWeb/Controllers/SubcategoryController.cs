@@ -18,7 +18,7 @@ namespace CaseAndMeWeb.Controllers
         // GET: Subcategory
         public ActionResult Index()
         {
-            var Subcategorias = context.SubCategorias.Include("Categoria").ToList(); ;
+            var Subcategorias = context.SubCategorias.Include("Categoria").ToList();
             ViewBag.Subcategorias = Subcategorias;
             return View();
         }

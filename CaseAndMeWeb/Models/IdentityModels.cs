@@ -48,6 +48,8 @@ namespace CaseAndMeWeb.Models
         public virtual DbSet<Pais> Paises { get; set; }
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<Ciudad> Ciudad { get; set; }
+        public virtual DbSet<Dispositivo> Dispositivo { get; set; }
+        public virtual DbSet<Material> Material { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -147,6 +149,9 @@ namespace CaseAndMeWeb.Models
             builder.Entity<MetodoEnvio>().ToTable("tblMetodosEnvio");
 
             builder.Entity<MetodoPago>().ToTable("tblMetodosPago");
+
+            builder.Entity<Dispositivo>().ToTable("tblDispositivo");
+
         }
     }
 }
