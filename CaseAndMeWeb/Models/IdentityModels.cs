@@ -76,7 +76,9 @@ namespace CaseAndMeWeb.Models
             var tblUser = builder.Entity<ApplicationUser>();
 
             tblUser.ToTable("tblUser");
-            tblUser.HasOptional(u => u.Estado);
+            tblUser.HasRequired(u => u.Estado)
+                .WithMany(e => e.Users)
+                .HasForeignKey(u => u.IdEstado);
 
             var tblProducto = builder.Entity<Producto>();
 

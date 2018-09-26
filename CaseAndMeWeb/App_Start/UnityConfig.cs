@@ -1,4 +1,6 @@
+using CaseAndMeWeb.Controllers;
 using CaseAndMeWeb.Models;
+using CaseAndMeWeb.Services;
 using CaseAndMeWeb.Services.Repository;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -52,7 +54,7 @@ namespace CaseAndMeWeb
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IPaisRepository, PaisRepository>();
             container.RegisterType<IProductoRepository, ProductoRepository>();
-
+            container.RegisterType<IEmailSender, EmailSender>();
             container.RegisterType<DbContext, ApplicationDbContext>(new PerRequestLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new PerRequestLifetimeManager());
             container.RegisterType<ApplicationUserManager>(new PerRequestLifetimeManager());

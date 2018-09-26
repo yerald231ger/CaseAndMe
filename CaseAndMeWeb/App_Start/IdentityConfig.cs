@@ -11,15 +11,20 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using CaseAndMeWeb.Models;
+using CaseAndMeWeb.Services;
+using Unity.Attributes;
+using Unity;
 
 namespace CaseAndMeWeb
 {
     public class EmailService : IIdentityMessageService
     {
+        [Dependency]
+        public IEmailSender _emailSender { get; set; }
+
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            return _emailSender.SendEmailAsync(message.Destination, message.Subject, message.Body);
         }
     }
 
@@ -76,7 +81,7 @@ namespace CaseAndMeWeb
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
-            manager.EmailService = new EmailService();
+            manager.EmailService = UnityConfig.Container.Resolve<EmailService>();
             manager.SmsService = new SmsService();
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)

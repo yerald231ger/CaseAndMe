@@ -57,6 +57,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Mailjet.Client, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mailjet.Api.1.0.1\lib\net45\Mailjet.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
     </Reference>
@@ -221,12 +224,10 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
-    <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\SubcategoryController.cs" />
     <Compile Include="Controllers\XhrController.cs" />
     <Compile Include="Migrations\201808221655458_inicial.cs" />
@@ -241,21 +242,12 @@
     <Compile Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.Designer.cs">
       <DependentUpon>201809132248289_Campo.Cp.En.ApplicationUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809221814493_Migracion_Eduardo_1809221314.cs" />
-    <Compile Include="Migrations\201809221814493_Migracion_Eduardo_1809221314.Designer.cs">
-      <DependentUpon>201809221814493_Migracion_Eduardo_1809221314.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809230302332_Migracion_1809222202.cs" />
-    <Compile Include="Migrations\201809230302332_Migracion_1809222202.Designer.cs">
-      <DependentUpon>201809230302332_Migracion_1809222202.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809230326228_Migracion_Edaurdo.cs" />
-    <Compile Include="Migrations\201809230326228_Migracion_Edaurdo.Designer.cs">
-      <DependentUpon>201809230326228_Migracion_Edaurdo.cs</DependentUpon>
+    <Compile Include="Migrations\201809182308146_eliminar.el.estadoid.cs" />
+    <Compile Include="Migrations\201809182308146_eliminar.el.estadoid.Designer.cs">
+      <DependentUpon>201809182308146_eliminar.el.estadoid.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
-    <Compile Include="Models\Dispositivo.cs" />
     <Compile Include="Models\FilterViewModels\ResultadoViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -851,20 +843,14 @@
     <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
-    <Content Include="Views\Device\Index.cshtml" />
-    <Content Include="Views\Device\Create.cshtml" />
-    <Content Include="Views\Device\Edit.cshtml" />
-    <Content Include="Views\Item\Details.cshtml" />
-    <Content Include="Views\Material\Index.cshtml" />
-    <Content Include="Views\Material\Create.cshtml" />
-    <Content Include="Views\Material\Edit.cshtml" />
-    <Content Include="Views\Checkout\Deliver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
@@ -884,14 +870,8 @@
     <EmbeddedResource Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.resx">
       <DependentUpon>201809132248289_Campo.Cp.En.ApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809221814493_Migracion_Eduardo_1809221314.resx">
-      <DependentUpon>201809221814493_Migracion_Eduardo_1809221314.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809230302332_Migracion_1809222202.resx">
-      <DependentUpon>201809230302332_Migracion_1809222202.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809230326228_Migracion_Edaurdo.resx">
-      <DependentUpon>201809230326228_Migracion_Edaurdo.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809182308146_eliminar.el.estadoid.resx">
+      <DependentUpon>201809182308146_eliminar.el.estadoid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
