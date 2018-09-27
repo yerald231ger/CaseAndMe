@@ -224,30 +224,21 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\SubcategoryController.cs" />
     <Compile Include="Controllers\XhrController.cs" />
-    <Compile Include="Migrations\201808221655458_inicial.cs" />
-    <Compile Include="Migrations\201808221655458_inicial.Designer.cs">
-      <DependentUpon>201808221655458_inicial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808310002293_estado.opcional.cs" />
-    <Compile Include="Migrations\201808310002293_estado.opcional.Designer.cs">
-      <DependentUpon>201808310002293_estado.opcional.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.cs" />
-    <Compile Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.Designer.cs">
-      <DependentUpon>201809132248289_Campo.Cp.En.ApplicationUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809182308146_eliminar.el.estadoid.cs" />
-    <Compile Include="Migrations\201809182308146_eliminar.el.estadoid.Designer.cs">
-      <DependentUpon>201809182308146_eliminar.el.estadoid.cs</DependentUpon>
+    <Compile Include="Migrations\201809261716357_migracioninicial.cs" />
+    <Compile Include="Migrations\201809261716357_migracioninicial.Designer.cs">
+      <DependentUpon>201809261716357_migracioninicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
+    <Compile Include="Models\Dispositivo.cs" />
     <Compile Include="Models\FilterViewModels\ResultadoViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -843,6 +834,12 @@
     <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Device\Create.cshtml" />
+    <Content Include="Views\Device\Edit.cshtml" />
+    <Content Include="Views\Device\Index.cshtml" />
+    <Content Include="Views\Material\Create.cshtml" />
+    <Content Include="Views\Material\Edit.cshtml" />
+    <Content Include="Views\Material\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -861,17 +858,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808221655458_inicial.resx">
-      <DependentUpon>201808221655458_inicial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808310002293_estado.opcional.resx">
-      <DependentUpon>201808310002293_estado.opcional.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809132248289_Campo.Cp.En.ApplicationUser.resx">
-      <DependentUpon>201809132248289_Campo.Cp.En.ApplicationUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809182308146_eliminar.el.estadoid.resx">
-      <DependentUpon>201809182308146_eliminar.el.estadoid.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809261716357_migracioninicial.resx">
+      <DependentUpon>201809261716357_migracioninicial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

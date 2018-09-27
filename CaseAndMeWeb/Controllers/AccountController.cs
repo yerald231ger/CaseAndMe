@@ -186,6 +186,8 @@ namespace CaseAndMeWeb.Controllers
                     PrimerApellido = model.PrimerApellido,
                     SegundoApellido = model.SegundoApellido,
                     Telefono = model.Telefono,
+                    Direccion = model.Direccion,
+                    Ciudad = model.Ciudad,
                     Colonia = model.Colonia,
                     CP = model.CP,
                     IdEstado = model.Estado,

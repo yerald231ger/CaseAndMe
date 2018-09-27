@@ -25,10 +25,20 @@ namespace CaseAndMeWeb.Controllers
             return View();
         }
 
-        // GET: Item/Details/5
-        public ActionResult Details(int id)
+        // GET: Item/Details/XRL6345
+        public ActionResult Details(string id)
         {
-            return View();
+            Producto producto = context.Productos.Where(x => x.Codigo == id).FirstOrDefault();
+            if(producto != null)
+            {
+                ViewBag.Dispositivos = context.Dispositivo.ToList();
+                ViewBag.Materiales = context.Material.ToList();
+                return View(producto);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: Item/Create
@@ -108,7 +118,7 @@ namespace CaseAndMeWeb.Controllers
                 {
                     Producto.Nombre = p.Nombre;
                     Producto.IdSubCategoria = p.IdSubCategoria;
-                    
+                    Producto.Codigo = p.Codigo;
                     Producto.EsActivo = (bool)p.EsActivo;
                     Producto.Precio = p.Precio;
                     Producto.FechaMod = DateTime.UtcNow;

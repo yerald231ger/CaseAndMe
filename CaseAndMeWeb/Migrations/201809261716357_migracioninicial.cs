@@ -3,7 +3,7 @@ namespace CaseAndMeWeb.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class inicial : DbMigration
+    public partial class migracioninicial : DbMigration
     {
         public override void Up()
         {
@@ -40,6 +40,7 @@ namespace CaseAndMeWeb.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Descripcion = c.String(),
+                        Codigo = c.String(),
                         Precio = c.Single(nullable: false),
                         UrlImagen = c.String(),
                         IdSubCategoria = c.Int(nullable: false),
@@ -60,15 +61,31 @@ namespace CaseAndMeWeb.Migrations
                         Cantidad = c.Int(nullable: false),
                         IdOrdenVenta = c.Int(nullable: false),
                         IdProducto = c.Int(nullable: false),
+                        idDipositivo = c.Int(nullable: false),
+                        FechaMod = c.DateTime(nullable: false),
+                        FechaAlt = c.DateTime(nullable: false),
+                        EsActivo = c.Boolean(nullable: false),
+                        Dispositivo_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.tblDispositivo", t => t.Dispositivo_Id)
+                .ForeignKey("dbo.tblOrdenesVenta", t => t.IdOrdenVenta, cascadeDelete: true)
+                .ForeignKey("dbo.tblProductos", t => t.IdProducto, cascadeDelete: true)
+                .Index(t => t.IdOrdenVenta)
+                .Index(t => t.IdProducto)
+                .Index(t => t.Dispositivo_Id);
+            
+            CreateTable(
+                "dbo.tblDispositivo",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Nombre = c.String(),
                         FechaMod = c.DateTime(nullable: false),
                         FechaAlt = c.DateTime(nullable: false),
                         EsActivo = c.Boolean(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.tblOrdenesVenta", t => t.IdOrdenVenta, cascadeDelete: true)
-                .ForeignKey("dbo.tblProductos", t => t.IdProducto, cascadeDelete: true)
-                .Index(t => t.IdOrdenVenta)
-                .Index(t => t.IdProducto);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.tblOrdenesVenta",
@@ -120,12 +137,14 @@ namespace CaseAndMeWeb.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        Direccion = c.String(),
+                        Nombre = c.String(),
                         PrimerApellido = c.String(),
                         SegundoApellido = c.String(),
                         Colonia = c.String(),
                         Telefono = c.String(),
+                        Direccion = c.String(),
                         Ciudad = c.String(),
+                        CP = c.Int(nullable: false),
                         FechaMod = c.DateTime(nullable: false),
                         FechaAlt = c.DateTime(nullable: false),
                         IdEstado = c.Int(nullable: false),
@@ -228,16 +247,6 @@ namespace CaseAndMeWeb.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.tblRole",
-                c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false, maxLength: 256),
-                    })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
-            CreateTable(
                 "dbo.tblMateriales",
                 c => new
                     {
@@ -248,6 +257,16 @@ namespace CaseAndMeWeb.Migrations
                         EsActivo = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.tblRole",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(nullable: false, maxLength: 256),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
         }
         
@@ -267,6 +286,7 @@ namespace CaseAndMeWeb.Migrations
             DropForeignKey("dbo.tblUserClaim", "UserId", "dbo.tblUser");
             DropForeignKey("dbo.tblOrdenesVenta", "IdMetodoPago", "dbo.tblMetodosPago");
             DropForeignKey("dbo.tblOrdenesVenta", "IdMetodoEnvio", "dbo.tblMetodosEnvio");
+            DropForeignKey("dbo.tblOrdenesVentaDetalle", "Dispositivo_Id", "dbo.tblDispositivo");
             DropIndex("dbo.tblRole", "RoleNameIndex");
             DropIndex("dbo.tblUserRole", new[] { "RoleId" });
             DropIndex("dbo.tblUserRole", new[] { "UserId" });
@@ -279,12 +299,13 @@ namespace CaseAndMeWeb.Migrations
             DropIndex("dbo.tblOrdenesVenta", new[] { "IdUser" });
             DropIndex("dbo.tblOrdenesVenta", new[] { "IdMetodoEnvio" });
             DropIndex("dbo.tblOrdenesVenta", new[] { "IdMetodoPago" });
+            DropIndex("dbo.tblOrdenesVentaDetalle", new[] { "Dispositivo_Id" });
             DropIndex("dbo.tblOrdenesVentaDetalle", new[] { "IdProducto" });
             DropIndex("dbo.tblOrdenesVentaDetalle", new[] { "IdOrdenVenta" });
             DropIndex("dbo.tblProductos", new[] { "IdSubCategoria" });
             DropIndex("dbo.tblSubCategorias", new[] { "IdCategoria" });
-            DropTable("dbo.tblMateriales");
             DropTable("dbo.tblRole");
+            DropTable("dbo.tblMateriales");
             DropTable("dbo.tblUserRole");
             DropTable("dbo.tblUserLogin");
             DropTable("dbo.tblPaises");
@@ -295,6 +316,7 @@ namespace CaseAndMeWeb.Migrations
             DropTable("dbo.tblMetodosPago");
             DropTable("dbo.tblMetodosEnvio");
             DropTable("dbo.tblOrdenesVenta");
+            DropTable("dbo.tblDispositivo");
             DropTable("dbo.tblOrdenesVentaDetalle");
             DropTable("dbo.tblProductos");
             DropTable("dbo.tblSubCategorias");

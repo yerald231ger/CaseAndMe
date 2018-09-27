@@ -39,20 +39,39 @@
             <div class="title"><span>Categorias</span></div>
             <nav class="sidebar-nav">
                 <ul class="metismenu vertical-menu">
-                    <li class="active">
-                        <a class="has-arrow" href="#CollapseCases" aria-expanded="true" data-toggle="collapse">
-                            <span class="fa fa-fw fa-file"></span>
-                            Cases
-                        </a>
-                        <ul id="CollapseCases" aria-expanded="true" class="collapse in">
-                            <li><a href="about.html">Abstracto</a></li>
-                            <li><a href="blog.html">Animales</a></li>
+                    @foreach (var c in ViewBag.pCategorias)
+                    {
 
-                        </ul>
-                    </li>
-                    <li><a href="#" aria-expanded="false"><span class=""></span> Vasos</a></li>
-                    <li><a href="#" aria-expanded="false"><span class=""></span> Termos</a></li>
-                    <li><a href="#" aria-expanded="false"><span class="fa fa-coffee"></span> Tarros</a></li>
+                        if (c.SubCategorias != null)
+                        {
+                            <li>
+                                <a class="has-arrow" href="#collapse_@c.Id" aria-expanded="true" data-toggle="collapse">
+                                    @c.Nombre
+                                </a>
+                                <ul id="collapse_@c.Id" aria-expanded="true" class="collapse in">
+                                    @foreach (var s in c.SubCategorias)
+                                    {
+                                        <li><a href="~Item/BySubCategory/@s.Id">@s.Nombre</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                    }
+                    @*<li class="active">
+                            <a class="has-arrow" href="#CollapseCases" aria-expanded="true" data-toggle="collapse">
+                                <span class="fa fa-fw fa-file"></span>
+                                Cases
+                            </a>
+                            <ul id="CollapseCases" aria-expanded="true" class="collapse in">
+                                <li><a href="about.html">Abstracto</a></li>
+                                <li><a href="blog.html">Animales</a></li>
+
+                            </ul>
+                        </li>
+                        <li><a href="#" aria-expanded="false"><span class=""></span> Vasos</a></li>
+                        <li><a href="#" aria-expanded="false"><span class=""></span> Termos</a></li>
+                        <li><a href="#" aria-expanded="false"><span class="fa fa-coffee"></span> Tarros</a></li>*@
                 </ul>
             </nav>
 
@@ -68,14 +87,14 @@
                     <div class="box-product-outer">
                         <div class="box-product">
                             <div class="img-wrapper">
-                                <a href="detail.html">
+                                <a href="~/Item/Details/@p.Codigo">
                                     <img alt="Product" src="~/images/items/@p.UrlImagen">
                                 </a>
                                 <div class="option">
-                                    <a href="javascript:addToCart(@p.Id, '@p.Nombre', @p.Precio, '@p.UrlImagen');" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                    <a href="javascript:openItemModal(@p.Id, '@p.Nombre', @p.Precio, '@p.UrlImagen');" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
                                 </div>
                             </div>
-                            <h6><a href="detail.html">@p.Nombre</a></h6>
+                            <h6><a href="~/Item/Details/@p.Codigo">@p.Nombre</a></h6>
                             <div class="price">
                                 <div>$@p.Precio </div>
                             </div>
@@ -97,17 +116,17 @@
                     <div class="box-product-outer">
                         <div class="box-product">
                             <div class="img-wrapper">
-                                <a href="detail.html">
+                                <a href="~/Item/Details/@p.Codigo">
                                     <img alt="Product" src="~/images/items/@p.UrlImagen">
                                 </a>
                                 <div class="tags">
                                     <span class="label-tags"><span class="label label-danger arrowed">Nuevo!</span></span>
                                 </div>
                                 <div class="option">
-                                    <a href="javascript:addToCart(@p.Id, '@p.Nombre', @p.Precio, '@p.UrlImagen');" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                    <a href="javascript:openItemModal(@p.Id, '@p.Nombre', @p.Precio, '@p.UrlImagen');" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
                                 </div>
                             </div>
-                            <h6><a href="detail.html">@p.Nombre</a></h6>
+                            <h6><a href="~/Item/Details/@p.Codigo">@p.Nombre</a></h6>
                             <div class="price">
                                 <div>$@p.Precio </div>
                             </div>
@@ -121,3 +140,92 @@
         </div>
     </div>
 </div>
+
+@*Detail item modal*@
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <img id='imgDetailModal' src=""  style="width: 100%;"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="control-label h1 " id="lblDetailModalName"></label>
+                                        <input type="hidden" id="txtItemModalSelectedId" value="" />
+                                        <input type="hidden" id="txtItemModalSelectedImg" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="control-label h2 " id="lblDetailModalPrice"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("ddlDetailModalDevice", new SelectList(ViewBag.Dispositivos, "id", "Nombre"), "Modelo del dispositivo", new { @class = "form-control combobox-item" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("ddlDetailModalMaterial", new SelectList(ViewBag.Materiales, "id", "Nombre"), "Material a escoger", new { @class = "form-control combobox-item margin-bottom-30" })
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="col-md-12 ">
+                                        <input id="touchspin_Modal_Quantity" type="text" value="1" name="touchspin_Modal_Quantity" data-bts-button-down-class="btn btn-default" data-bts-button-up-class="btn btn-default">
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="col-md-12 ">
+                                        <input type="submit" onclick="addToCartFromModal()" value="Agregar a Carrito" class="btn  btn-info pull-right font-size-20" style="width:100%"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+            $('#touchspin_Modal_Quantity').TouchSpin({
+                verticalbuttons: true,
+                min: 1,
+                max: 1000,
+                verticalup: '<i class="glyphicon glyphicon-chevron-up"></i>',
+                verticaldown: '<i class="glyphicon glyphicon-chevron-down"></i>'
+            });
+
+            var jsonDevice = @Html.Raw(Json.Encode(ViewBag.Dispositivos));
+            var jsonMaterial = @Html.Raw(Json.Encode(ViewBag.Materiales));
+            if (jsonDevice != null) {
+                sessionStorage.setItem("jsonDevice", JSON.stringify(jsonDevice));
+            }
+
+            if (jsonMaterial != null) {
+                sessionStorage.setItem("jsonMaterial", JSON.stringify(jsonMaterial));
+            }
+        });
+    </script>
+}

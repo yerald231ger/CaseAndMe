@@ -77,6 +77,10 @@ namespace CaseAndMeWeb.Models
         public string SegundoApellido { get; set; }
 
         [Required]
+        [Display(Name = "Dirección")]
+        public string Direccion { get; set; }
+
+        [Required]
         [Display(Name = "Colonia")]
         public string Colonia { get; set; }
 

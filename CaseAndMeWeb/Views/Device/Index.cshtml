@@ -4,53 +4,48 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+
 <div class="container m-t-3">
     <div class="row">
         <div class="col-md-12">
 
-            <div class="title"><span>Productos</span></div>
+            <div class="title"><span>Dispositivo</span></div>
             <p style="text-align:right; margin-bottom:10px;">
-                <a href="@Url.Action("Create", "Item")" class="btn btn-info">
+                <a href="@Url.Action("Create", "Device")" class="btn btn-info">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    Nuevo Producto
+                    Nuevo Dispositivo
                 </a>
             </p>
 
-            <table id="tbProducto" class="display table table-bordered" style="width:100%">
+            <table id="tbDispositivo" class="display table table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th></th>
                         <th>Nombre</th>
-                        <th>C&oacute;digo</th>
-                        <th>Categor&iacute;a</th>
-                        <th>Subcategor&iacute;a</th>
                         <th>Estatus</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var p in ViewBag.Productos)
+                    @foreach (var p in ViewBag.Dispositivos)
                     {
-                    <tr>
-                        <td></td>
-                        <td>@p.Nombre</td>
-                        <td>@p.Codigo</td>
-                        <td>@p.SubCategoria.Categoria.Nombre</td>
-                        <td>@p.SubCategoria.Nombre</td>
-                        <td>
-                            @if (p.EsActivo)
-                            {
-                                <img src="~/images/ic_activo.svg" onerror="this.src='~/images/ic_activo.png'" style="width:100%; max-width:20px">
-                            }
-                            else
-                            {
-                                <img src="~/images/ic_inactivo.svg" onerror="this.src='~/images/ic_inactivo.png'" style="width:100%; max-width:20px">
-                            }
-                        </td>
-                        <td>
-                            <a href="~/Item/Edit/@p.Id">Editar</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td></td>
+                            <td>@p.Nombre</td>
+                            <td>
+                                @if (p.EsActivo)
+                                {
+                                    <img src="~/images/ic_activo.svg" onerror="this.src='~/images/ic_activo.png'" style="width:100%; max-width:20px">
+                                }
+                                else
+                                {
+                                    <img src="~/images/ic_inactivo.svg" onerror="this.src='~/images/ic_inactivo.png'" style="width:100%; max-width:20px">
+                                }
+                            </td>
+                            <td>
+                                <a href="~/Device/Edit/@p.Id">Editar</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
 
@@ -58,10 +53,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 @Styles.Render("~/Content/datatables")
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -70,11 +61,12 @@
     <script>
 
         $(document).ready(function () {
-            var t = $('#tbProducto').DataTable({
+            var t = $('#tbDispositivo').DataTable({
                 responsive: true,
                 "lengthChange": false,
                 "bFilter": false,
                 "columnDefs": [{
+                    "searchable": false,
                     "orderable": false,
                     "targets": 0
                 }],
@@ -90,5 +82,4 @@
         });
     </script>
 }
-
 

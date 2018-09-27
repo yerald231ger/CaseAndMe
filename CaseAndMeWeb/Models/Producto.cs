@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace CaseAndMeWeb.Models
 {
     public class Producto : Comun<int>
     {
         public string Descripcion { get; set; }
+
+        public string Codigo { get; set; }
 
         [RegularExpression("[0-9]+(\\.[0-9][0-9]?)?", ErrorMessage ="Solo se permiten decimales")]
         public float Precio { get; set; }
