@@ -140,32 +140,35 @@ namespace CaseAndMeWeb.Controllers
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
+        { 
+            ViewBag.Paises = SelectPaises(1);
+            ViewBag.Estados = SelectEstados(1, 0);
+            return View();
+        }
+
+        private List<SelectListItem> SelectPaises(int defaultSelect = 0)
         {
-            var paisDefault = 1;
-            var paises = _paisRepository.GetAll();
-            var estados = _paisRepository.GetEstados(paisDefault);
+            var paises = _paisRepository.GetAll().Cast<Comun<int>>().ToList();
+            return Select(paises, defaultSelect);
+        }
 
-            var listItemsPaises = new List<SelectListItem>();
-            var listItemsEstados = new List<SelectListItem>();
-
-            foreach (var p in paises)
-                listItemsPaises.Add(new SelectListItem
+        private List<SelectListItem> Select(List<Comun<int>> list, int defaultSelect = 0)
+        {
+            var listItems = new List<SelectListItem>();
+            foreach (var p in list)
+                listItems.Add(new SelectListItem
                 {
                     Text = p.Nombre,
                     Value = p.Id.ToString(),
-                    Selected = p.Id == paisDefault
+                    Selected = p.Id == defaultSelect
                 });
+            return listItems;
+        }
 
-            foreach (var p in estados)
-                listItemsEstados.Add(new SelectListItem
-                {
-                    Text = p.Nombre,
-                    Value = p.Id.ToString()
-                });
-
-            ViewBag.Paises = listItemsPaises;
-            ViewBag.Estados = listItemsEstados;
-            return View();
+        private List<SelectListItem> SelectEstados(int idPais = 1, int defaultSelect = 0)
+        {
+            var estados = _paisRepository.GetEstados(idPais).Cast<Comun<int>>().ToList();
+            return Select(estados, defaultSelect);
         }
 
         //
@@ -195,7 +198,9 @@ namespace CaseAndMeWeb.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    UserManager.AddToRole(user.Id, "Admin");
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -208,6 +213,9 @@ namespace CaseAndMeWeb.Controllers
                 AddErrors(result);
             }
 
+
+            ViewBag.Paises = SelectPaises(model.Pais);
+            ViewBag.Estados = SelectEstados(model.Estado, 0);
             // If we got this far, something failed, redisplay form
             return View(model);
         }
