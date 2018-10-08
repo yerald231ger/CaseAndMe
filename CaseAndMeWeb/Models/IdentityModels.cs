@@ -131,6 +131,10 @@ namespace CaseAndMeWeb.Models
                 .WithMany(p => p.OrdenesVentaDetalle)
                 .HasForeignKey(ovd => ovd.IdProducto);
 
+            tblOrdenVentaDetalle.HasRequired(ovd => ovd.Dispositivo)
+                .WithMany(p => p.OrdenesVentaDetalle)
+                .HasForeignKey(ovd => ovd.IdDipositivo);
+
             var tblCiudad = builder.Entity<Ciudad>();
             tblCiudad.ToTable("tblCiudades");
 

@@ -240,6 +240,10 @@
     <Compile Include="Migrations\201809302011035_Migracion_Eduardo.Designer.cs">
       <DependentUpon>201809302011035_Migracion_Eduardo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810082314149_se_quita_el_campo_disositivo_id.cs" />
+    <Compile Include="Migrations\201810082314149_se_quita_el_campo_disositivo_id.Designer.cs">
+      <DependentUpon>201810082314149_se_quita_el_campo_disositivo_id.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\Dispositivo.cs" />
@@ -871,6 +875,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809302011035_Migracion_Eduardo.resx">
       <DependentUpon>201809302011035_Migracion_Eduardo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810082314149_se_quita_el_campo_disositivo_id.resx">
+      <DependentUpon>201810082314149_se_quita_el_campo_disositivo_id.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

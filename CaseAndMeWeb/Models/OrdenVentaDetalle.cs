@@ -12,7 +12,7 @@ namespace CaseAndMeWeb.Models
         public int IdProducto { get; set; }
         public Producto Producto { get; set; }
 
-        public int idDipositivo { get; set; }
+        public int IdDipositivo { get; set; }
         public Dispositivo Dispositivo { get; set; }
     }
 }
