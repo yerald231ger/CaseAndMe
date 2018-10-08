@@ -25,7 +25,8 @@ namespace CaseAndMeWeb
                       "~/Scripts/owl-carousel.js",
                       "~/Scripts/jquery-confirm.js",
                       "~/Scripts/jquery.bootstrap-touchspin.js",
-                      "~/Scripts/site.js"));
+                      "~/Scripts/site.js",
+                      "~/Scripts/chartjs/Chart.bundle.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
