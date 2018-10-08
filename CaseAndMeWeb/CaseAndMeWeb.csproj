@@ -236,6 +236,10 @@
     <Compile Include="Migrations\201809261716357_migracioninicial.Designer.cs">
       <DependentUpon>201809261716357_migracioninicial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809302011035_Migracion_Eduardo.cs" />
+    <Compile Include="Migrations\201809302011035_Migracion_Eduardo.Designer.cs">
+      <DependentUpon>201809302011035_Migracion_Eduardo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\Dispositivo.cs" />
@@ -840,9 +844,11 @@
     <Content Include="Views\Material\Create.cshtml" />
     <Content Include="Views\Material\Edit.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
+    <Content Include="Views\Checkout\Deliver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -860,6 +866,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201809261716357_migracioninicial.resx">
       <DependentUpon>201809261716357_migracioninicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809302011035_Migracion_Eduardo.resx">
+      <DependentUpon>201809302011035_Migracion_Eduardo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
