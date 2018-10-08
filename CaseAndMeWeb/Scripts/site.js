@@ -68,6 +68,15 @@ function addToCartFromModal() {
     var M = parseInt($("#ddlDetailModalMaterial").val());
     var Q = parseInt($("#touchspin_Modal_Quantity").val());
 
+    if (isNaN(D)) {
+        alert("Seleccione un Modelo de Dispositivo");
+        return;
+    }
+    if (isNaN(M)) {
+        alert("Seleccione un Material");
+        return;
+    }
+
     addToCartList(P, name, price, img, D, M, Q);
 }
 
@@ -158,7 +167,7 @@ function updateComboboxCartPanel() {
                 var divMedia = $('<div class="media"></div>');
                 var divMediaLeft = $('<div class="media-left"><a href="detail.html"><img class="media-object img-thumbnail" src="/images/Items/' + jsonOVD[j].Img + '" width="50" alt="product"></a></div >');
                 var divMediaBody = $('<div class="media-body"><a href="detail.html" class="media-heading">' + jsonOVD[j].Name + '</a><div>x (' + jsonOVD[j].Q + ')   $' + (jsonOVD[j].Price * jsonOVD[j].Q).toFixed(2) + '</div></div>');
-                var divMediaRight = $('<div class="media-right"><a href="#" onclick="removeItemFromJSON(' + jsonOVD[j].P + ', ' + jsonOVD[j].D + ', ' + jsonOVD[j].M +'); updateComboboxCartPanel(); return false;" data-toggle="tooltip" title="" data-original-title="Remove"><i class="fa fa-remove"></i></a></div>');
+                var divMediaRight = $('<div class="media-right"><a href="#" onclick="removeItemFromJSON(' + jsonOVD[j].P + ', ' + jsonOVD[j].D + ', ' + jsonOVD[j].M + '); updateComboboxCartPanel(); return false;" data-toggle="tooltip" title="" data-original-title="Remove"><i class="fa fa-remove"></i></a></div>');
                 divMedia.append(divMediaLeft).append(divMediaBody).append(divMediaRight);
                 $('#ComboboxCartPanel').append(divMedia);
                 totalArticulos = totalArticulos + jsonOVD[j].Q;
@@ -181,16 +190,16 @@ function removeItemFromJSON(P, D, M) {
     var JSONoList = JSON.parse(oList)
 
     for (var i = 0; i < JSONoList.length; i++) {
-        
-            var jsonOVD = JSONoList[i].OVD;
-            if (jsonOVD != null) {
-                for (var j = 0; j < jsonOVD.length; j++) {
-                    if (jsonOVD[j].P == P && jsonOVD[j].D == D && jsonOVD[j].M == M) {
-                        jsonOVD.splice(j, 1);
-                    }
+
+        var jsonOVD = JSONoList[i].OVD;
+        if (jsonOVD != null) {
+            for (var j = 0; j < jsonOVD.length; j++) {
+                if (jsonOVD[j].P == P && jsonOVD[j].D == D && jsonOVD[j].M == M) {
+                    jsonOVD.splice(j, 1);
                 }
             }
-        
+        }
+
     }
     sessionStorage.setItem('oList', JSON.stringify(JSONoList));
 }
@@ -221,10 +230,10 @@ function updateGridCart() {
 
                 var tdImg = $('<td class="img-cart"><a href="detail.html"><img id=' + imgid + ' alt="Product" src="/images/Items/' + JsonOVD[j].Img + '" class="img-thumbnail"></a></td>');
                 var tdText = $('<td><p id=' + pid + '><a href="detail.html" class="d-block">' + JsonOVD[j].Name + '</a></p></td>');
-                var tdDisp = $("<td>" + Disp.Nombre +"</td>");
-                var tdMat = $("<td>" + Mat.Nombre +"</td>");
+                var tdDisp = $("<td>" + Disp.Nombre + "</td>");
+                var tdMat = $("<td>" + Mat.Nombre + "</td>");
                 var tdCant = $('<td class="input-qty"><input jrow="' + j + '" id="' + cantid + '" type="text" value="' + JsonOVD[j].Q + '" name="' + cantid + '" data-bts-button-down-class="btn btn-default" data-bts-button-up-class="btn btn-default" ></td>');
-                var tdPrecio = $('<td class="unit">$' + JsonOVD[j].Price.toFixed(2) +'</td>');
+                var tdPrecio = $('<td class="unit">$' + JsonOVD[j].Price.toFixed(2) + '</td>');
                 var tdSubT = $('<td id="tdsub_' + j.toString() + '" class="sub">$' + (JsonOVD[j].Q * JsonOVD[j].Price).toFixed(2) + '</td>');
                 var tdDel = $('<td class="action"><a href="#" onclick="return removeItemFromGridCart(' + j + ');" class="text-danger" data-toggle="tooltip" data-placement="top" data-original-title="Remove"><i class="fa fa-trash-o"></i></a></td>');
 
@@ -241,7 +250,7 @@ function updateGridCart() {
                 });
             }
         }
-        
+
     }
     $('input[name^="cant_"]').TouchSpin({
         verticalbuttons: true,
@@ -294,7 +303,7 @@ function removeItemFromGridCart(i) {
 
         return false;
     }
-    
+
 
 }
 
@@ -315,6 +324,7 @@ function updateItemsQuantityCart(jrow, cant) {
     updateComboboxCartPanel();
 }
 
+//Obtiene parametros de dispositovo guardados en session 
 function GetDeviceFromSession(D) {
     var jsonDevice = JSON.parse(sessionStorage.getItem("jsonDevice"));
 
@@ -336,4 +346,36 @@ function GetMaterialFromSession(M) {
             }
         }
     }
+}
+
+function processDeliver() {
+
+    var nombre = $("#Nombre").val();
+    var apellido = $("#PrimerApellido").val();
+    var direccion = $("#Direccion").val();
+    var telefono = $("#Telefono").val();
+    var colonia = $("#Colonia").val();
+    var pais = $("#Paises").val();
+    var estado = $("#Estados").val();
+    var ciudad = $("#Ciudad").val();
+    var codigoPostal = $("#CP").val();
+    var correo = $("#Email").val();
+
+    var deliver = { "Nombre": nombre, "Apellido": apellido, "Direccion": direccion, "Telefono": telefono, "Colonia": colonia, "Pais": pais, "Estado": estado, "Ciudad": ciudad, "CP": codigoPostal, "Email": correo };
+
+    var oList = sessionStorage.getItem("oList");
+
+    if (oList != null) {
+        JSONoList = JSON.parse(oList);
+        for (var i = 0; i < JSONoList.length; i++) {
+            JSONoList[i].D = deliver;
+        }
+        sessionStorage.setItem('oList', JSON.stringify(JSONoList));
+        return true;
+    }
+    else {
+
+        return false;
+    }
+
 }
