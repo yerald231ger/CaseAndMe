@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CaseAndMeWeb.Models.DashboardViewModels;
+using CaseAndMeWeb.Models.ComponentsViewModel;
+using CaseAndMeWeb.Services.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +11,45 @@ namespace CaseAndMeWeb.Controllers
 {
     public class DashboardController : Controller
     {
+        public IOrdenVentaRepository OrdenVentaRepository { get; }
+
+        public DashboardController(IOrdenVentaRepository ordenVentaRepository)
+        {
+            OrdenVentaRepository = ordenVentaRepository;
+        }
+
         // GET: Dashboard
         public ActionResult Index()
+        {            
+            return View(new IndexViewModel {
+                TableViewModel = GetTableOrdenVenta()
+            });
+        }
+
+        private TableViewModel GetTableOrdenVenta()
         {
-            return View();
+            var ordenesVenta = new List<OrdenVentaViewModel>();
+            var table = new TableViewModelBuilder<OrdenVentaViewModel>();
+
+            foreach (var ordenVenta in OrdenVentaRepository.TopOrdenesDeVenta(5))
+                ordenesVenta.Add(new OrdenVentaViewModel
+                {
+                    Folio = ordenVenta.Folio,
+                    Fecha = ordenVenta.FechaAlt.ToString("dd MMM yyyy"),
+                    MetodoEnvio = ordenVenta.MetodoEnvio.Nombre,
+                    MetodoPago = ordenVenta.MetodoPago.Nombre
+                });
+
+            table.AddCaption("Ordenes de Venta")
+                .AddCount(true)
+                .AddHeader(ov => ov.Fecha)
+                .AddHeader(ov => ov.Folio)
+                .AddHeader(ov => ov.MetodoPago)
+                .DisplayName("Metodo de pago")
+                .AddHeader(ov => ov.MetodoEnvio)
+                .DisplayName("Metodo de Envio");
+
+            return table.DataSource(ordenesVenta);
         }
 
         // GET: Dashboard/Details/5

@@ -54,6 +54,7 @@ namespace CaseAndMeWeb
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IPaisRepository, PaisRepository>();
             container.RegisterType<IProductoRepository, ProductoRepository>();
+            container.RegisterType<IOrdenVentaRepository, OrdenVentaRepository>();
             container.RegisterType<IEmailSender, EmailSender>();
             container.RegisterType<DbContext, ApplicationDbContext>(new PerRequestLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new PerRequestLifetimeManager());

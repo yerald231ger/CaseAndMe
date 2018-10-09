@@ -246,6 +246,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
+    <Compile Include="Models\ComponentsViewModel\TableViewModel.cs" />
+    <Compile Include="Models\DashboardViewModels\IndexViewModel.cs" />
     <Compile Include="Models\Dispositivo.cs" />
     <Compile Include="Models\FilterViewModels\ResultadoViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -272,6 +274,7 @@
     <Compile Include="Services\IEmailSender.cs" />
     <Compile Include="Services\ISmsSender.cs" />
     <Compile Include="Services\MessageServices.cs" />
+    <Compile Include="Services\Repository\IOrdenVentaRepository.cs" />
     <Compile Include="Services\Repository\IPaisRepository.cs" />
     <Compile Include="Services\Repository\IProductoRepository.cs" />
     <Compile Include="Services\Repository\IRepository.cs" />
@@ -851,6 +854,7 @@
     <Content Include="Views\Material\Edit.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Checkout\Deliver.cshtml" />
+    <Content Include="Views\Shared\Components\_Table.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
