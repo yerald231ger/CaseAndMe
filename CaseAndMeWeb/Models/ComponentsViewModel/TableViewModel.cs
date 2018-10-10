@@ -62,6 +62,27 @@ namespace CaseAndMeWeb.Models.ComponentsViewModel
             return this;
         }
 
+        public TableViewModelBuilder<TModel> AddBody(string body)
+        {
+            Body = body;
+            IsPannel = true;
+            return this;
+        }
+
+        public TableViewModelBuilder<TModel> AddFooter(string footer)
+        {
+            Footer = footer;
+            IsPannel = true;
+            return this;
+        }
+
+        public TableViewModelBuilder<TModel> AddTitle(string title)
+        {
+            Title = title;
+            IsPannel = true;
+            return this;
+        }
+
         public TableViewModelBuilder<TModel> AddCount(bool count)
         {
             Count = count;
@@ -83,6 +104,10 @@ namespace CaseAndMeWeb.Models.ComponentsViewModel
 
     public class TableViewModel
     {
+        public bool IsPannel { get; protected set; }
+        public string Title { get; protected set; }
+        public string Footer { get; protected set; }
+        public string Body { get; protected set; }
         public bool Count { get; protected set; }
         public string Caption { get; protected set; }
         public List<string> Headers { get; protected set; }

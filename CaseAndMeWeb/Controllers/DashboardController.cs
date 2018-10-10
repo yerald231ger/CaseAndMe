@@ -26,10 +26,16 @@ namespace CaseAndMeWeb.Controllers
             });
         }
 
+        private TableViewModel GetsTableUltimosUsuarios()
+        {
+            return null;
+        }
+
         private TableViewModel GetTableOrdenVenta()
         {
             var ordenesVenta = new List<OrdenVentaViewModel>();
             var table = new TableViewModelBuilder<OrdenVentaViewModel>();
+            var ordenesVentaTotal = OrdenVentaRepository.Count();
 
             foreach (var ordenVenta in OrdenVentaRepository.TopOrdenesDeVenta(5))
                 ordenesVenta.Add(new OrdenVentaViewModel
@@ -40,7 +46,10 @@ namespace CaseAndMeWeb.Controllers
                     MetodoPago = ordenVenta.MetodoPago.Nombre
                 });
 
-            table.AddCaption("Ordenes de Venta")
+            table
+                .AddTitle("Ordenes de Venta")
+                .AddBody("Ultimas 5 ordnes de venta")
+                .AddFooter($"Total de ordenes de venta {ordenesVentaTotal}")
                 .AddCount(true)
                 .AddHeader(ov => ov.Fecha)
                 .AddHeader(ov => ov.Folio)
