@@ -12,13 +12,14 @@
 </style>
 
 <div class="container m-t-3">
+    <h1 class="page-header">Dashboard</h1>
     <div class="row">
         @*<canvas id="myChart" width="200" height="200"></canvas>*@
         <div class="col-md-6">
-            @Html.Partial("Components/_Table", Model.TableViewModel)
+            @Html.Partial("Components/_Table", Model.TopOrdenesVenta)
         </div>
         <div class="col-md-6">
-            @Html.Partial("Components/_Table", Model.TableViewModel)
+            @Html.Partial("Components/_Table", Model.TopUsuarios)
         </div>
     </div>
 </div>

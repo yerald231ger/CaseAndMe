@@ -8,6 +8,7 @@ namespace CaseAndMeWeb.Models.DashboardViewModels
 {
     public class IndexViewModel
     {
-        public TableViewModel TableViewModel { get; set; }
+        public TableViewModel TopOrdenesVenta { get; set; }
+        public TableViewModel TopUsuarios { get; set; }
     }
 }

@@ -8,6 +8,7 @@ namespace CaseAndMeWeb.Services.Repository
     public interface IRepository<TEntity, TKey> where TEntity : Base<TKey>
     {
         ICollection<TEntity> GetAll();
+        ICollection<TEntity> GetTop(int top);
         void Update(TEntity entity);
         int UpdateNow(TEntity entity);
         int Count();
@@ -45,6 +46,11 @@ namespace CaseAndMeWeb.Services.Repository
         public int Count()
         {
             return _dbSet.Count();
+        }
+
+        public ICollection<TEntity> GetTop(int top)
+        {
+            return _dbSet.Take(top).ToList();
         }
     }
 }

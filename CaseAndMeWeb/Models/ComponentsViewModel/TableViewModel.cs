@@ -17,6 +17,14 @@ namespace CaseAndMeWeb.Models.ComponentsViewModel
         public string MetodoEnvio { get; set; }
     }
 
+    public class UltimosUsuarioRegistradosViewModel
+    {
+        public string Nombre { get; set; }
+        public string Email { get; set; }
+        public string Telefono { get; set; }
+        public string Fecha { get; set; }
+    }
+
     public class TableViewModelBuilder<TModel> : TableViewModel
     {
         public Dictionary<string, string> displayNames = new Dictionary<string, string>();

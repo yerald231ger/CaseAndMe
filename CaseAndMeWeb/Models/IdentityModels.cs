@@ -28,6 +28,7 @@ namespace CaseAndMeWeb.Models
         public Estado Estado { get; set; }
 
         public virtual ICollection<OrdenVenta> OrdenesVenta { get; set; }
+        public DateTime? FechaNacimiento { get; private set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -36,6 +37,70 @@ namespace CaseAndMeWeb.Models
             // Add custom user claims here
 
             return userIdentity;
+        }
+
+        public override string ToString()
+        {
+            return $"{Nombre} {PrimerApellido} {SegundoApellido}";
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="format">
+        /// El tipo de formato a desplegar
+        /// </param>
+        /// <returns>Una cadena formateada</returns>
+        ///    s - "Gerardo"
+        ///    l   - "Gerardo Sanchez"
+        ///    f   - "Gerardo Sanchez Hernandez"
+        ///    n   - "Gerardo"
+        ///    pa   - "Sanchez"
+        ///    sA   - "Hernandez"
+        ///    y   - "29" years
+        ///    db   - "16 feb 1989"
+        ///    [D]   - "16 feb 1989"
+        public string ToString(string format)
+        {
+            switch (format)
+            {
+                case "s":
+                    format = Nombre;
+                    break;
+
+                case "l":
+                    format = $"{Nombre} {PrimerApellido}";
+                    break;
+
+                case "f":
+                    format = ToString();
+                    break;
+                default:
+                    if (format.Contains("["))
+                    {
+                        var start = format.IndexOf('[') + 1;
+                        var end = format.IndexOf(']');
+                        var dateFormat = format.Substring(start, end - start);
+                        format = format.Replace($"[{dateFormat}]", FechaNacimiento.Value.ToString(dateFormat));
+                    }
+
+                    format = format.Replace("$n", Nombre);
+                    format = format.Replace("$pa", PrimerApellido);
+                    format = format.Replace("$sa", SegundoApellido);
+
+                    format = format.Replace("$y", CalcularEdad().ToString());
+
+                    format = format.Replace("$db", FechaNacimiento.Value.ToString("dd MMM yy"));
+
+                    break;
+            }
+
+            return format;
+        }
+
+        private int CalcularEdad()
+        {
+            return DateTime.Today.AddTicks(-FechaNacimiento.Value.Ticks).Year - 1;
         }
     }
 
@@ -79,6 +144,9 @@ namespace CaseAndMeWeb.Models
             var tblUser = builder.Entity<ApplicationUser>();
 
             tblUser.ToTable("tblUser");
+            tblUser.Property(u => u.FechaNacimiento)
+                .HasColumnType("Date");
+
             tblUser.HasRequired(u => u.Estado)
                 .WithMany(e => e.Users)
                 .HasForeignKey(u => u.IdEstado);

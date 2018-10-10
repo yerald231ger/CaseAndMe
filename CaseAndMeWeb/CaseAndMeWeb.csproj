@@ -244,6 +244,14 @@
     <Compile Include="Migrations\201810082314149_se_quita_el_campo_disositivo_id.Designer.cs">
       <DependentUpon>201810082314149_se_quita_el_campo_disositivo_id.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810101553259_agreagr fecha de nacmiento.cs" />
+    <Compile Include="Migrations\201810101553259_agreagr fecha de nacmiento.Designer.cs">
+      <DependentUpon>201810101553259_agreagr fecha de nacmiento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810101558140_cambio de tipo de dato.cs" />
+    <Compile Include="Migrations\201810101558140_cambio de tipo de dato.Designer.cs">
+      <DependentUpon>201810101558140_cambio de tipo de dato.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\ComponentsViewModel\TableViewModel.cs" />
@@ -278,6 +286,7 @@
     <Compile Include="Services\Repository\IPaisRepository.cs" />
     <Compile Include="Services\Repository\IProductoRepository.cs" />
     <Compile Include="Services\Repository\IRepository.cs" />
+    <Compile Include="Services\Repository\IUserRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -882,6 +891,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810082314149_se_quita_el_campo_disositivo_id.resx">
       <DependentUpon>201810082314149_se_quita_el_campo_disositivo_id.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810101553259_agreagr fecha de nacmiento.resx">
+      <DependentUpon>201810101553259_agreagr fecha de nacmiento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810101558140_cambio de tipo de dato.resx">
+      <DependentUpon>201810101558140_cambio de tipo de dato.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
