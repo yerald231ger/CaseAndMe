@@ -8,8 +8,10 @@ namespace CaseAndMeWeb.Services.Repository
     public interface IRepository<TEntity, TKey> where TEntity : Base<TKey>
     {
         ICollection<TEntity> GetAll();
+        ICollection<TEntity> GetTop(int top);
         void Update(TEntity entity);
         int UpdateNow(TEntity entity);
+        int Count();
     }
 
     public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : Base<TKey>
@@ -20,6 +22,7 @@ namespace CaseAndMeWeb.Services.Repository
         public Repository(DbContext context)
         {
             _context = context;
+            _dbSet = context.Set<TEntity>();
         }
 
         public ICollection<TEntity> GetAll()
@@ -40,5 +43,14 @@ namespace CaseAndMeWeb.Services.Repository
             return _context.SaveChanges();
         }
 
+        public int Count()
+        {
+            return _dbSet.Count();
+        }
+
+        public ICollection<TEntity> GetTop(int top)
+        {
+            return _dbSet.Take(top).ToList();
+        }
     }
 }

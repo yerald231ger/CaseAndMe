@@ -1,0 +1,96 @@
+﻿@model CaseAndMeWeb.Models.ComponentsViewModel.TableViewModel
+
+@if (Model.IsPannel)
+{
+    <div class="dashboard-table panel panel-default">
+        <!-- Default panel contents -->
+
+        @if (!string.IsNullOrEmpty(Model.Title))
+        {
+            <div class="panel-heading">@Model.Title</div>
+        }
+        @if (!string.IsNullOrEmpty(Model.Body))
+        {
+            <div class="panel-body">
+                <p>@Model.Body</p>
+            </div>
+        }
+        <table class="table">
+            @if (!string.IsNullOrEmpty(Model.Caption))
+            {
+                <caption>@Model.Caption</caption>
+            }
+            <thead>
+                <tr>
+                    @if (Model.Count)
+                    {
+                        <th scope="col">#</th>
+                    }
+
+                    @foreach (var row in Model.Headers)
+                    {
+                        <th scope="col">@row</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.Rows)
+                {
+                    <tr>
+                        @if (Model.Count)
+                        {
+                            <th scope="row">@(Model.Rows.IndexOf(row) + 1)</th>
+                        }
+
+                        @foreach (var field in row.Fields)
+                        {
+                            <td>@field</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (!string.IsNullOrEmpty(Model.Footer))
+        {
+            <div class="panel-footer">@Model.Footer</div>
+        }
+    </div>
+}
+else
+{
+    <table class="table">
+        @if (string.IsNullOrEmpty(Model.Caption))
+        {
+            <caption>@Model.Caption</caption>
+        }
+        <thead>
+            <tr>
+                @if (Model.Count)
+                {
+                    <th scope="col">#</th>
+                }
+
+                @foreach (var row in Model.Headers)
+                {
+                    <th scope="col">@row</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Rows)
+            {
+                <tr>
+                    @if (Model.Count)
+                    {
+                        <th scope="row">@(Model.Rows.IndexOf(row) + 1)</th>
+                    }
+
+                    @foreach (var field in row.Fields)
+                    {
+                        <td>@field</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
