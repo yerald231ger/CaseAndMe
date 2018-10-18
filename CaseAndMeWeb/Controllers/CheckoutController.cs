@@ -106,5 +106,19 @@ namespace CaseAndMeWeb.Controllers
         {
             return View();
         }
+
+        // GET: Checkout/Pay
+        public ActionResult Pay()
+        {
+
+            return View();
+        }
+
+        // POST: Checkout/Pay
+        [HttpPost]
+        public ActionResult Pay(IFormCollection collection)
+        {
+            return View();
+        }
     }
 }
