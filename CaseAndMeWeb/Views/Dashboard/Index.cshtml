@@ -6,6 +6,7 @@
 
 <style>
     .container {
+        width: 100%;
         margin-left: 15px;
         margin-right: 15px;
     }
@@ -22,46 +23,133 @@
             @Html.Partial("Components/_Table", Model.TopUsuarios)
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="dsh-chart-ventas panel panel-default">
+                <div class="panel-heading">Ventas del año @DateTime.Now.Year</div>
+                @*<div class="panel-body">@Model.Title</div>*@
+                <canvas id="chart-salesyear"></canvas>
+                <div class="panel-footer">Total de Ventas </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="dsh-chart-ventasdia panel panel-default">
+                <div class="panel-heading">Ventas en la ultima semana. @DateTime.Now.ToString("dddd dd MMM")</div>
+                @*<div class="panel-body">@Model.Title</div>*@
+                <canvas id="chart-topsales-productosdia"></canvas>
+                <div class="panel-footer">Total de Ventas </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="dsh-chart-totalproductos panel panel-default">
+                <div class="panel-heading">Productos mas vendido</div>
+                @*<div class="panel-body">@Model.Title</div>*@
+                <canvas id="chart-topsales-productos"></canvas>
+                <div class="panel-footer">Total de productos vendidos </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     <script>
-        //var ctx = document.getElementById("myChart");
-        //var myChart = new Chart(ctx, {
-        //    type: 'bar',
-        //    data: {
-        //        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        //        datasets: [{
-        //            label: '# of Votes',
-        //            data: [12, 19, 3, 5, 2, 3],
-        //            backgroundColor: [
-        //                'rgba(255, 99, 132, 0.2)',
-        //                'rgba(54, 162, 235, 0.2)',
-        //                'rgba(255, 206, 86, 0.2)',
-        //                'rgba(75, 192, 192, 0.2)',
-        //                'rgba(153, 102, 255, 0.2)',
-        //                'rgba(255, 159, 64, 0.2)'
-        //            ],
-        //            borderColor: [
-        //                'rgba(255,99,132,1)',
-        //                'rgba(54, 162, 235, 1)',
-        //                'rgba(255, 206, 86, 1)',
-        //                'rgba(75, 192, 192, 1)',
-        //                'rgba(153, 102, 255, 1)',
-        //                'rgba(255, 159, 64, 1)'
-        //            ],
-        //            borderWidth: 1
-        //        }]
-        //    },
-        //    options: {
-        //        scales: {
-        //            yAxes: [{
-        //                ticks: {
-        //                    beginAtZero: true
-        //                }
-        //            }]
-        //        }
-        //    }
-        //});
+        //http://localhost:56823/xhrd/ventas/2018
+
+
+
+        $.getJSON("/xhrd/ventas/2018", function (sales) {
+
+            var ctx = document.getElementById("chart-salesyear");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    datasets: [{
+                        label: '# de ventas',
+                        data: sales,
+                        borderColor: [
+                            'rgba(106, 104, 218, 1)'
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+
+        $.getJSON("/xhrd/productos/topsales", function (sales) {
+
+            $(".dsh-chart-totalproductos panel-footer").text("Total de productos vendidos: " + sales.TotalVendidos)
+            var ctx = document.getElementById("chart-topsales-productos");
+            var myChart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: sales.Labels,
+                    datasets: [{
+                        label: '# de ventas',
+                        data: sales.Data,
+                        borderColor: [
+                            'rgba(106, 104, 218, 1)'
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+
+        $.getJSON("/xhrd/ventas/semana", function (sales) {
+
+            $(".dsh-chart-ventasdia panel-footer").text("Total de productos vendidos: " + sales.TotalVendidos)
+            var ctx = document.getElementById("chart-topsales-productosdia");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sales.Labels,
+                    datasets: [{
+                        label: '# de ventas',
+                        data: sales.Data,
+                        borderColor: [
+                            'rgba(106, 104, 218, 1)'
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+
     </script>
 }

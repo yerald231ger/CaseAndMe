@@ -231,6 +231,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\SubcategoryController.cs" />
+    <Compile Include="Controllers\XhrDashboardController.cs" />
     <Compile Include="Controllers\XhrController.cs" />
     <Compile Include="Migrations\201809261716357_migracioninicial.cs" />
     <Compile Include="Migrations\201809261716357_migracioninicial.Designer.cs">
@@ -256,6 +257,7 @@
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\ComponentsViewModel\TableViewModel.cs" />
     <Compile Include="Models\DashboardViewModels\IndexViewModel.cs" />
+    <Compile Include="Models\DashboardViewModels\TopSalesProductChartViewModel.cs" />
     <Compile Include="Models\Dispositivo.cs" />
     <Compile Include="Models\FilterViewModels\ResultadoViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -276,6 +278,7 @@
     <Compile Include="Models\OrdenVentaDetalle.cs" />
     <Compile Include="Models\Pais.cs" />
     <Compile Include="Models\Producto.cs" />
+    <Compile Include="Models\ReportsViewModels\TopSalesProductoViewModel.cs" />
     <Compile Include="Models\SubCategoria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthMessageSenderOptions.cs" />
