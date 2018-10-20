@@ -12,12 +12,10 @@ namespace CaseAndMeWeb.Services.Repository
     }
 
     public class ProductoRepository : Repository<Producto, int>, IProductoRepository, IDisposable
-    {
-        private DbSet<Producto> _dbSet { get; set; }
+    {        
 
-        public ProductoRepository(DbContext context) : base(context)
+        public ProductoRepository(ApplicationDbContext context) : base(context)
         {
-            _dbSet = _context.Set<Producto>();
         }
 
         public List<Producto> FiltrarProductos(string expression)

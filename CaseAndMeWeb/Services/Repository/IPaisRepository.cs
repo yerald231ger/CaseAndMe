@@ -13,11 +13,9 @@ namespace CaseAndMeWeb.Services.Repository
 
     public class PaisRepository : Repository<Pais, int>, IPaisRepository, IDisposable
     {
-        private DbSet<Pais> _dbSet { get; set; }
 
-        public PaisRepository(DbContext context) : base(context)
+        public PaisRepository(ApplicationDbContext context) : base(context)
         {
-            _dbSet = _context.Set<Pais>();
         }
 
         public ICollection<Estado> GetEstados(int idPais)

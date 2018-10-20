@@ -22,7 +22,7 @@ namespace CaseAndMeWeb.Controllers
 
         // GET: Dashboard
         public ActionResult Index()
-        {            
+        {
             return View(new IndexViewModel {
                 TopOrdenesVenta = GetTableOrdenVenta(),
                 TopUsuarios = GetsTableUltimosUsuarios()

@@ -16,10 +16,10 @@ namespace CaseAndMeWeb.Services.Repository
 
     public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : Base<TKey>
     {
-        protected DbContext _context { get; set; }
+        protected ApplicationDbContext _context { get; set; }
         protected DbSet<TEntity> _dbSet { get; set; }
 
-        public Repository(DbContext context)
+        public Repository(ApplicationDbContext context)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();
