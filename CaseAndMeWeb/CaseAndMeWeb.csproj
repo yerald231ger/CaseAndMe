@@ -127,6 +127,9 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Openpay, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Openpay.1.0.24\lib\net45\Openpay.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -863,8 +866,8 @@
     <Content Include="Views\Material\Edit.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Checkout\Deliver.cshtml" />
-	<Content Include="Views\Shared\Components\_Table.cshtml" />
-	<Content Include="Views\Checkout\Pay.cshtml" />
+    <Content Include="Views\Shared\Components\_Table.cshtml" />
+    <Content Include="Views\Checkout\Pay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

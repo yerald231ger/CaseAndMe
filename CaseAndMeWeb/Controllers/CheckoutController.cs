@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using CaseAndMeWeb.Models;
 using System.Linq;
 using System.Collections.Generic;
+using Openpay;
 
 namespace CaseAndMeWeb.Controllers
 {
@@ -118,6 +119,11 @@ namespace CaseAndMeWeb.Controllers
         [HttpPost]
         public ActionResult Pay(IFormCollection collection)
         {
+            string API_KEY = "sk_3855563d4260413caaac4ea4a09bd986";
+            string MERCHANT_ID = "mffor04cuaydicmocxvb";
+            OpenpayAPI openpayAPI = new OpenpayAPI(API_KEY, MERCHANT_ID);
+            openpayAPI.Production = false;  //false = Modo pruebas      true = Modo producción
+
             return View();
         }
     }
