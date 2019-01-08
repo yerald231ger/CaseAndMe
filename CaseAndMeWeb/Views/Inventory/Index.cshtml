@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container m-t-3">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="title"><span>Invenario de todos los productos</span></div>
+            <table id="tbInventario" class="display table table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Código</th>
+                        <th>Producto</th>
+                        <th>Categor&iacute;a</th>
+                        <th>Subcategor&iacute;a</th>
+                        <th>En stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in ViewBag.Productos)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@p.Codigo</td>
+                            <td>@p.Nombre</td>
+                            <td>@p.SubCategoria.Categoria.Nombre</td>
+                            <td>@p.SubCategoria.Nombre </td>
+                            <td class="editable input-qty" active="false" idI="@(p.Inventario == null ? 0 : p.Inventario.Id)" idP="@p.Id">@(p.Inventario == null ? 0 : p.Inventario.Cantidad)</td>
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+@Styles.Render("~/Content/datatables")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datatables")
+    <style>
+        .input-group {
+            width: 60%;
+            float: left;
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+
+            var t = $('#tbInventario').DataTable({
+                responsive: true,
+                "lengthChange": false,
+                "bFilter": false,
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": 0
+                }],
+
+                "order": [[1, 'asc']]
+            });
+
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+
+            $(".editable").click(function () {
+                if ($(this).attr("active") == "false") {
+                    enableEdit(this);
+                }
+
+            });
+        });
+
+        function enableEdit(e) {
+            //obtenemos el valor
+            var cant = $(e).html();
+            var txtCant = $('<input type="text" value="' + cant + '"  data-bts-button-down-class="btn btn-default" data-bts-button-up-class="btn btn-default" >');
+            var btnDiv = $('<div class="divStockBtn"></div>');
+            var btnOK = $('<a href="#" ><i class="fa fa-check text-info" style="font-size:16px; margin-right:10px;"></i></a>')
+            var btnCANCEL = $('<a href="#"><i class="fa fa-remove text-danger" style="font-size:16px;"></i></a>')
+            btnDiv.append(btnOK).append(btnCANCEL);
+            //creamos el input tipo text con el valor
+            $(e).html(null);
+            $(e).append(txtCant);
+            $(e).append(btnDiv);
+            $(txtCant).TouchSpin({
+                verticalbuttons: true,
+                min: 0,
+                verticalup: '<i class="glyphicon glyphicon-chevron-up"></i>',
+                verticaldown: '<i class="glyphicon glyphicon-chevron-down"></i>'
+            });
+            $(e).attr("active", "true");
+
+            btnOK.click(function () {
+                $.confirm({
+                    title: 'Actualizar Inventaro',
+                    content: 'Desea aplicar los cambios??',
+                    buttons: {
+                        confirm: {
+                            text: 'Guardar',
+                            btnClass: 'btn-info',
+                            keys: ['enter', 'shift'],
+                            action: function () {
+                                var idI = $(e).attr("idI");
+                                var idP = $(e).attr("idP");;
+                                var cant = 10;
+                                $.post("/Inventory/edit?idI=" + idI + "&idP=" + idP + "&cant=" + cant , function () {
+                                    alert();
+                                });
+                            }
+                        },
+                        cancel: {
+                            text: 'Cancelar',
+                            btnClass: 'btn-red',
+
+                        }
+                    }
+                });
+            });
+
+            btnCANCEL.click(function (a) {
+                $(e).html(null);
+                $(e).html(cant);
+                $(e).attr("active", "false");
+                a.stopPropagation();
+            });
+        }
+    </script>
+}

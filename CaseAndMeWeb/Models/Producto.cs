@@ -15,12 +15,13 @@ namespace CaseAndMeWeb.Models
         public string UrlImagen { get; set; }
 
         public int IdSubCategoria { get; set; }
-
         public SubCategoria SubCategoria { get; set; }
+
         public virtual ICollection<OrdenVentaDetalle> OrdenesVentaDetalle { get; set; }
 
-       
+
         
+        public virtual Inventario Inventario { get; set; }
 
     }
 }

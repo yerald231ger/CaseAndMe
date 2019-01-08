@@ -118,6 +118,8 @@ namespace CaseAndMeWeb.Models
         public virtual DbSet<Ciudad> Ciudad { get; set; }
         public virtual DbSet<Dispositivo> Dispositivo { get; set; }
         public virtual DbSet<Material> Material { get; set; }
+        public virtual DbSet<Inventario> Inventarios { get; set; }
+        public object Producto { get; internal set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -159,6 +161,12 @@ namespace CaseAndMeWeb.Models
                 .WithMany(sc => sc.Productos)
                 .HasForeignKey(p => p.IdSubCategoria);
 
+            tblProducto.HasRequired(p => p.Inventario).WithRequiredPrincipal(e=> e.Producto);
+
+            //var tblInventario = builder.Entity<Inventario>().ToTable("tblInventario");
+
+            //tblInventario.HasRequired(c => c.Producto)
+            //    .WithRequiredPrincipal(p => p.Inventario);
 
             var tblCategoria = builder.Entity<Categoria>();
 
@@ -228,6 +236,8 @@ namespace CaseAndMeWeb.Models
             builder.Entity<MetodoPago>().ToTable("tblMetodosPago");
 
             builder.Entity<Dispositivo>().ToTable("tblDispositivo");
+
+            
 
         }
     }

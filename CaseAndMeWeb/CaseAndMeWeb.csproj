@@ -230,31 +230,16 @@
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\SubcategoryController.cs" />
     <Compile Include="Controllers\XhrDashboardController.cs" />
     <Compile Include="Controllers\XhrController.cs" />
-    <Compile Include="Migrations\201809261716357_migracioninicial.cs" />
-    <Compile Include="Migrations\201809261716357_migracioninicial.Designer.cs">
-      <DependentUpon>201809261716357_migracioninicial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809302011035_Migracion_Eduardo.cs" />
-    <Compile Include="Migrations\201809302011035_Migracion_Eduardo.Designer.cs">
-      <DependentUpon>201809302011035_Migracion_Eduardo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810082314149_se_quita_el_campo_disositivo_id.cs" />
-    <Compile Include="Migrations\201810082314149_se_quita_el_campo_disositivo_id.Designer.cs">
-      <DependentUpon>201810082314149_se_quita_el_campo_disositivo_id.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810101553259_agreagr fecha de nacmiento.cs" />
-    <Compile Include="Migrations\201810101553259_agreagr fecha de nacmiento.Designer.cs">
-      <DependentUpon>201810101553259_agreagr fecha de nacmiento.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810101558140_cambio de tipo de dato.cs" />
-    <Compile Include="Migrations\201810101558140_cambio de tipo de dato.Designer.cs">
-      <DependentUpon>201810101558140_cambio de tipo de dato.cs</DependentUpon>
+    <Compile Include="Migrations\201901070511204_Martin.cs" />
+    <Compile Include="Migrations\201901070511204_Martin.Designer.cs">
+      <DependentUpon>201901070511204_Martin.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
@@ -273,6 +258,7 @@
     <Compile Include="Models\Comun.cs" />
     <Compile Include="Models\Estado.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Inventario.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\MetodoEnvio.cs" />
@@ -361,6 +347,18 @@
     <Content Include="Content\Datatables\datatables.css" />
     <Content Include="Content\Datatables\datatables.min.css" />
     <Content Include="Content\Datatables\datatables.Theme.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.bootstrap.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.bootstrap.min.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.bootstrap4.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.bootstrap4.min.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.dataTables.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.dataTables.min.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.foundation.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.foundation.min.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.jqueryui.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.jqueryui.min.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.semanticui.css" />
+    <Content Include="Content\Datatables\Editor-2019-01-21-1.8.1\css\editor.semanticui.min.css" />
     <Content Include="Content\Datatables\FixedColumns-3.2.5\css\fixedColumns.bootstrap.css" />
     <Content Include="Content\Datatables\FixedColumns-3.2.5\css\fixedColumns.bootstrap.min.css" />
     <Content Include="Content\Datatables\FixedColumns-3.2.5\css\fixedColumns.bootstrap4.css" />
@@ -471,6 +469,8 @@
     <Content Include="Content\fonts\robotodraft\Medium\RobotoDraft-Medium.svg" />
     <Content Include="Content\fonts\robotodraft\Regular\RobotoDraft-Regular.svg" />
     <Content Include="Content\fonts\robotodraft\Thin\RobotoDraft-Thin.svg" />
+    <Content Include="Content\images\sort_asc.png" />
+    <Content Include="Content\images\sort_both.png" />
     <Content Include="Content\jquery-confirm.css" />
     <Content Include="Content\jquery.bootstrap-touchspin.css" />
     <Content Include="Content\owl-carousel.css" />
@@ -601,6 +601,30 @@
     <Content Include="Scripts\Datatables\DataTables-1.10.18\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\Datatables\datatables.js" />
     <Content Include="Scripts\Datatables\datatables.min.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.bootstrap.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.bootstrap.min.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.bootstrap4.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.bootstrap4.min.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.dataTables.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.dataTables.min.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.foundation.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.foundation.min.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.jqueryui.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.jqueryui.min.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.semanticui.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\css\editor.semanticui.min.css" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\dataTables.editor.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\dataTables.editor.min.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.bootstrap.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.bootstrap.min.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.bootstrap4.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.bootstrap4.min.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.foundation.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.foundation.min.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.jqueryui.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.jqueryui.min.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.semanticui.js" />
+    <Content Include="Scripts\Datatables\Editor-2019-01-21-1.8.1\js\editor.semanticui.min.js" />
     <Content Include="Scripts\Datatables\FixedColumns-3.2.5\js\dataTables.fixedColumns.js" />
     <Content Include="Scripts\Datatables\FixedColumns-3.2.5\js\dataTables.fixedColumns.min.js" />
     <Content Include="Scripts\Datatables\FixedColumns-3.2.5\js\fixedColumns.bootstrap.js" />
@@ -871,6 +895,7 @@
     <Content Include="Views\Checkout\Deliver.cshtml" />
     <Content Include="Views\Shared\Components\_Table.cshtml" />
     <Content Include="Views\Checkout\Pay.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -890,20 +915,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809261716357_migracioninicial.resx">
-      <DependentUpon>201809261716357_migracioninicial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809302011035_Migracion_Eduardo.resx">
-      <DependentUpon>201809302011035_Migracion_Eduardo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810082314149_se_quita_el_campo_disositivo_id.resx">
-      <DependentUpon>201810082314149_se_quita_el_campo_disositivo_id.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810101553259_agreagr fecha de nacmiento.resx">
-      <DependentUpon>201810101553259_agreagr fecha de nacmiento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810101558140_cambio de tipo de dato.resx">
-      <DependentUpon>201810101558140_cambio de tipo de dato.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201901070511204_Martin.resx">
+      <DependentUpon>201901070511204_Martin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
