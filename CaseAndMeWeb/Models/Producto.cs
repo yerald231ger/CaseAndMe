@@ -20,7 +20,7 @@ namespace CaseAndMeWeb.Models
         public virtual ICollection<OrdenVentaDetalle> OrdenesVentaDetalle { get; set; }
 
 
-        
+
         public virtual Inventario Inventario { get; set; }
 
     }

@@ -7,13 +7,13 @@ namespace CaseAndMeWeb.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Martin : IMigrationMetadata
+    public sealed partial class AgregarTablaInventario : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Martin));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AgregarTablaInventario));
         
         string IMigrationMetadata.Id
         {
-            get { return "201901070511204_Martin"; }
+            get { return "201901081745014_AgregarTablaInventario"; }
         }
         
         string IMigrationMetadata.Source

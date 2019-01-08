@@ -103,7 +103,7 @@ namespace CaseAndMeWeb.Models
             return DateTime.Today.AddTicks(-FechaNacimiento.Value.Ticks).Year - 1;
         }
     }
-
+    
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public virtual DbSet<Categoria> Categorias { get; set; }
@@ -161,7 +161,16 @@ namespace CaseAndMeWeb.Models
                 .WithMany(sc => sc.Productos)
                 .HasForeignKey(p => p.IdSubCategoria);
 
-            tblProducto.HasRequired(p => p.Inventario).WithRequiredPrincipal(e=> e.Producto);
+            tblProducto.HasRequired(p => p.Inventario)
+                .WithRequiredPrincipal(e => e.Producto);
+
+            //modelBuilder.Entity<Student>()
+            //  .HasOptional(s => s.Address) // Mark Address property optional in Student entity
+            //  .WithRequired(ad => ad.Student);
+
+            //modelBuilder.Entity<Student>()
+            //    .HasRequired(s => s.Address)
+            //    .WithRequiredPrincipal(ad => ad.Student);
 
             //var tblInventario = builder.Entity<Inventario>().ToTable("tblInventario");
 
@@ -175,7 +184,6 @@ namespace CaseAndMeWeb.Models
             tblCategoria.HasMany(c => c.SubCategorias)
                 .WithRequired(sb => sb.Categoria)
                 .HasForeignKey(sb => sb.IdCategoria);
-
 
             builder.Entity<SubCategoria>().ToTable("tblSubCategorias");
 
@@ -227,6 +235,8 @@ namespace CaseAndMeWeb.Models
                 .WithMany(p => p.Estados)
                 .HasForeignKey(e => e.IdPais);
 
+            builder.Entity<Inventario>().ToTable("tblInventario");
+
             builder.Entity<Material>().ToTable("tblMateriales");
 
             builder.Entity<Pais>().ToTable("tblPaises");
@@ -236,8 +246,6 @@ namespace CaseAndMeWeb.Models
             builder.Entity<MetodoPago>().ToTable("tblMetodosPago");
 
             builder.Entity<Dispositivo>().ToTable("tblDispositivo");
-
-            
 
         }
     }

@@ -237,9 +237,9 @@
     <Compile Include="Controllers\SubcategoryController.cs" />
     <Compile Include="Controllers\XhrDashboardController.cs" />
     <Compile Include="Controllers\XhrController.cs" />
-    <Compile Include="Migrations\201901070511204_Martin.cs" />
-    <Compile Include="Migrations\201901070511204_Martin.Designer.cs">
-      <DependentUpon>201901070511204_Martin.cs</DependentUpon>
+    <Compile Include="Migrations\201901081745014_AgregarTablaInventario.cs" />
+    <Compile Include="Migrations\201901081745014_AgregarTablaInventario.Designer.cs">
+      <DependentUpon>201901081745014_AgregarTablaInventario.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
@@ -915,8 +915,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901070511204_Martin.resx">
-      <DependentUpon>201901070511204_Martin.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201901081745014_AgregarTablaInventario.resx">
+      <DependentUpon>201901081745014_AgregarTablaInventario.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
