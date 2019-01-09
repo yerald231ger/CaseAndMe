@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -61,12 +62,12 @@ namespace CaseAndMeWeb.Controllers
 
         // POST: Inventory/Edit/5
         [HttpPost]
-        public ActionResult Edit(int idI, int idP, int cant)
+        public ActionResult Edit(int id, int cant)
         {
             try
             {
 
-                var inventario = context.Inventarios.Where(x => x.Id == idI).FirstOrDefault();
+                var inventario = context.Inventarios.Where(x => x.Id == id).FirstOrDefault();
                 if (inventario != null)
                 {
                     inventario.Cantidad = cant;
@@ -82,15 +83,15 @@ namespace CaseAndMeWeb.Controllers
                     inventario.FechaAlt = DateTime.UtcNow;
                     inventario.FechaMod = DateTime.UtcNow;
                     inventario.Nombre = string.Empty;
-                    inventario.Producto = context.Productos.Where(x => x.Id == idP).FirstOrDefault();
+                    inventario.Producto = context.Productos.Where(x => x.Id == id).FirstOrDefault();
                     context.Inventarios.Add(inventario);
                     context.SaveChanges();
                 }
-                return View();
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
             catch(Exception ex)
             {
-                return View();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 

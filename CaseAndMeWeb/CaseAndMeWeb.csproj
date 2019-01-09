@@ -237,10 +237,6 @@
     <Compile Include="Controllers\SubcategoryController.cs" />
     <Compile Include="Controllers\XhrDashboardController.cs" />
     <Compile Include="Controllers\XhrController.cs" />
-    <Compile Include="Migrations\201901081745014_AgregarTablaInventario.cs" />
-    <Compile Include="Migrations\201901081745014_AgregarTablaInventario.Designer.cs">
-      <DependentUpon>201901081745014_AgregarTablaInventario.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\ComponentsViewModel\TableViewModel.cs" />
@@ -913,11 +909,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901081745014_AgregarTablaInventario.resx">
-      <DependentUpon>201901081745014_AgregarTablaInventario.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

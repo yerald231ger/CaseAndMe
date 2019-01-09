@@ -29,7 +29,7 @@
                             <td>@p.Nombre</td>
                             <td>@p.SubCategoria.Categoria.Nombre</td>
                             <td>@p.SubCategoria.Nombre </td>
-                            <td class="editable input-qty" active="false" idI="@(p.Inventario == null ? 0 : p.Inventario.Id)" idP="@p.Id">@(p.Inventario == null ? 0 : p.Inventario.Cantidad)</td>
+                            <td class="editable input-qty" active="false"  idP="@p.Id">@(p.Inventario == null ? 0 : p.Inventario.Cantidad)</td>
 
                         </tr>
                     }
@@ -110,12 +110,16 @@
                             btnClass: 'btn-info',
                             keys: ['enter', 'shift'],
                             action: function () {
-                                var idI = $(e).attr("idI");
-                                var idP = $(e).attr("idP");;
-                                var cant = 10;
-                                $.post("/Inventory/edit?idI=" + idI + "&idP=" + idP + "&cant=" + cant , function () {
-                                    alert();
-                                });
+                                var id = $(e).attr("idP");
+                                var cant = $(e).find("input").val();
+                                if (id != null  && cant != null) {
+                                    $.post("/Inventory/edit?id=" + id  + "&cant=" + cant, function () {
+                                        $(e).html(null);
+                                        $(e).html(cant);
+                                        $(e).attr("active", "false");
+                                        a.stopPropagation();
+                                    });
+                                }
                             }
                         },
                         cancel: {

@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿var maxValStock = 1;
+
+$(document).ready(function () {
 
     updateComboboxCartPanel()
 
@@ -47,13 +49,16 @@
 });
 
 //Muestra modal de producto para seleccion rapida a carrito
-function openItemModal(id, name, price, img) {
+function openItemModal(id, name, price, img, cantStock) {
     $("#txtItemModalSelectedId").val(id);
     $("#lblDetailModalName").html(name);
     $("#lblDetailModalPrice").html("$" + price);
+    $("#lblDetailModalStock").html("En Stock(" + cantStock + ")");
     var srcImg = "/images/items/" + img;
     $("#imgDetailModal").attr("src", srcImg);
     $("#txtItemModalSelectedImg").val(img);
+    maxValStock = parseInt(cantStock);
+    $('#touchspin_Modal_Quantity').trigger("touchspin.updatesettings", { max: maxValStock });
 
     $('#myModal').modal()
 }
