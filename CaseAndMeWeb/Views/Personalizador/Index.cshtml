@@ -1,8 +1,639 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutLite.cshtml";
 }
 
-<h2>Personalizar</h2>
+@Styles.Render("~/customizer/css")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/customizer/js")
+    <script>
+        $(document).ready(function () {
+            clearData();
+
+            loadMask("/Content/Customizer/img/mask/default.png");
+            cargaLayout();
+            $(document).on('click', '#cp-link-step li.cp-active a', function (e) {
+                var id = $(this).parent().attr('id').substr(6, 1);
+                $('#cp-link-step li').removeClass('cp-current-step')
+                $(this).parent().addClass('cp-current-step');
+                $('#cp-ct-step>div').hide();
+                $('#step' + id).show();
+
+            });
+
+            $('#fileupload').fileupload({
+                dataType: 'json',
+                add: function (e, data) {
+                    var val = true;
+
+                    var uploadFile = data.files[0];
+
+                    if (!(/\.(gif|jpg|jpeg|tiff|png|GIF|JPG|JPEG|TIFF|PNG)$/i).test(uploadFile.name)) {
+                        alert("Solo se permite cargar imagenes");
+                        val = false;
+                    }
+
+                    else if (uploadFile.size > 10000000) { // 2mb
+                        alert("Maximo de imagen permitido: 2mb");
+                        val = false;
+                    }
+                    if (val == true) {
+                        data.submit();
+                    }
+
+                },
+                progressall: function (e, data) {
+                    //cargamos loading...
+                },
+                done: function (e, data) {
+                    if (data != null && data.result != null) {
+
+                        var o = data.result;
+                        var url = '/Files/UFiles/' + o.FolderName + '/' + o.FileName;
+                        var html = '<li><a href="#" onclick="pintaImgCase(this);" style="background-image:url(data:image/png;base64,' + o.Base64ImgSmall + ');"><img src="' + o.ImageURL +'"><i class="fa fa-plus"></i></a></li>';
+
+                        $("#ulimg").append(html);
+                    }
+                }
+            });
+
+
+        });
+
+        function setDevice(i, n, m) {
+            showLoader();
+
+            if (sessionStorage.getItem("perzonalizador") == null) {
+                var data =
+                    {
+                        dispositivo: { id: i, name: n, brand: m }
+                    };
+                sessionStorage.setItem("perzonalizador", JSON.stringify(data));
+
+            }
+            else {
+                var jdata = JSON.parse(sessionStorage.getItem("perzonalizador"));
+                jdata.dispositivo.id = i;
+                jdata.dispositivo.name = n;
+                sessionStorage.setItem("perzonalizador", JSON.stringify(jdata));
+            }
+            //Cambiamos case de presentacion
+
+            loadMask("/Content/Customizer/img/mask/" + m + "/default.png");
+
+            //Cargamos Paso 2
+            cargaCases();
+
+            $('#cp-link-step>li').removeClass('cp-current-step');
+            $("#cp-st-2").addClass("cp-active cp-current-step");
+
+            $("#step1").hide();
+            $("#step2").show();
+
+
+        }
+
+        function clearData() {
+            sessionStorage.removeItem("perzonalizador");
+        }
+        function showLoader() {
+            var loader = '<div class="cp-loader" style="position:absolute;left:0;top:0;right:0;bottom:0;z-index:90000;"><div style="position:absolute;left:0;top:0;bottom:0;right:0;background:#fff; opacity:0;filter:alpha(opacity=0);"></div><i class="fa fa-spinner fa-spin fa-fw" style="position:absolute;top:50%;left:50%;margin:-80px 0 0 -32px;color:##66c6c6;font-size:45px;"></i></div>';
+            $('#wrap-phone').append(loader);
+        }
+        function hideLoader() {
+            if ($('.cp-loader').length > 0) {
+                setTimeout(function () {
+                    $('.cp-loader').fadeOut('fast', function () {
+                        $('.cp-loader').remove();
+                        $('.cp-model').animate({ 'top': '0', 'opacity': 1 }, 400);
+                        $('#cp-phone').animate({ 'margin-top': '0', 'opacity': 1 }, 800);
+                    });
+                }, 800);
+            }
+        }
+
+        function cargaCases() {
+            $(".cp-model").empty();
+
+            var controllerUrl = "@this.Url.Action(actionName: "GetMaterials", controllerName:"Material")";
+
+            $.getJSON(controllerUrl + "/0", function (data) {
+                var items = [];
+                $.each(data, function (key, obj) {
+                    var classActive = key == 0 ? "active" : "";
+                      var item = '<li>'
+                          + '<a href="#" class="cp-list-t ' + classActive + '" id="c_' + key + '" onclick="setCase(' + obj.Id + ',\'' + obj.Nombre +'\')">'
+                            + '<img alt="" src="/images/materials/'+ obj.imagen + '">'
+                            + '<samp class="cp-g-sel">'
+                            + '<span class="img-find-title">' + obj.Nombre + '</span>'
+                            + '</samp>'
+                            + '</a>'
+                            + '</li>'
+                    items.push(item);
+
+                });
+                $(".cp-model").append(items)
+                hideLoader();
+            });
+        }
+
+        function setCase(i, n) {
+            showLoader();
+
+            if (sessionStorage.getItem("perzonalizador") != null) {
+                var jdata = JSON.parse(sessionStorage.getItem("perzonalizador"));
+                var jcase = {
+                    id: i,
+                    name: n
+                };
+                jdata.case = jcase;
+                sessionStorage.setItem("perzonalizador", JSON.stringify(jdata));
+            }
+            ////Cargamos Paso 3
+            //cargaLayout();
+
+            $('#cp-link-step>li').removeClass('cp-current-step');
+            $("#cp-st-3").addClass("cp-active cp-current-step");
+
+            $("#step2").hide();
+            $("#step3").show();
+
+            hideLoader();
+        }
+
+        function cargaLayout() {
+            $("#cp-sel-layout ul").empty();
+
+            $.getJSON('/Content/Customizer/js/data.json', function (data) {
+                sessionStorage.setItem("jsonLayout", JSON.stringify(data));
+                var items = [];
+                $.each(data.grid, function (key, val) {
+
+                    var item = '<li>'
+                        + '<a href="#" class="cp-choose-grid-button" id="cg_' + key + '" key="' + key + '" onclick="setLayout(\'' + val + '\')">'
+                        + '<img src="/Content/Customizer/img/layout/' + val + '/grid.png" />'
+                        + '<span class="title-find" style="display:none;">' + val + '</span>'
+                        + '</a>'
+                        + '</li>'
+                    items.push(item);
+                });
+                $("#cp-sel-layout ul").append(items)
+            });
+        }
+
+        function setLayout(grid) {
+            showLoader();
+
+            if (sessionStorage.getItem("perzonalizador") != null) {
+                var jdata = JSON.parse(sessionStorage.getItem("perzonalizador"));
+                var jlayout = {
+                    name: grid
+                };
+                jdata.layout = jlayout;
+                sessionStorage.setItem("perzonalizador", JSON.stringify(jdata));
+            }
+
+            //cargamos el grid indicado en el case de presentacion
+            var data = sessionStorage.getItem("jsonLayout");
+            if (data != null) {
+                var json = JSON.parse(data);
+                for (var i = 0; i < json.gridhtml.length; i++) {
+                    //validamos la el key del grid seleccionado para obtener su html
+                    if (json.gridhtml[i].hasOwnProperty(grid)) {
+                        var html = json.gridhtml[i][grid]
+                        //$('#cp-gridme,#cp-gridme-cover').html("");
+                        $('#cp-gridme,#cp-gridme-cover').html(html);
+                    }
+                }
+            }
+
+            //cargaImagenes();
+
+            $('#cp-link-step>li').removeClass('cp-current-step');
+            $("#cp-st-4").addClass("cp-active cp-current-step");
+
+            $("#step3").hide();
+            $("#step4").show();
+
+            hideLoader();
+        }
+
+        function cargaImagenes() {
+
+        }
+
+        function loadMask(src) {
+            $('#cp-mask-img').children('img').attr('src', src);
+        }
+        function pintaImgCase(e) {
+            //console.log($(e).html());
+
+            var style = $(e).attr("style");
+            var imgHTML = $(e).html();
+            var imgurl =  $(imgHTML).attr("src");
+            var spanHTML = '<span class="wrap-img-drag no-visible" style="background-image:url(' + imgurl + ')">' + '<img src="' + imgurl + '" >'+ '</span>';
+
+            var asignado = false;
+            $("#cp-gridme").children().children().each(function (index) {
+                //Validamos que no cuente con hijos tipo imagen
+                if ($(this).children().length == 0) {
+                    $(this).html(spanHTML);
+                    return false;
+                } else {
+                    //En caso de contener elmentos, validamos si el primero es  div
+                    var parent = $(this);
+                    if (parent.children().eq(0).is("div")) {
+                        parent.children().each(function (i) {
+                            if ($(this).children().length == 0) {
+                                $(this).html(spanHTML);
+                                asignado = true;
+                                return false
+                            }
+                        });
+                        if (asignado)
+                            return false;
+                    }
+                }
+                //$(this).html(spanHTML);
+
+            });
+        }
+
+        async function asyncfinalizaImgCase() {
+            try {
+                //$('#cp-sel-Device').append('<div id="cp-device-ori-gen"><div id="cp-device-ori" class="no-bg-gen"></div></div>');
+                //$('#cp-device-ori-gen #cp-device-ori').html($('#cp-device-ori').html());
+
+
+                //Generamos las imagenes en Base64 y borramos elementro creado en html
+                $('#printcase').append('<div id="cp-device-ori-to-print"><div id="cp-device-ori" class="no-phone no-bg-gen">' + $('#cp-device-ori').html() + '</div></div>');
+                var canvasImg = await html2canvas(document.querySelector("#cp-device-ori-to-print"));
+                var canvasImgCase = await html2canvas(document.querySelector("#cp-device-ori"));
+                var imgB64 = canvasImg.toDataURL("image/png");
+                var imgCaseB64 = canvasImgCase.toDataURL("image/png");
+                $("#cp-device-ori-to-print").remove();
+
+                var json = JSON.parse(sessionStorage.getItem("perzonalizador"));
+
+                var P = 0;
+                var name = "Personalizado";
+                var price = 199;
+                var img = canvasImgCase;
+                var D = json.dispositivo.id;
+                var M = json.case.id;
+                var Q = 1;
+
+                addToCartList(P, name, price, img, D, M, Q, true, imgB64);
+
+                window.location.href = "/Checkout/Cart";
+            }
+            catch (e) {
+                if (e.name == "QuotaExceededError") {
+                    var msg = "Se excedio el numero de personalizados disponibles";
+                    alert(msg);
+                }
+            }
+        }
+
+        @* function cargaImagenesUsuario() {
+            $.getJSON('@Url.Action("getUserImages")', function (data) {
+                var items = [];
+                var Files = data.Files;
+                var FolderName = data.FolderName;
+                $.each(Files, function (key, obj) {
+                    var o = data.result;
+                    var url = '/Files/UFiles/' + o.FolderName + '/' + o.FileName;
+                    var html = '<li><a href="" style="background-image:url(' + url + ')"><img src="' + url + '"><i class="fa fa-plus"></i></a></li>'
+                    $("#ulimg").append(html);
+
+                    var classActive = key == 0 ? "active" : "";
+                    var item = '<li>'
+                        + '<a href="#" class="cp-list-t ' + classActive + '" id="c_' + key + '" onclick="setCase(' + obj.Id + ',\'' + obj.Nombre + '\')">'
+                        + '<img alt="" src="/images/materials/' + obj.imagen + '">'
+                        + '<samp class="cp-g-sel">'
+                        + '<span class="img-find-title">' + obj.Nombre + '</span>'
+                        + '</samp>'
+                        + '</a>'
+                        + '</li>'
+                    items.push(item);
+
+                });
+                $(".cp-model").append(items)
+
+            });
+        } *@
+    </script>
+}
+
+<div class="container-fluid" id="printcase">
+    <div class="row">
+        <div id="center_column" class="center_column col-xs-12 col-sm-12">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div id="wrap-phone">
+                    <!-- COLUMNA PASOS -->
+                    <div id="lft-side">
+                        <!-- Sección Enlace Pasos -->
+                        <ul id="cp-link-step">
+                            <li class="cp-active cp-current-step" id="cp-st-1">
+                                <a href="#">
+                                    step1
+                                </a>
+                            </li>
+                            <li id="cp-st-2">
+                                <a href="#">
+                                    step2
+                                </a>
+                            </li>
+                            <li id="cp-st-3">
+                                <a href="#">
+                                    step3
+                                </a>
+                            </li>
+                            <li class="cp-last" id="cp-st-4">
+                                <a href="#">
+                                    step4
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- Fin Sección Enlace Pasos -->
+                        <div id="cp-ct-step">
+                            <!-- Seccion Pasos -->
+                            <div class="start" id="step1">
+                                <p class="cp-title"><span>Paso 1</span> : Elige tu dispositivo</p>
+                                <p class="searchphone">
+                                    <input type="text" placeholder="Buscar : Encuenta tu dispositivo">
+                                </p>
+                                <div class="wr-dev-choice">
+                                    <div class="wr-dev-choice-helper">
+                                        <div id="search-bloc">
+                                            <ul class="cp-device"></ul>
+                                        </div>
+                                        <!-- Row Select Device -->
+                                        <div class="cp-row">
+                                            @*<span class="cp-brand">
+                                                    <img src="https://customizer.egprojets.com/modules/printcase/views/img/upload/brand1.png" style="max-height:35px;">
+                                                    <samp>Apple</samp>
+                                                </span>*@
+                                            <div class="cp-wrlst">
+                                                <ul class="cp-device">
+                                                    @foreach (var d in ViewBag.Dispositivos)
+                                                    {
+                                                        <li>
+                                                            <a class="cp-choose-dev-button" href="#" onclick="setDevice('@d.Id','@d.Nombre', '@d.Marca')" id="p_1">
+                                                                <span class="tit-prod">@d.Nombre</span>
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- End Row Select Device -->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cp-type-case" id="step2" style="display:none;">
+                                <p class="cp-title"><span>Paso 2</span> : Elige tu case</p>
+                                <div class="wr-dev-choice">
+                                    <div class="wr-dev-choice-helper">
+                                        <ul class="cp-model"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cp-layout" id="step3" style="display:none;">
+                                <p class="cp-title"><span>Paso 3</span> : Elige tu layout</p>
+                                <div class="wr-dev-choice">
+                                    <div class="wr-dev-choice-helper">
+                                        <!-- Bloc Select layout -->
+                                        <div id="cp-sel-layout">
+                                            <ul>
+                                                <!-- Call Data From Json File data.json -->
+                                            </ul>
+                                        </div>
+                                        <!-- End Bloc Select layout -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="step4" style="display:none;">
+                                <p class="cp-title"><span>Paso 4</span> : Selecciona tus imágenes</p>
+                                <div class="wr-dev-choice">
+                                    <div class="wr-dev-choice-helper">
+                                        <div id="cp-sel-Photos">
+                                            <div class="float-link">
+                                                @*<a href="#" title="Importar desde mi equipo" class="cp-btn-more-pic fileinput-button">
+                                                        <span id="cp-img-lo-w">
+                                                            <i class="fa fa-refresh fa-spin" id="cp-img-lo"></i>
+                                                            <span class="cp-loader-number"></span>
+                                                        </span>
+                                                        <i class="fa fa-picture-o"></i>
+                                                        <input id="fileupload" type="file" name="files[]" multiple>
+                                                        <input type="hidden" class="cp-token" value="">
+                                                        <input type="hidden" class="cp-token-parent" value="">
+                                                        <span id="link-opc" style="display:none;">https://customizer.egprojets.com/order</span>
+                                                    </a>*@
+                                                <!--a href="#" id="btn-instagram" class="cp-btn-more-pic" title="import from instagram">
+                                                    <i class="fa fa-instagram"></i>
+                                                </a
+                                                <a href="#" id="btn-facebook" class="cp-btn-more-pic" title="import from facebook" onclick="checkLoginState()">
+                                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                                </a>-->
+                                            </div>
+                                            <div class="jscroll lst-img">
+                                                <ul id="ulimg">
+                                                    <li>
+                                                        <a href="#" id="aFileupload" class="fileinput-button" style="background-image:url(/Content/Customizer/img/upload.png)" title="Importar desde mi equipo">
+                                                            <img src="/Content/Customizer/img/upload.png"><i class="fa fa-plus"></i>
+                                                            <input id="fileupload" type="file" name="files[]" data-url="/Personalizador/UploadUserFile/" multiple>
+                                                        </a>
+                                                    </li>
+
+                                                    @*@foreach (var filename in ViewBag.FileNames)
+                                                        {
+                                                            <li>
+                                                                <a href="" style="background-image:url(/Files/UFiles/@User.Identity.GetUserId()/@filename)">
+                                                                    <img src="/Files/UFiles/@User.Identity.GetUserId()/@filename">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </a>
+                                                            </li>
+                                                        }*@
+
+                                                    @foreach (var img in ViewBag.Base64Img)
+                                                    {
+                                                        <li>
+                                                            <a href="#" style="background-image: url('data:image/png;base64, @img.Base64ImgSmall');" onclick="pintaImgCase(this);">
+                                                                @*<img src="data:image/png;base64, @img.Base64Img">*@
+                                                                <img src="@img.ImageURL">
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                </ul>
+                                                <div id="progress">
+                                                    <div class="bar" style="width: 0%;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fin Seccion Pasos -->
+                        </div>
+                        <div id="cp-add-cart">
+                            <a href="#" class="cp-btn-save" onclick="asyncfinalizaImgCase();">SAVE DESIGN</a>
+                        </div>
+                    </div>
+
+                    <!-- COLUMNA DISPOSITIVO SELECCIONADO -->
+                    <div id="center-side">
+                        <div id="cp-phone">
+                            <!-- Bloc Selected Device -->
+                            <div id="cp-sel-Device">
+                                <div id="cp-device-ori">
+                                    <div id="cp-mask-img">
+                                        <img alt="" src="">
+                                    </div>
+                                    <div id="cp-gridme"></div>
+                                    <div id="cp-gridme-cover"></div>
+                                    <pre id="cp-input-gen"></pre>
+                                </div>
+                            </div>
+                            <!-- End Bloc Selected Device -->
+                        </div>
+                    </div>
+
+                    <!-- COLUMNA DETALLES DISPOSITIVO -->
+                    <div id="right-side">
+                        <div id="cp-infos-product">
+                            <div class="cp-info-dev">
+                                <span class="cp-title"></span>
+                                <span class="cp-price"></span>
+                                <!--a href="" class="cp-aide">Aide</a-->
+                            </div>
+                            <!-- Bloc Select Text -->
+                            <div id="cp-sel-Text">
+                                <span class="title-txt">Add Your Text</span>
+                                <div id="cp-textarea">
+                                    <div class="combo-typo">
+                                        <a href="" class="selected-typo">Fonts</a>
+                                        <ul class="cp-list-font">
+                                            <li>
+                                                <a id="Poiret One" style="font-family:Poiret One" class="active" href="javascript:void(0)">
+                                                    Poiret One
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a id="Dancing Script" style="font-family:Dancing Script" href="javascript:void(0)">
+                                                    Dancing Script
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a id="Gloria Hallelujah" style="font-family:Gloria Hallelujah" href="javascript:void(0)">
+                                                    Gloria Hallelujah
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a id="Indie Flower" style="font-family:Indie Flower" href="javascript:void(0)">
+                                                    Indie Flower
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a id="Pacifico" style="font-family:Pacifico" href="javascript:void(0)">
+                                                    Pacifico
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a id="Lobster" style="font-family:Lobster" href="javascript:void(0)">
+                                                    Lobster
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a id="Yanone Kaffeesatz" style="font-family:Yanone Kaffeesatz" href="javascript:void(0)">
+                                                    Yanone Kaffeesatz
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a id="Shadows Into Light" style="font-family:Shadows Into Light" href="javascript:void(0)">
+                                                    Shadows Into Light
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <textarea class="cp-input-txt" placeholder="Your Text Here"></textarea>
+                                    <div class="blc-bas">
+                                        <ul id="cp-size-txt">
+                                            <li><a id="s-t" class="s-t s-t-p active" href="javascript:void(0)">A</a></li>
+                                            <li><a id="m-t" class="m-t m-t-p" href="javascript:void(0)">A</a></li>
+                                            <li><a id="g-t" class="g-t g-t-p" href="javascript:void(0)">A</a></li>
+                                        </ul>
+                                        <ul id="cp-align-txt">
+                                            <li><a class="a-left" href="javascript:void(0)"><img src="~/Content/Customizer/img/al.png"></a></li>
+                                            <li><a class="a-center" href="javascript:void(0)"><img src="~/Content/Customizer/img/ac.png"></a></li>
+                                            <li><a class="a-right" href="javascript:void(0)"><img src="~/Content/Customizer/img/ar.png"></a></li>
+                                        </ul>
+                                        <div class="cp-list-color">
+                                            <a href="" class="ico-col"><span></span></a>
+                                            <ul>
+                                                <li>
+                                                    <a id="976b01" style="background:#976b01" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="3498db" style="background:#3498db" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="2ecc71" style="background:#2ecc71" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="f1c40f" style="background:#f1c40f" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="f613d9" style="background:#f613d9" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="3ad6e4" style="background:#3ad6e4" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="000" style="background:#000" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="818080" style="background:#818080" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="fff" style="background:#fff" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="e74c3c" style="background:#e74c3c" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="e67e22" style="background:#e67e22" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="bdc3c7" style="background:#bdc3c7" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="1abc9c" style="background:#1abc9c" href="javascript:void(0)"></a>
+                                                </li>
+                                                <li>
+                                                    <a id="f39c12" style="background:#f39c12" href="javascript:void(0)"></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- End Bloc Select Text -->
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
 

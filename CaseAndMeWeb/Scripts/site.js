@@ -82,11 +82,11 @@ function addToCartFromModal() {
         return;
     }
 
-    addToCartList(P, name, price, img, D, M, Q);
+    addToCartList(P, name, price, img, D, M, Q, false, null);
 }
 
 //Agrega al carrito el articulo seleccionado y actualiza el JSON en session
-function addToCartList(id, name, price, img, device, material, quantity) {
+function addToCartListOLD(id, name, price, img, device, material, quantity) {
     var oList = sessionStorage.getItem('oList');
     if (oList == null) {
 
@@ -124,6 +124,54 @@ function addToCartList(id, name, price, img, device, material, quantity) {
     updateComboboxCartPanel();
 }
 
+//Agrega al carrito el articulo seleccionado/personalizado y actualiza el JSON en session
+function addToCartList(id, name, price, img, device, material, quantity, isCustom, imgBase64) {
+    var oList = sessionStorage.getItem('oList');
+    if (oList == null) {
+
+        var jsonOVD = [{ "P": id, "D": device, "M": material, "Q": quantity, "Img": img, "Name": name, "Price": price, "isCustom": isCustom, "imgBase64": imgBase64 }];
+        var ov = [{ "MP": 0, "ME": 0, "OVD": jsonOVD }]
+
+        sessionStorage.setItem('oList', JSON.stringify(ov));
+
+    }
+    else {
+        JSONoList = JSON.parse(oList);
+
+        for (var i = 0; i < JSONoList.length; i++) {
+
+            var jsonOVD = JSONoList[i].OVD
+            if (jsonOVD != null) {
+                if (isCustom == false) {
+                    //Actualizamos dispositivos existentes o agregamos nuevo(existente en catalogo)
+                    isOVDInn = 0;
+                    for (var j = 0; j < jsonOVD.length; j++) {
+
+                        if (jsonOVD[j].P == id && jsonOVD[j].D == device && jsonOVD[j].M == material) {
+                            jsonOVD[j].Q = jsonOVD[j].Q + quantity;
+                            isOVDInn = 1;
+                        }
+                    }
+
+                    if (isOVDInn == 0) {
+                        jsonOVD.push({ "P": id, "D": device, "M": material, "Q": quantity, "Img": img, "Name": name, "Price": price, "isCustom": isCustom, "imgBase64": imgBase64 });
+                    }
+                } else {
+                    //Agregamos nuevo presonalizado
+                    //isCustom es true
+                    //imgBase64 es la imagen a usar para el case final
+                    //img contiene la imagen con el case pegado
+                    jsonOVD.push({ "P": id, "D": device, "M": material, "Q": quantity, "Img": img, "Name": name, "Price": price, "isCustom": isCustom, "imgBase64": imgBase64 });
+
+                }
+            }
+            JSONoList[i].OVD = jsonOVD;
+        }
+        sessionStorage.setItem('oList', JSON.stringify(JSONoList));
+    }
+
+    updateComboboxCartPanel();
+}
 
 //Agrega al carrito el articulo seleccionado y actualiza el JSON en session
 function addToCart(id, name, price, img) {
@@ -242,6 +290,10 @@ function updateGridCart() {
                 var tdSubT = $('<td id="tdsub_' + j.toString() + '" class="sub">$' + (JsonOVD[j].Q * JsonOVD[j].Price).toFixed(2) + '</td>');
                 var tdDel = $('<td class="action"><a href="#" onclick="return removeItemFromGridCart(' + j + ');" class="text-danger" data-toggle="tooltip" data-placement="top" data-original-title="Remove"><i class="fa fa-trash-o"></i></a></td>');
 
+                if (JsonOVD[j].isCustom) {
+                    tdImg = null;
+                    tdImg = $('<td class="img-cart"><a href="detail.html"><img id=' + imgid + ' alt="Product" src="' + JsonOVD[j].imgBase64 + '" class="img-thumbnail"></a></td>');
+                }
                 tr.append(tdImg).append(tdText).append(tdDisp).append(tdMat).append(tdCant).append(tdPrecio).append(tdSubT).append(tdDel);
 
                 tbodyCart.append(tr);
@@ -329,7 +381,7 @@ function updateItemsQuantityCart(jrow, cant) {
     updateComboboxCartPanel();
 }
 
-//Obtiene parametros de dispositovo guardados en session 
+//Obtiene parametros de dispositivo guardados en session 
 function GetDeviceFromSession(D) {
     var jsonDevice = JSON.parse(sessionStorage.getItem("jsonDevice"));
 

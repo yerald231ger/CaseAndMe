@@ -107,5 +107,12 @@ namespace CaseAndMeWeb.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public JsonResult GetMaterials(int id)
+        {
+            var materials = context.Material.Where(x => x.EsActivo == true).ToList();
+            return Json(materials, JsonRequestBehavior.AllowGet);
+        }
     }
 }

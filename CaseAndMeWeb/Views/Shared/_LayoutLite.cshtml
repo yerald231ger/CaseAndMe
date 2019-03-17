@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="top-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="max-width: 150px; display: inline-block;">
+                        <a href="/"><img alt="Logo" src="~/images/logo.png" class=" img-logo" style="max-height: 50px;" data-text-logo="Mimity Online Shop"></a>
+                    </div>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    @RenderBody()
+    @*<footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center copyright">
+                        Copyright © @DateTime.Now.Year CASE&ME
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>*@
+
+    
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

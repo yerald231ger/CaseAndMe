@@ -43,6 +43,17 @@ namespace CaseAndMeWeb
             bundles.Add(new StyleBundle("~/Content/datatables").Include(
                       "~/Content/Datatables/datatables.css",
                      "~/Content/Datatables/datatables.Theme.css"));
+
+            bundles.Add(new StyleBundle("~/customizer/css").Include(
+                "~/Content/Customizer/css/Global.css",
+                "~/Content/Customizer/css/Styles.css"
+                ));
+
+            bundles.Add(new StyleBundle("~/customizer/js").Include(
+                "~/Scripts/FileUpload/jquery.ui.widget.js",
+                "~/Scripts/FileUpload/jquery.jquery.iframe-transport.js",
+                "~/Scripts/FileUpload/jquery.fileupload.js",
+                "~/Scripts/Html2Canvas/html2canvas.min.js"));
         }
     }
 }
