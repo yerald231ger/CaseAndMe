@@ -255,6 +255,14 @@
     <Compile Include="Migrations\201901200349152_Martin3.Designer.cs">
       <DependentUpon>201901200349152_Martin3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903180003389_Martin190317.cs" />
+    <Compile Include="Migrations\201903180003389_Martin190317.Designer.cs">
+      <DependentUpon>201903180003389_Martin190317.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903260449518_Martin20190325.cs" />
+    <Compile Include="Migrations\201903260449518_Martin20190325.Designer.cs">
+      <DependentUpon>201903260449518_Martin20190325.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\ComponentsViewModel\TableViewModel.cs" />
@@ -515,6 +523,12 @@
     <Content Include="Content\images\sort_both.png" />
     <Content Include="Content\jquery-confirm.css" />
     <Content Include="Content\jquery.bootstrap-touchspin.css" />
+    <Content Include="Content\openpay\cards1.png" />
+    <Content Include="Content\openpay\cards2.png" />
+    <Content Include="Content\openpay\cvv.png" />
+    <Content Include="Content\openpay\openpay.png" />
+    <Content Include="Content\openpay\radio_on.png" />
+    <Content Include="Content\openpay\security.png" />
     <Content Include="Content\owl-carousel.css" />
     <Content Include="Content\owl-theme.css" />
     <Content Include="Content\site.css">
@@ -899,6 +913,7 @@
     <Content Include="Content\Customizer\fonts\robotodraft\Thin\RobotoDraft-Thin.woff" />
     <Content Include="Content\Customizer\fonts\robotodraft\Thin\RobotoDraft-Thin.woff2" />
     <Content Include="Content\Customizer\js\data.json" />
+    <Content Include="Content\openpay\.DS_Store" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\FileUpload\jquery.fileupload.js" />
     <Content Include="Scripts\FileUpload\jquery.iframe-transport.js" />
@@ -1041,6 +1056,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901200349152_Martin3.resx">
       <DependentUpon>201901200349152_Martin3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903180003389_Martin190317.resx">
+      <DependentUpon>201903180003389_Martin190317.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903260449518_Martin20190325.resx">
+      <DependentUpon>201903260449518_Martin20190325.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

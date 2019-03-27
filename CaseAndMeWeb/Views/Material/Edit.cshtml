@@ -31,6 +31,14 @@
                     </div>
 
                     <div class="form-group">
+                        @Html.LabelFor(model => model.precio, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.precio, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.precio, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="form-group">
                         <label for="EsActivo" class="control-label col-md-2">Activo</label>
                         <div class="col-md-8">
                             @Html.CheckBoxFor(m => m.EsActivo, new { @checked = "checked" })

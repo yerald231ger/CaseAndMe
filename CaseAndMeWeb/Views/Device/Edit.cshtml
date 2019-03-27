@@ -1,4 +1,5 @@
-﻿@model CaseAndMeWeb.Models.Dispositivo
+﻿@using Newtonsoft.Json
+@model CaseAndMeWeb.Models.Dispositivo
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -17,10 +18,12 @@
                         Regresar a la lista
                     </a>
                 </p>
+                <input type="hidden" id="hdnMascara" name="hdnMascara" value="" />
                 <div class="form-horizontal">
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.Mascaras)
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -29,7 +32,138 @@
                             @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Marca</label>
+                        <div class="col-md-8">
+                            <select id="ddlMarca" name="ddlMarca" class="form-control">
+                                <option value="0">Seleccione...</option>
+                                @{
+                                    bool banderaMask = false;
+                                }
+                                @foreach (var m in ViewBag.MaskMarcas)
+                                {
+                                    if (Model.Marca.ToUpper() == m.ToUpper())
+                                    {
+                                        banderaMask = true;
+                                        <option selected value="@m">@m</option>
+                                    }
+                                    else
+                                    {
 
+                                        <option value="@m">@m</option>
+                                    }
+                                }
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div id="dvFormTipoCases" class="form-group">
+                        <label class="control-label col-md-2">Tipos de Case <br> (Personalizador)</label>
+                        <div class="col-md-8">
+                            <div id="dvTipoCases" class="divSelect">
+                                @foreach (var data in ViewBag.CasesType)
+                                {
+                                    string idChkCases = "chk" + data;
+                                    string idDivCases = "dvchk" + data;
+                                    string idddlCases = "ddl" + data;
+
+                                    //Validamos que el case se encuentre dentro, de lo contrario el checkbox no sera checked
+                                    bool bandera = false;
+                                    List<string> listaCases = new List<string>();
+                                    for (int i = 0; i < ViewBag.Mascaras.Count; i++)
+                                    {
+                                        var strObj = JsonConvert.SerializeObject(ViewBag.Mascaras[i]);
+                                        var objJSON = JsonConvert.DeserializeObject(strObj);
+                                        if (objJSON.tipoCase == data)
+                                        {
+                                            bandera = true;
+                                            var strlistCases = JsonConvert.SerializeObject(objJSON.listaCases);
+                                            var listCases = (List<string>)JsonConvert.DeserializeObject<List<string>>(strlistCases);
+                                            listaCases = listCases;
+                                        }
+                                    }
+
+                                    if (bandera)
+                                    {
+                                        if (ViewBag.listMyCasesType != null)
+                                        {
+                                            bool banderaTipoCase = false;
+                                            for (int i = 0; i < ViewBag.listMyCasesType.Count; i++)
+                                            {
+                                                var miTipoCase = ViewBag.listMyCasesType[i];
+                                                if (miTipoCase == data)
+                                                {
+                                                    banderaTipoCase = true;
+                                                }
+                                            }
+                                            string display = "";
+                                            if (banderaTipoCase)
+                                            {
+                                                <input id="@idChkCases" type="checkbox" name="@data" value="@data" checked> @data <br />
+                                            }
+                                            else
+                                            {
+                                                <input id="@idChkCases" type="checkbox" name="@data" value="@data"> @data <br />
+                                                display = "display:none;";
+                                            }
+
+
+                                            <div id="@idDivCases">
+                                                <select id="@idddlCases" name="@data" class="form-control" style="@display">
+                                                    <option value="0">Seleccione...</option>
+                                                    @for (int c = 0; c < listaCases.Count; c++)
+                                                    {
+                                                        var imgCase = listaCases[c];
+
+                                                        bool banderaCase = false;
+                                                        for (int i = 0; i < ViewBag.listMyCases.Count; i++)
+                                                        {
+                                                            var miCase = ViewBag.listMyCases[i];
+                                                            if (miCase == imgCase)
+                                                            {
+                                                                banderaCase = true;
+                                                            }
+                                                        }
+
+                                                        if (banderaCase)
+                                                        {
+                                                            <option value="@imgCase" selected>@imgCase</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@imgCase">@imgCase</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <input id="@idChkCases" type="checkbox" name="@data" value="@data"> @data <br />
+                                            <div id="@idDivCases">
+                                                <select id="@idddlCases" name="@data" class="form-control" style="display:none;">
+                                                    <option value="0">Seleccione...</option>
+                                                </select>
+                                            </div>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <input id="@idChkCases" type="checkbox" name="@data" value="@data"> @data <br />
+                                        <div id="@idDivCases">
+                                            <select id="@idddlCases" name="@data" class="form-control"  style="display:none;">
+                                                <option value="0">Seleccione...</option>
+                                            </select>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
                     <div class="form-group">
                         <label for="EsActivo" class="control-label col-md-2">Activo</label>
                         <div class="col-md-8">
@@ -52,3 +186,63 @@
 
 }
 
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".divSelect select").change(function () {
+                asignaCases();
+            });
+
+            $(".divSelect input[type=checkbox]" ).change(function () {
+                var ddlName = 'ddl' + $(this).attr("name");
+                var data = $(this).attr("name");
+                if ($(this).prop('checked')) {
+                    var marca = $("#ddlMarca").val()
+                    cargaCases(marca, data, ddlName);
+                    $("#" + ddlName).show();
+                } else {
+                    $("#" + ddlName).val("0");
+                    $("#" + ddlName).hide();
+                    asignaCases();
+                }
+            });
+        });
+
+        function cargaCases(marca, casetype, ddlName) {
+            $.getJSON('@Url.Action("getMaskCases")', { MaskMarca: marca, CaseType: casetype }, function (result) {
+                if (result !== null && !jQuery.isEmptyObject(result)) {
+                    $("#" + ddlName + " > option").remove();
+                    var option = '<option value="0">Seleccione...</option>';
+                    $("#" + ddlName).append(option);
+
+                    $.each(result, function (index, data) {
+                        option = '<option value="' + data+'">'+data+'</option>';
+                        $("#" + ddlName).append(option);
+
+                        $("#" + ddlName).change(function () {
+                            asignaCases();
+                        });
+                    });
+                }
+            });
+        }
+
+        function asignaCases() {
+            var mascaras = "";
+            $("#dvTipoCases input:checked").each(function () {
+                var marca = $("#ddlMarca").val();
+                var tipoCase = $(this).attr('name');
+                var casePNG = $("#ddl" + tipoCase).val();
+
+                mascaras = mascaras + marca + "\\" + tipoCase + "\\" + casePNG + ",";
+            });
+
+            if (mascaras.length > 0)
+                mascaras = mascaras.slice(0, -1);
+
+
+            $("#Mascaras").val(mascaras);
+        }
+    </script>
+}

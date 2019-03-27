@@ -9,5 +9,7 @@ namespace CaseAndMeWeb.Models
     {
         public virtual ICollection<OrdenVentaDetalle> OrdenesVentaDetalle { get; set; }
         public string  Marca { get; set; }
+
+        public string Mascaras { get; set; }
     }
 }

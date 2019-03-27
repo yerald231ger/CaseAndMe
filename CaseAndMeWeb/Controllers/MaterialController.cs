@@ -72,11 +72,28 @@ namespace CaseAndMeWeb.Controllers
 
         // POST: Material/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Material m)
         {
             try
             {
-                // TODO: Add update logic here
+                try
+                {
+                    var material = context.Material.Where(x => x.Id == id).FirstOrDefault();
+                    if (material != null)
+                    {
+                        material.Nombre = m.Nombre;
+                        material.EsActivo = m.EsActivo;
+                        material.FechaMod = DateTime.UtcNow;
+                        material.precio = m.precio;
+                        context.SaveChanges();
+                        View(material);
+                    }
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    return View(ex);
+                }
 
                 return RedirectToAction("Index");
             }

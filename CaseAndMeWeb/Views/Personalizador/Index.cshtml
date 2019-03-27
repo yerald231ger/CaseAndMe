@@ -62,8 +62,10 @@
 
         });
 
-        function setDevice(i, n, m) {
+        function setDevice(i, n, m, mascaras) {
             showLoader();
+
+           
 
             if (sessionStorage.getItem("perzonalizador") == null) {
                 var data =
@@ -81,10 +83,23 @@
             }
             //Cambiamos case de presentacion
 
-            loadMask("/Content/Customizer/img/mask/" + m + "/default.png");
+            if (mascaras != "") {
+                var listaMascaras = mascaras.split(',')
+                var index = 0;
+
+                for (var i = 0; i < listaMascaras.length; i++) {
+                    if (listaMascaras[i].includes("SlimCase"))
+                        index = i;
+                }
+
+                var mascara = "/Content/Customizer/img/mask/" + listaMascaras[index];
+                loadMask(mascara)
+            }
+
+            $("#spTitulo").html(n);
 
             //Cargamos Paso 2
-            cargaCases();
+            cargaCases(listaMascaras);
 
             $('#cp-link-step>li').removeClass('cp-current-step');
             $("#cp-st-2").addClass("cp-active cp-current-step");
@@ -114,7 +129,7 @@
             }
         }
 
-        function cargaCases() {
+        function cargaCases(mascaras) {
             $(".cp-model").empty();
 
             var controllerUrl = "@this.Url.Action(actionName: "GetMaterials", controllerName:"Material")";
@@ -122,16 +137,37 @@
             $.getJSON(controllerUrl + "/0", function (data) {
                 var items = [];
                 $.each(data, function (key, obj) {
-                    var classActive = key == 0 ? "active" : "";
-                      var item = '<li>'
-                          + '<a href="#" class="cp-list-t ' + classActive + '" id="c_' + key + '" onclick="setCase(' + obj.Id + ',\'' + obj.Nombre +'\')">'
-                            + '<img alt="" src="/images/materials/'+ obj.imagen + '">'
+
+                    var existCase = false;
+                    var indexCase = 0;
+                    for (var i = 0; i < mascaras.length; i++) {
+                        var mascara = mascaras[i].replace(/\s/g, "").toUpperCase();
+                        var nombre = obj.Nombre.replace(/\s/g, "").toUpperCase();
+                        if (nombre.includes("("))
+                            nombre = nombre.substring(nombre.indexOf("(") + 1);
+
+                        if (nombre.includes(")"))
+                            nombre = nombre.substring(0, nombre.indexOf(")"));
+
+                        if (mascara.includes(nombre)) {
+                            existCase = true;
+                            indexCase = i;
+                        }
+                    }
+
+                    if (existCase) {
+                        var classActive = key == 0 ? "active" : "";
+                        var item = '<li>'
+                            + '<a href="#" urlCase="' + mascaras[indexCase] + '" class="cp-list-t ' + classActive + '" id="c_' + key + '" onclick="setCase(' + obj.Id + ',\'' + obj.Nombre + '\',\'' + mascaras[indexCase] + '\', ' + obj.precio +')">'
+                            + '<img alt="" src="/images/materials/' + obj.imagen + '">'
                             + '<samp class="cp-g-sel">'
                             + '<span class="img-find-title">' + obj.Nombre + '</span>'
                             + '</samp>'
                             + '</a>'
                             + '</li>'
-                    items.push(item);
+                        items.push(item);
+                    }
+                    
 
                 });
                 $(".cp-model").append(items)
@@ -139,7 +175,7 @@
             });
         }
 
-        function setCase(i, n) {
+        function setCase(i, n, mask, p) {
             showLoader();
 
             if (sessionStorage.getItem("perzonalizador") != null) {
@@ -151,6 +187,18 @@
                 jdata.case = jcase;
                 sessionStorage.setItem("perzonalizador", JSON.stringify(jdata));
             }
+
+            mask = "/Content/Customizer/img/mask/" + mask;
+            loadMask(mask)
+
+
+            var titulo = $("#spTitulo").html();
+            titulo = titulo.split('/')[0];
+            titulo = titulo + " / " + n
+            $("#spTitulo").html(titulo);
+            var precio = parseFloat(Math.round(p * 100) / 100).toFixed(2);
+            $("#spPrecio").html("$" + precio);
+            $("#spPrecio").attr("data-price", precio);
             ////Cargamos Paso 3
             //cargaLayout();
 
@@ -227,6 +275,7 @@
         function loadMask(src) {
             $('#cp-mask-img').children('img').attr('src', src);
         }
+
         function pintaImgCase(e) {
             //console.log($(e).html());
 
@@ -279,7 +328,7 @@
 
                 var P = 0;
                 var name = "Personalizado";
-                var price = 199;
+                var price = parseFloat($("#spPrecio").attr("data-price"))
                 var img = canvasImgCase;
                 var D = json.dispositivo.id;
                 var M = json.case.id;
@@ -297,6 +346,7 @@
             }
         }
 
+        
         @* function cargaImagenesUsuario() {
             $.getJSON('@Url.Action("getUserImages")', function (data) {
                 var items = [];
@@ -363,9 +413,9 @@
                             <!-- Seccion Pasos -->
                             <div class="start" id="step1">
                                 <p class="cp-title"><span>Paso 1</span> : Elige tu dispositivo</p>
-                                <p class="searchphone">
+                                @*<p class="searchphone">
                                     <input type="text" placeholder="Buscar : Encuenta tu dispositivo">
-                                </p>
+                                </p>*@
                                 <div class="wr-dev-choice">
                                     <div class="wr-dev-choice-helper">
                                         <div id="search-bloc">
@@ -382,7 +432,12 @@
                                                     @foreach (var d in ViewBag.Dispositivos)
                                                     {
                                                         <li>
-                                                            <a class="cp-choose-dev-button" href="#" onclick="setDevice('@d.Id','@d.Nombre', '@d.Marca')" id="p_1">
+                                                            @{string mascara = ""; }
+                                                            @if (!string.IsNullOrEmpty(d.Mascaras))
+                                                            {
+                                                                mascara = d.Mascaras.Replace("\\", "/");
+                                                            }
+                                                            <a class="cp-choose-dev-button" href="#" onclick="setDevice('@d.Id','@d.Nombre', '@d.Marca', '@mascara')" id="p_1">
                                                                 <span class="tit-prod">@d.Nombre</span>
                                                             </a>
                                                         </li>
@@ -484,7 +539,7 @@
                             <!-- Fin Seccion Pasos -->
                         </div>
                         <div id="cp-add-cart">
-                            <a href="#" class="cp-btn-save" onclick="asyncfinalizaImgCase();">SAVE DESIGN</a>
+                            <a href="#" class="cp-btn-save" onclick="asyncfinalizaImgCase();">CREAR</a>
                         </div>
                     </div>
 
@@ -510,8 +565,8 @@
                     <div id="right-side">
                         <div id="cp-infos-product">
                             <div class="cp-info-dev">
-                                <span class="cp-title"></span>
-                                <span class="cp-price"></span>
+                                <span id="spTitulo" class="cp-title"></span>
+                                <span id="spPrecio" data-price="0" class="cp-price"></span>
                                 <!--a href="" class="cp-aide">Aide</a-->
                             </div>
                             <!-- Bloc Select Text -->

@@ -10,10 +10,11 @@
         <div class="col-md-12">
             <div class="title"><span>Nuevo Dispositivo</span></div>
             <p style="text-align:left; margin-bottom:10px;">@Html.ActionLink("< Regresar a la lista", "Index", null, new { @class = "btn btn-info" })</p>
-            @using (Html.BeginForm())
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
 
+                <input type="hidden" id="hdnMascara" name="hdnMascara" value="" />
                 <div class="form-horizontal">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -23,8 +24,28 @@
                         </div>
                         <div class="col-md-2"></div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Marca</label>
+                        <div class="col-md-8">
+                            <select id="ddlMarca" name="ddlMarca" class="form-control">
+                                <option value="0">Seleccione...</option>
+                                @foreach (var m in ViewBag.MaskMarcas)
+                                {
+                                    <option value="@m">@m</option>
+                                }
 
+                            </select>
 
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div id="dvFormTipoCases" class="form-group" style="display:none;">
+                        <label class="control-label col-md-2">Tipos de Case <br> (Personalizador)</label>
+                        <div class="col-md-8">
+                            <div id="dvTipoCases"></div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Guardar" class="btn btn-default" />
@@ -40,6 +61,82 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
 
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#ddlMarca").change(function () {
+                var marca = $("#ddlMarca").val();
+                $("#dvFormTipoCases").show();
+                cargaTipoCases(marca);
+            });
+        });
+
+        function cargaTipoCases(marca) {
+            $.getJSON('@Url.Action("getMaskCaseTypes")', { MaskMarca: marca }, function (result) {
+                if (result !== null && !jQuery.isEmptyObject(result)) {
+                    $("#dvTipoCases").html("");
+                    $.each(result, function (index, data) {
+                        var idDivCases = 'dvchk' + data
+                        var idChkCases = 'chk' + data
+                        var idddlCases = 'ddl' + data 
+                        var chkCase = '<input id="' + idChkCases + '" type="checkbox" name="' + data + '" value="' + data + '"> ' + data + "<br>" + '<div id="' + idDivCases + '"><select id="' + idddlCases + '" name="' + data +'" style="display:none;" class="form-control"><option value="0">Seleccione...</option></select></div>';
+                        //var chkCase = $('<input type="checkbox" name="' + data + '" value="' + data + '"> ' + data + "<br>");
+                        //var ddlCase = $('<select id="' + idddlCases + '" class="form-control"><option value="0">Seleccione...</option></select>');
+
+                        //ddlCase.insertAfter(chkCase);
+                        $("#dvTipoCases").append(chkCase)
+
+                        //Mostramos combo al activar el checkbox
+                        $("#" + idChkCases).change(function () {
+                            var ddlName = 'ddl' + $(this).attr("name");
+                            if ($(this).prop('checked')) {
+                                cargaCases(marca, data, ddlName);
+                                $("#" + ddlName).show();
+                            } else {
+                                $("#" + ddlName + " > option").remove();
+                                $("#" + ddlName).hide();
+                                asignaCases();
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        function cargaCases(marca, casetype, ddlName) {
+            $.getJSON('@Url.Action("getMaskCases")', { MaskMarca: marca, CaseType: casetype }, function (result) {
+                if (result !== null && !jQuery.isEmptyObject(result)) {
+                    var option = '<option value="0">Seleccione...</option>';
+                    $("#" + ddlName).append(option);
+                    $.each(result, function (index, data) {
+                        var option = '<option value="' + data+'">'+data+'</option>';
+                        $("#" + ddlName).append(option);
+
+                        $("#" + ddlName).change(function () {
+                            asignaCases();
+                        });
+                    });
+                }
+            });
+        }
+
+        function asignaCases() {
+            var mascaras = "";
+            $("#dvTipoCases input:checked").each(function () {
+                var marca = $("#ddlMarca").val();
+                var tipoCase = $(this).attr('name');
+                var casePNG = $("#ddl" + tipoCase).val();
+
+                mascaras = mascaras + marca + "\\" + tipoCase + "\\" + casePNG + ",";
+            });
+
+            if (mascaras.length > 0)
+                mascaras = mascaras.slice(0, -1);
+
+
+            $("#hdnMascara").val(mascaras);
+        }
+    </script>
+}
 
