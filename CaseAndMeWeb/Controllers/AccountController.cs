@@ -217,7 +217,7 @@ namespace CaseAndMeWeb.Controllers
 
 
             ViewBag.Paises = SelectPaises(model.Pais);
-            ViewBag.Estados = SelectEstados(model.Estado, 0);
+            ViewBag.Estados = SelectEstados(model.Pais, model.Estado);
             // If we got this far, something failed, redisplay form
             return View(model);
         }
