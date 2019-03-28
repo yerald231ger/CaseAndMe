@@ -202,7 +202,7 @@ namespace CaseAndMeWeb.Controllers
                 {
 
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    UserManager.AddToRole(user.Id, "Admin");
+                    UserManager.AddToRole(user.Id, "User");
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

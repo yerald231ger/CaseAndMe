@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CaseAndMeWeb.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DashboardController : Controller
     {
         public IOrdenVentaRepository OrdenVentaRepository { get; }
