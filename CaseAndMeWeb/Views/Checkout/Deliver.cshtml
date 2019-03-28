@@ -17,7 +17,7 @@
                 Datos de envío
             </li>
             <li data-step="3">
-                Metodo de Pago
+                Realizar Pago
             </li>
             <li data-step="4" class="progress__last">
                 Confirmación
@@ -120,7 +120,7 @@
         <nav aria-label="Shopping Cart Next Navigation">
             <ul class="pager">
                 <li class="previous"><a href="~/Checkout/Cart"><span aria-hidden="true">←</span> Regresar</a></li>
-                <li class="next"><a href="~/Checkout/Pay" onclick="return processDeliver();">Metodo de pago <span aria-hidden="true">→</span></a></li>
+                <li class="next"><a href="~/Checkout/Pay" onclick="return processDeliver();">Realizar Pago <span aria-hidden="true">→</span></a></li>
             </ul>
         </nav>
     </div>
@@ -128,4 +128,22 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#Paises").change(function () {
+                cargaEstados($(this).val())
+            });
+
+        });
+
+        function cargaEstados(idPais) {
+            $.get("/Checkout/Deliver/getEstados?idPais=" + idPais, function (data) {
+
+                console.log(data);
+            });
+        }
+    </script>
 }
