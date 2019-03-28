@@ -15,6 +15,7 @@ namespace CaseAndMeWeb.Models
         public string IdUser { get; set; }
         public ApplicationUser User { get; set; }
 
+
         public virtual ICollection<OrdenVentaDetalle> OrdenesVentaDetalle { get; set; }
     }
 }

@@ -6,11 +6,15 @@ using CaseAndMeWeb.Models;
 using System.Linq;
 using System.Collections.Generic;
 using Openpay;
+using Openpay.Entities;
+using Openpay.Entities.Request;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CaseAndMeWeb.Controllers
 {
     public class CheckoutController : Controller
     {
+        
         public ApplicationDbContext context { get; set; }
 
         public CheckoutController(ApplicationDbContext context)
@@ -109,20 +113,38 @@ namespace CaseAndMeWeb.Controllers
         }
 
         // GET: Checkout/Pay
-        public ActionResult Pay()
+        public ActionResult Pay(string amount, string description)
         {
+            ViewBag.amount = "120.0";
+            ViewBag.description = "description--";
 
             return View();
         }
 
         // POST: Checkout/Pay
         [HttpPost]
-        public ActionResult Pay(IFormCollection collection)
+        public ActionResult PayReturn()
         {
-            string API_KEY = "sk_3855563d4260413caaac4ea4a09bd986";
-            string MERCHANT_ID = "mffor04cuaydicmocxvb";
-            OpenpayAPI openpayAPI = new OpenpayAPI(API_KEY, MERCHANT_ID);
-            openpayAPI.Production = false;  //false = Modo pruebas      true = Modo producción
+            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var user = context.Users.Where(x => x.Id == userId).FirstOrDefault();
+
+            OpenpayAPI api = new OpenpayAPI("sk_3855563d4260413caaac4ea4a09bd986", "mffor04cuaydicmocxvb");
+
+            Customer customer = new Customer();
+            customer.Name = user.Nombre;
+            customer.LastName = user.PrimerApellido;
+            customer.PhoneNumber = user.PhoneNumber;
+            customer.Email = user.Email;
+
+            ChargeRequest r = new ChargeRequest();
+            r.Method = "card";
+            r.SourceId = Request.Form["token_id"].ToString();
+            r.Amount =  decimal.Parse(Request.Form["amount"].ToString());
+            r.Description = Request.Form["description"].ToString();
+            r.DeviceSessionId = Request.Form["deviceIdHiddenFieldName"].ToString();
+            r.Customer = customer;
+
+            Charge charge = api.ChargeService.Create(r);
 
             return View();
         }

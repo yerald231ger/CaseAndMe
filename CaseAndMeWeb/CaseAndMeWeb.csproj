@@ -519,6 +519,7 @@
     <Content Include="Content\fonts\robotodraft\Medium\RobotoDraft-Medium.svg" />
     <Content Include="Content\fonts\robotodraft\Regular\RobotoDraft-Regular.svg" />
     <Content Include="Content\fonts\robotodraft\Thin\RobotoDraft-Thin.svg" />
+    <Content Include="Content\images\bvT96FWc_400x400.png" />
     <Content Include="Content\images\sort_asc.png" />
     <Content Include="Content\images\sort_both.png" />
     <Content Include="Content\jquery-confirm.css" />
@@ -931,6 +932,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\openPay\openPay.js" />
     <Content Include="Scripts\owl-carousel.js" />
     <Content Include="Scripts\owl-carousel.min.js">
       <DependentUpon>owl-carousel.js</DependentUpon>
@@ -1025,6 +1027,7 @@
     <Content Include="Views\Personalizador\Index.cshtml" />
     <Content Include="Views\Collection\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutLite.cshtml" />
+    <Content Include="Views\Checkout\PayReturn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

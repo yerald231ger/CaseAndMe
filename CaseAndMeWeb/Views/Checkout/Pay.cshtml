@@ -3,7 +3,13 @@
     ViewBag.Title = "Pay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript"
+        src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
+<script type='text/javascript'
+        src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"></script>
+<script src="~/Scripts/openPay/openPay.js"></script>
 <style type="text/css">
 
     ::-webkit-input-placeholder {
@@ -30,7 +36,7 @@
     }
 
     strong {
-        font-weight: 700;
+        font-weight: 600;
     }
 
     a {
@@ -116,7 +122,7 @@
 
     .pymnts {
         float: left;
-        width: 800px;
+        /*width: 800px;*/
     }
 
         .pymnts * {
@@ -306,9 +312,11 @@
 </style>
 <div class="container m-t-3">
     <div class="row">
-        <div class="col-md-12" >
+        <div class="col-md-9">
             <div class="pymnts">
-                <form action="#" method="POST" id="payment-form">
+                <form action="PayReturn" method="POST" id="payment-form">
+                    <input type="hidden" name="amount" id="amount" value="@ViewBag.amount" />
+                    <input type="hidden" name="description" id="description" value="@ViewBag.description" />
                     <input type="hidden" name="token_id" id="token_id">
                     <input type="hidden" name="use_card_points" id="use_card_points" value="false">
                     <div class="pymnt-itm card active">
@@ -350,7 +358,14 @@
             </div>
 
         </div>
+
+        <div class="col-md-3">
+            <h4><strong>Descripción:</strong> @ViewBag.description</h4>
+            <br /><h4><strong>Total:</strong> $@ViewBag.amount</h4>
+        </div>
     </div>
 </div>
+
+
 
 
