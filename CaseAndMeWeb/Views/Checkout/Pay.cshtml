@@ -36,7 +36,7 @@
     }
 
     strong {
-        font-weight: 600;
+        font-weight: 700;
     }
 
     a {
@@ -53,8 +53,9 @@
             font-size: 21px;
             font-weight: 400;
             padding: 12px 0;
-            width: 100%;
+            width: 100px;
             color: #FFFFFF;
+            float: right;
             display: table;
             background: #5bc0de;
             background: -moz-linear-gradient(top, #E51F04 0%, #A60000 100%);
@@ -122,7 +123,7 @@
 
     .pymnts {
         float: left;
-        /*width: 800px;*/
+        width: 100%;
     }
 
         .pymnts * {
@@ -184,10 +185,10 @@
 
         .pymnt-itm h2 {
             background-color: #67bac3;
-            font-size: 24px;
+            font-size: 20px;
             line-height: 24px;
             margin: 0;
-            padding: 28px 0 28px 20px;
+            padding: 10px 0 10px 20px;
             width: 100%;
         }
 
@@ -263,7 +264,7 @@
             border-right: 1px solid #ccc;
             font-size: 12px;
             font-weight: 400;
-            height: 45px;
+            height: 65px;
             padding: 15px 20px 0 0;
         }
 
@@ -309,9 +310,46 @@
             font-weight: 400;
             margin: 0;
         }
+
+    .bx-sumary {
+        background-color: #f7f7f7;
+    }
+
+        .bx-sumary .bx-content {
+            margin: 0px 30px 0px 30px;
+            height: 524px;
+        }
+
+        .bx-sumary h2 {
+            background-color: #67bac3;
+            color: #fff;
+            cursor: default;
+            font-size: 20px;
+            line-height: 24px;
+            margin: 0;
+            padding: 10px 0 10px 20px;
+            width: 100%;
+        }
 </style>
 <div class="container m-t-3">
     <div class="row">
+        <!-- Mi lista de compras -->
+        <ol class="progress-step">
+            <li data-step="1">
+                Mi Carrito
+            </li>
+            <li data-step="2">
+                Datos de envío
+            </li>
+            <li data-step="3" class="is-active">
+                Realizar Pago
+            </li>
+            <li data-step="4" class="progress__last">
+                Confirmación
+            </li>
+        </ol>
+        <div class="title"><span>Realizar Pago</span></div>
+
         <div class="col-md-9">
             <div class="pymnts">
                 <form action="PayReturn" method="POST" id="payment-form">
@@ -360,12 +398,31 @@
         </div>
 
         <div class="col-md-3">
-            <h4><strong>Descripción:</strong> @ViewBag.description</h4>
-            <br /><h4><strong>Total:</strong> $@ViewBag.amount</h4>
+            <div class="bx-sumary">
+                <h2>Monto a Pagar</h2>
+                <div class="bx-content">
+                    <br /><h4><strong>Total:</strong><label id="lblTotal"></label> </h4>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var oList = JSON.parse(sessionStorage.getItem("oList"))[0];
+            var total = 0;
+            for (var i = 0; i < oList.OVD.length; i++) {
+                var ovd = oList.OVD[i];
+                var subtotal = 0;
+                subtotal = (ovd.Price * ovd.Q);
 
-
+                total = total + subtotal;
+            }
+            $("#lblTotal").html("$" + total.toFixed(2));
+            $("#amount").val(total);
+        });
+    </script>
+}
