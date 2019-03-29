@@ -65,7 +65,7 @@
         function setDevice(i, n, m, mascaras) {
             showLoader();
 
-           
+
 
             if (sessionStorage.getItem("perzonalizador") == null) {
                 var data =
@@ -167,7 +167,7 @@
                             + '</li>'
                         items.push(item);
                     }
-                    
+
 
                 });
                 $(".cp-model").append(items)
@@ -346,7 +346,7 @@
             }
         }
 
-        
+
         @* function cargaImagenesUsuario() {
             $.getJSON('@Url.Action("getUserImages")', function (data) {
                 var items = [];
@@ -414,8 +414,8 @@
                             <div class="start" id="step1">
                                 <p class="cp-title"><span>Paso 1</span> : Elige tu dispositivo</p>
                                 @*<p class="searchphone">
-                                    <input type="text" placeholder="Buscar : Encuenta tu dispositivo">
-                                </p>*@
+                                        <input type="text" placeholder="Buscar : Encuenta tu dispositivo">
+                                    </p>*@
                                 <div class="wr-dev-choice">
                                     <div class="wr-dev-choice-helper">
                                         <div id="search-bloc">
@@ -431,18 +431,18 @@
                                                 <ul class="cp-device">
                                                     @foreach (var d in ViewBag.Dispositivos)
                                                     {
+                                                        string mascara = "";
+
+                                                        if (!string.IsNullOrEmpty(d.Mascaras))
+                                                        {
+                                                            mascara = d.Mascaras.Replace("\\", "/");
                                                         <li>
-                                                            @{string mascara = ""; }
-                                                            @if (!string.IsNullOrEmpty(d.Mascaras))
-                                                            {
-                                                                mascara = d.Mascaras.Replace("\\", "/");
-                                                            }
                                                             <a class="cp-choose-dev-button" href="#" onclick="setDevice('@d.Id','@d.Nombre', '@d.Marca', '@mascara')" id="p_1">
                                                                 <span class="tit-prod">@d.Nombre</span>
                                                             </a>
                                                         </li>
                                                     }
-
+                                                }
                                                 </ul>
                                             </div>
                                         </div>
