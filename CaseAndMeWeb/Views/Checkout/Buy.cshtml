@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div class="col-md-12">
                 <ol class="progress-step">
-                    <li  data-step="1">
+                    <li data-step="1">
                         Mi Carrito
                     </li>
                     <li data-step="2" class="is-active">
@@ -34,3 +34,10 @@
 
 
 
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ulMainMenu .li-checkout").addClass("active");
+        });
+    </script>
+}

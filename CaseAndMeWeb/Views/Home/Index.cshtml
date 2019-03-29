@@ -155,7 +155,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <img id='imgDetailModal' src=""  style="width: 100%;"/>
+                                <img id='imgDetailModal' src="" style="width: 100%;" />
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -231,6 +231,9 @@
             if (jsonMaterial != null) {
                 sessionStorage.setItem("jsonMaterial", JSON.stringify(jsonMaterial));
             }
+
+            $("#ulMainMenu .li-inicio").addClass("active");
         });
     </script>
 }
+

@@ -412,6 +412,8 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#ulMainMenu .li-checkout").addClass("active");
+
             var oList = JSON.parse(sessionStorage.getItem("oList"))[0];
             var total = 0;
             for (var i = 0; i < oList.OVD.length; i++) {
@@ -426,3 +428,4 @@
         });
     </script>
 }
+

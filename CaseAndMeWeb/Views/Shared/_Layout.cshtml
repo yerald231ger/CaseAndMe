@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>CASE&ME</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -70,11 +70,11 @@
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="~/">Inicio</a></li>
-                    <li><a href="#">Productos</a></li>
-                    <li><a href="~/Checkout/Cart" asp-action="Cart">Mi Carrito</a></li>
-                    <li><a href="~/Personalizador/">Personalizador</a></li>
+                <ul id="ulMainMenu" class="nav navbar-nav">
+                    <li class="li-inicio"><a href="~/">Inicio</a></li>
+                    <li class="li-gallery" ><a href="~/Gallery/">Cases</a></li>
+                    <li class="li-checkout" ><a href="~/Checkout/Cart" asp-action="Cart">Mi Carrito</a></li>
+                    <li class="li-personalizador" ><a href="~/Personalizador/">Personalizador</a></li>
 
 
                 </ul>
