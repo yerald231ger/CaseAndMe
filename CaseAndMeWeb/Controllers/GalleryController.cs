@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CaseAndMeWeb.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,32 @@ namespace CaseAndMeWeb.Controllers
 {
     public class GalleryController : Controller
     {
+        public ApplicationDbContext context { get; set; }
+
+        public GalleryController(ApplicationDbContext context)
+        {
+            this.context = context;
+        }
         // GET: Gallery
         public ActionResult Index()
         {
+            ViewBag.pDestacados = new List<Producto>();
+            ViewBag.pNuevos = new List<Producto>();
+            var Subcategorias = context.SubCategorias.Include("Categoria").ToList();
+            ViewBag.pSubcategorias = Subcategorias;
+
+            var Categorias = context.Categorias.ToList();
+            ViewBag.pCategorias = Categorias;
+
+            ViewBag.Dispositivos = context.Dispositivo.ToList();
+            ViewBag.Materiales = context.Material.ToList();
+
+            if (context.Productos.Count() != 0)
+            {
+                ViewBag.pProductos = context.Productos.Include("Inventario").Where(x => x.EsActivo == true).ToList();
+            }
             return View();
+
         }
 
         // GET: Gallery/Details/5

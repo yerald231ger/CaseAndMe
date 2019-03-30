@@ -4,10 +4,258 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="container m-t-3">
+    <div class="row">
+        <div class="col-md-3 m-b-1 hidden-xs">
+            <div class="title"><span>Categorias</span></div>
+            <nav class="sidebar-nav">
+                <ul class="metismenu vertical-menu">
+                    @foreach (var c in ViewBag.pCategorias)
+                    {
+
+                        if (c.SubCategorias != null)
+                        {
+                            <li>
+                                <a class="has-arrow" href="#collapse_@c.Id" aria-expanded="true" data-toggle="collapse">
+                                    @c.Nombre
+                                </a>
+                                <ul id="collapse_@c.Id" aria-expanded="true" class="collapse in">
+                                    @foreach (var s in c.SubCategorias)
+                                    {
+                                        <li><a href="/Gallery/t=sid=@s.Id">@s.Nombre</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                    }
+                    @*<li class="active">
+                            <a class="has-arrow" href="#CollapseCases" aria-expanded="true" data-toggle="collapse">
+                                <span class="fa fa-fw fa-file"></span>
+                                Cases
+                            </a>
+                            <ul id="CollapseCases" aria-expanded="true" class="collapse in">
+                                <li><a href="about.html">Abstracto</a></li>
+                                <li><a href="blog.html">Animales</a></li>
+
+                            </ul>
+                        </li>
+                        <li><a href="#" aria-expanded="false"><span class=""></span> Vasos</a></li>
+                        <li><a href="#" aria-expanded="false"><span class=""></span> Termos</a></li>
+                        <li><a href="#" aria-expanded="false"><span class="fa fa-coffee"></span> Tarros</a></li>*@
+                </ul>
+            </nav>
+
+        </div>
+
+        <div class="col-md-9 col-sm-12">
+
+            <!-- Featured -->
+            <div class="title"><span>Galeria</span></div>
+            @for (int i = 0; i < ViewBag.pProductos.Count; i++)
+            {
+                int Primer = i;
+                int Segundo = i + 1;
+                int Tercer = i + 2;
+                int Cuarto = i + 3;
+                <div class="row">
+                    @if (Primer < ViewBag.pProductos.Count)
+                    {
+                        <div class="col-md-3 col-6 col-xs-6">
+                            <div class="box-product-outer">
+                                <div class="box-product">
+                                    <div class="img-wrapper">
+                                        <a href="/Item/Details/@ViewBag.pProductos[Primer].Codigo">
+                                            <img alt="Product" src="/images/items/@ViewBag.pProductos[Primer].UrlImagen">
+                                        </a>
+                                        <div class="option">
+                                            <a href="javascript:openItemModal(@ViewBag.pProductos[Primer].Id, '@ViewBag.pProductos[Primer].Nombre', @ViewBag.pProductos[Primer].Precio, '@ViewBag.pProductos[Primer].UrlImagen', @(ViewBag.pProductos[Primer].Inventario != null ? ViewBag.pProductos[Primer].Inventario.Cantidad : 0));" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                        </div>
+                                    </div>
+                                    <h6><a href="~/Item/Details/@ViewBag.pProductos[Primer].Codigo">@ViewBag.pProductos[Primer].Nombre</a></h6>
+                                    <div class="price">
+                                        <div>$@ViewBag.pProductos[Primer].Precio </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                    @if (Segundo < ViewBag.pProductos.Count)
+                    {
+                        <div class="col-md-3 col-6 col-xs-6">
+                            <div class="box-product-outer">
+                                <div class="box-product">
+                                    <div class="img-wrapper">
+                                        <a href="/Item/Details/@ViewBag.pProductos[Segundo].Codigo">
+                                            <img alt="Product" src="/images/items/@ViewBag.pProductos[Segundo].UrlImagen">
+                                        </a>
+                                        <div class="option">
+                                            <a href="javascript:openItemModal(@ViewBag.pProductos[Segundo].Id, '@ViewBag.pProductos[Segundo].Nombre', @ViewBag.pProductos[Segundo].Precio, '@ViewBag.pProductos[Segundo].UrlImagen', @(ViewBag.pProductos[Segundo].Inventario != null ? ViewBag.pProductos[Segundo].Inventario.Cantidad : 0));" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                        </div>
+                                    </div>
+                                    <h6><a href="~/Item/Details/@ViewBag.pProductos[Segundo].Codigo">@ViewBag.pProductos[Segundo].Nombre</a></h6>
+                                    <div class="price">
+                                        <div>$@ViewBag.pProductos[Segundo].Precio </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                    @if (Tercer < ViewBag.pProductos.Count)
+                    {
+                        <div class="col-md-3 col-6 col-xs-6">
+                            <div class="box-product-outer">
+                                <div class="box-product">
+                                    <div class="img-wrapper">
+                                        <a href="/Item/Details/@ViewBag.pProductos[Tercer].Codigo">
+                                            <img alt="Product" src="/images/items/@ViewBag.pProductos[Tercer].UrlImagen">
+                                        </a>
+                                        <div class="option">
+                                            <a href="javascript:openItemModal(@ViewBag.pProductos[Tercer].Id, '@ViewBag.pProductos[Tercer].Nombre', @ViewBag.pProductos[Tercer].Precio, '@ViewBag.pProductos[Tercer].UrlImagen', @(ViewBag.pProductos[Tercer].Inventario != null ? ViewBag.pProductos[Tercer].Inventario.Cantidad : 0));" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                        </div>
+                                    </div>
+                                    <h6><a href="~/Item/Details/@ViewBag.pProductos[Tercer].Codigo">@ViewBag.pProductos[Tercer].Nombre</a></h6>
+                                    <div class="price">
+                                        <div>$@ViewBag.pProductos[Tercer].Precio </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                    @if (Cuarto < ViewBag.pProductos.Count)
+                    {
+                        <div class="col-md-3 col-6 col-xs-6">
+                            <div class="box-product-outer">
+                                <div class="box-product">
+                                    <div class="img-wrapper">
+                                        <a href="/Item/Details/@ViewBag.pProductos[Cuarto].Codigo">
+                                            <img alt="Product" src="/images/items/@ViewBag.pProductos[Cuarto].UrlImagen">
+                                        </a>
+                                        <div class="option">
+                                            <a href="javascript:openItemModal(@ViewBag.pProductos[Cuarto].Id, '@ViewBag.pProductos[Cuarto].Nombre', @ViewBag.pProductos[Cuarto].Precio, '@ViewBag.pProductos[Cuarto].UrlImagen', @(ViewBag.pProductos[Cuarto].Inventario != null ? ViewBag.pProductos[Cuarto].Inventario.Cantidad : 0));" data-toggle="tooltip" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                        </div>
+                                    </div>
+                                    <h6><a href="~/Item/Details/@ViewBag.pProductos[Cuarto].Codigo">@ViewBag.pProductos[Cuarto].Nombre</a></h6>
+                                    <div class="price">
+                                        <div>$@ViewBag.pProductos[Cuarto].Precio </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                i = i + 4;
+            }
+
+
+            <!-- End Featured -->
+
+            <div class="clearfix visible-sm visible-xs"></div>
+
+        </div>
+    </div>
+</div>
+
+@*Detail item modal*@
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <img id='imgDetailModal' src="" style="width: 100%;" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="control-label h1 " id="lblDetailModalName"></label>
+                                        <input type="hidden" id="txtItemModalSelectedId" value="" />
+                                        <input type="hidden" id="txtItemModalSelectedImg" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="control-label h2 " id="lblDetailModalPrice"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("ddlDetailModalDevice", new SelectList(ViewBag.Dispositivos, "id", "Nombre"), "Modelo del dispositivo", new { @class = "form-control combobox-item" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("ddlDetailModalMaterial", new SelectList(ViewBag.Materiales, "id", "Nombre"), "Material a escoger", new { @class = "form-control combobox-item margin-bottom-30" })
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="col-md-12 ">
+                                        <label class="lblStock" id="lblDetailModalStock">En Stock(0)</label>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="col-md-12 ">
+                                        <input id="touchspin_Modal_Quantity" type="text" value="1" name="touchspin_Modal_Quantity" data-bts-button-down-class="btn btn-default" data-bts-button-up-class="btn btn-default">
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="col-md-12 ">
+                                        <input type="submit" onclick="addToCartFromModal()" value="Agregar a Carrito" class="btn  btn-info pull-right font-size-20" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
             $("#ulMainMenu .li-gallery").addClass("active");
+
+            $('#touchspin_Modal_Quantity').TouchSpin({
+                verticalbuttons: true,
+                min: 1,
+                max: maxValStock,
+                verticalup: '<i class="glyphicon glyphicon-chevron-up"></i>',
+                verticaldown: '<i class="glyphicon glyphicon-chevron-down"></i>'
+            });
+
+            var jsonDevice = @Html.Raw(Json.Encode(ViewBag.Dispositivos));
+            var jsonMaterial = @Html.Raw(Json.Encode(ViewBag.Materiales));
+            if (jsonDevice != null) {
+                sessionStorage.setItem("jsonDevice", JSON.stringify(jsonDevice));
+            }
+
+            if (jsonMaterial != null) {
+                sessionStorage.setItem("jsonMaterial", JSON.stringify(jsonMaterial));
+            }
+
+            $("#ulMainMenu .li-inicio").addClass("active");
+        
         });
     </script>
 }
