@@ -148,7 +148,6 @@ namespace CaseAndMeWeb.Controllers
             r.Method = "card";
             r.SourceId = Request.Form["token_id"].ToString();
             r.Amount = obtenerCostoTotal(oList);
-            //r.Amount =  decimal.Parse(Request.Form["amount"].ToString());
             r.Description = Request.Form["description"].ToString();
             r.DeviceSessionId = Request.Form["deviceIdHiddenFieldName"].ToString();
             r.Customer = customer;
