@@ -357,6 +357,8 @@
                     <input type="hidden" name="description" id="description" value="@ViewBag.description" />
                     <input type="hidden" name="token_id" id="token_id">
                     <input type="hidden" name="use_card_points" id="use_card_points" value="false">
+
+                    <input type="hidden" name="oList" id="oList">
                     <div class="pymnt-itm card active">
                         <h2>Tarjeta de crédito o débito</h2>
                         <div class="pymnt-cntnt">
@@ -425,6 +427,7 @@
             }
             $("#lblTotal").html("$" + total.toFixed(2));
             $("#amount").val(total);
+            $("#oList").val(sessionStorage.getItem("oList"));
         });
     </script>
 }

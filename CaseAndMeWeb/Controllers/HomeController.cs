@@ -51,8 +51,8 @@ namespace CaseAndMeWeb.Controllers
 
             if (context.Productos.Count() != 0)
             {
-                ViewBag.pDestacados = context.Productos.Include("Inventario").Where(x=> x.EsActivo == true).Take(10).ToList();
-                ViewBag.pNuevos = context.Productos.Include("Inventario").Where(x => x.EsActivo == true).OrderByDescending(x => x.Id).Take(10).ToList();
+                ViewBag.pDestacados = context.Productos.Include("Inventario").Where(x=> x.EsActivo == true && x.Id != 0).Take(10).ToList();
+                ViewBag.pNuevos = context.Productos.Include("Inventario").Where(x => x.EsActivo == true && x.Id != 0).OrderByDescending(x => x.Id).Take(10).ToList();
             }
 
             return View();

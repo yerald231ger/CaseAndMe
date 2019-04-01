@@ -22,7 +22,7 @@ namespace CaseAndMeWeb.Controllers
         // GET: Device
         public ActionResult Index()
         {
-            var Dispositivos = context.Dispositivo.ToList();
+            var Dispositivos = context.Dispositivo.Where(x => x.Id != 0).ToList();
             ViewBag.Dispositivos = Dispositivos;
             return View();
         }

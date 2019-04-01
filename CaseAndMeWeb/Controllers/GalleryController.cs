@@ -21,17 +21,17 @@ namespace CaseAndMeWeb.Controllers
             ViewBag.pDestacados = new List<Producto>();
             ViewBag.pNuevos = new List<Producto>();
             var Subcategorias = context.SubCategorias.Include("Categoria").ToList();
-            ViewBag.pSubcategorias = Subcategorias;
+            ViewBag.pSubcategorias = Subcategorias.Where(x=> x.EsActivo == true);
 
-            var Categorias = context.Categorias.ToList();
+            var Categorias = context.Categorias.Where(x => x.EsActivo == true).ToList();
             ViewBag.pCategorias = Categorias;
 
-            ViewBag.Dispositivos = context.Dispositivo.ToList();
-            ViewBag.Materiales = context.Material.ToList();
+            ViewBag.Dispositivos = context.Dispositivo.Where(x => x.EsActivo == true && x.Id != 0).ToList();
+            ViewBag.Materiales = context.Material.Where(x => x.EsActivo == true).ToList();
 
-            if (context.Productos.Count() != 0)
+            if (context.Productos.Any())
             {
-                ViewBag.pProductos = context.Productos.Include("Inventario").Where(x => x.EsActivo == true).ToList();
+                ViewBag.pProductos = context.Productos.Include("Inventario").Where(x => x.EsActivo == true && x.Id != 0).ToList();
             }
             return View();
 

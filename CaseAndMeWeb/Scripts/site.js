@@ -126,6 +126,8 @@ function addToCartListOLD(id, name, price, img, device, material, quantity) {
 
 //Agrega al carrito el articulo seleccionado/personalizado y actualiza el JSON en session
 function addToCartList(id, name, price, img, device, material, quantity, isCustom, imgBase64) {
+    img = img == null ? "" : img;
+    imgBase64 = imgBase64 == null ? "" : imgBase64;
     var oList = sessionStorage.getItem('oList');
     if (oList == null) {
 
@@ -292,7 +294,7 @@ function updateGridCart() {
 
                 if (JsonOVD[j].isCustom) {
                     tdImg = null;
-                    tdImg = $('<td class="img-cart"><a href="detail.html"><img id=' + imgid + ' alt="Product" src="' + JsonOVD[j].imgBase64 + '" class="img-thumbnail"></a></td>');
+                    tdImg = $('<td class="img-cart"><a href="detail.html"><img id=' + imgid + ' alt="Product" src="' + JsonOVD[j].Img + '" class="img-thumbnail"></a></td>');
                 }
                 tr.append(tdImg).append(tdText).append(tdDisp).append(tdMat).append(tdCant).append(tdPrecio).append(tdSubT).append(tdDel);
 
@@ -330,8 +332,13 @@ function removeItemFromGridCart(i) {
 
     if (jsonOVD != null) {
         var img = '<img  alt="Product" src="/Images/Items/' + jsonOVD[i].Img + '" class="img-thumbnail">'
+        if (jsonOVD[i].isCustom) {
+            img = '<img  alt="Product" src="' + jsonOVD[i].Img + '" class="img-thumbnail">'
+        }
         var p = '<p>' + jsonOVD[i].Name + '</p>'
         var cant = '<input type="text" value="' + jsonOVD[i].Q + '" class="form-control text-center" disabled style="display: block;">'
+
+
         var table = '<table class="table table-bordered table-cart">'
             + '<thead><tr><th>Imagen</th><th>Producto</th><th>Cantidad</th></tr></thead>'
             + '<tbody id="tbodyCart">'

@@ -31,8 +31,8 @@ namespace CaseAndMeWeb.Controllers
             var UserId = User.Identity.GetUserId();
             if(UserId != null)
             {
-                ViewBag.Dispositivos = context.Dispositivo.ToList();
-                ViewBag.Materiales = context.Material.ToList();
+                ViewBag.Dispositivos = context.Dispositivo.Where(x=> x.Id != 0 && x.EsActivo == true).ToList();
+                ViewBag.Materiales = context.Material.Where(x => x.EsActivo == true).ToList();
                 ViewBag.Base64Img = getUserImages(UserId);
                 return View();
             }

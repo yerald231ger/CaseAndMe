@@ -264,6 +264,14 @@
     <Compile Include="Migrations\201903260449518_Martin20190325.Designer.cs">
       <DependentUpon>201903260449518_Martin20190325.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904010104347_Martin190331.cs" />
+    <Compile Include="Migrations\201904010104347_Martin190331.Designer.cs">
+      <DependentUpon>201904010104347_Martin190331.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904010216338_Martin1903311.cs" />
+    <Compile Include="Migrations\201904010216338_Martin1903311.Designer.cs">
+      <DependentUpon>201904010216338_Martin1903311.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\ComponentsViewModel\TableViewModel.cs" />
@@ -327,6 +335,7 @@
     <Content Include="Content\Customizer\img\ac.png" />
     <Content Include="Content\Customizer\img\al.png" />
     <Content Include="Content\Customizer\img\ar.png" />
+    <Content Include="Content\Customizer\img\flm.png" />
     <Content Include="Content\Customizer\img\ico-steps.png" />
     <Content Include="Content\Customizer\img\layout\g_15\grid.png" />
     <Content Include="Content\Customizer\img\layout\g_1\grid.png" />
@@ -1067,6 +1076,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903260449518_Martin20190325.resx">
       <DependentUpon>201903260449518_Martin20190325.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904010104347_Martin190331.resx">
+      <DependentUpon>201904010104347_Martin190331.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904010216338_Martin1903311.resx">
+      <DependentUpon>201904010216338_Martin1903311.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

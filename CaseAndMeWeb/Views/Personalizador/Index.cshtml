@@ -329,7 +329,7 @@
                 var P = 0;
                 var name = "Personalizado";
                 var price = parseFloat($("#spPrecio").attr("data-price"))
-                var img = canvasImgCase;
+                var img = imgCaseB64;
                 var D = json.dispositivo.id;
                 var M = json.case.id;
                 var Q = 1;
@@ -437,7 +437,7 @@
                                                         {
                                                             mascara = d.Mascaras.Replace("\\", "/");
                                                         <li>
-                                                            <a class="cp-choose-dev-button" href="#" onclick="setDevice('@d.Id','@d.Nombre', '@d.Marca', '@mascara')" id="p_1">
+                                                            <a class="cp-choose-dev-button" href="#" onclick="setDevice(@d.Id,'@d.Nombre', '@d.Marca', '@mascara')" id="p_1">
                                                                 <span class="tit-prod">@d.Nombre</span>
                                                             </a>
                                                         </li>
