@@ -2210,7 +2210,7 @@ a:hover, a:active, a:focus {
             display: block;
             text-indent: -1000px;
             overflow: hidden;
-            background: url(../img/ico-steps.png) 36px 0 no-repeat;
+            background: url(/Content/Customizer/img/ico-steps.png) 36px 0 no-repeat; 
             cursor: default;
             -webkit-transition-property: background-color;
             -moz-transition-property: background-color;

@@ -6,6 +6,7 @@
     <title>CASE&ME</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
 </head>
 <body>
@@ -26,7 +27,7 @@
                 </div>
                 <div class="col-sm-8 col-md-6 search-box m-t-2">
                     <form asp-controller="Filter" asp-action="Index" method="post">
-                        <div class="input-group" style="display:none;" >
+                        <div class="input-group" style="display:none;">
                             <input type="text" name="expresion" class="form-control search-input" aria-label="Buscar producto..." placeholder="Buscar..." autocomplete="off">
                             <div class="input-group-btn">
                                 <button type="submit" class="btn btn-default btn-search"><i class="fa fa-search"></i></button>
@@ -47,8 +48,8 @@
                         <div class="subtotal-cart">Total: <span id="subtotalCart">$00.00</span></div>
                         <div class="text-center">
                             <div class="btn-group" role="group" aria-label="View Cart and Checkout Button">
-                                <button class="btn btn-default btn-sm" type="button" onclick="location.href = '/Checkout/Cart';" ><i class="fa fa-shopping-cart"></i> Mi Carrito</button>
-                                <button class="btn btn-default btn-sm" type="button" onclick="location.href = '/Checkout/Buy';" ><i class="fa fa-check"></i> Comprar</button>
+                                <button class="btn btn-default btn-sm" type="button" onclick="location.href = '/Checkout/Cart';"><i class="fa fa-shopping-cart"></i> Mi Carrito</button>
+                                <button class="btn btn-default btn-sm" type="button" onclick="location.href = '/Checkout/Buy';"><i class="fa fa-check"></i> Comprar</button>
                             </div>
                         </div>
                     </div>
@@ -72,9 +73,9 @@
             <div class="collapse navbar-collapse" id="navbar-ex1-collapse">
                 <ul id="ulMainMenu" class="nav navbar-nav">
                     <li class="li-inicio"><a href="~/">Inicio</a></li>
-                    <li class="li-gallery" ><a href="~/Gallery/">Cases</a></li>
-                    <li class="li-checkout" ><a href="~/Checkout/Cart" asp-action="Cart">Mi Carrito</a></li>
-                    <li class="li-personalizador" ><a href="~/Personalizador/">Personalizador</a></li>
+                    <li class="li-gallery"><a href="~/Gallery/">Cases</a></li>
+                    <li class="li-checkout"><a href="~/Checkout/Cart" asp-action="Cart">Mi Carrito</a></li>
+                    <li class="li-personalizador"><a href="~/Personalizador/">Personalizador</a></li>
 
 
                 </ul>
@@ -130,7 +131,7 @@
                     </ul>
                 </div>
             </div>
-            
+
 
         </div>
         <div class="text-center copyright">
@@ -143,5 +144,6 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/site.js"></script>
 </body>
 </html>
