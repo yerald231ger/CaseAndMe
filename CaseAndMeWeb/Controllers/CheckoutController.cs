@@ -13,6 +13,9 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Web.Hosting;
 using System.Drawing;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
+using CaseAndMeWeb.Utilities;
 
 namespace CaseAndMeWeb.Controllers
 {
@@ -214,6 +217,18 @@ namespace CaseAndMeWeb.Controllers
 
 
                 //ENVIAMOS CORREOS AL CLIENTE Y A DUEÑO DEL SITIO
+                var objMail = new Mail();
+                var mail = new MailModel();
+                var to = new List<MailAdress>();
+                mail.body = "Este es el body";
+                mail.subject = "Titulo";
+                to.Add(new MailAdress { email = "javierhr_0321@hotmail.com" });
+                to.Add(new MailAdress { email = "javier.hernandez.rangel@gmail.com" });
+                to.Add(new MailAdress { email = "pagos@caseandme.com" });
+                mail.emailsTo = to;
+                objMail.sendMail(mail);
+
+
             }
             return View();
         }
@@ -354,5 +369,6 @@ namespace CaseAndMeWeb.Controllers
             public bool isCustom { get; set; }
 
         }
+
     }
 }
