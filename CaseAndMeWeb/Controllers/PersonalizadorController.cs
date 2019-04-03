@@ -79,26 +79,37 @@ namespace CaseAndMeWeb.Controllers
         {
             try
             {
+                
+
                 var UserId = User.Identity.GetUserId();
                 if (!string.IsNullOrEmpty(UserId))
                 {
+                    GuardaBitacora("UploadUserFile()", "Entra al If");
                     UserImg img = new UserImg();
                     string newFileName = ""; ;
                     foreach (string file in Request.Files)
                     {
+
+                        GuardaBitacora("UploadUserFile()", "Entra al foreach");
                         var postedFile = Request.Files[file];
+
+                        GuardaBitacora("UploadUserFile()", file);
                         newFileName = Guid.NewGuid().ToString() + ".png";
                         if (!string.IsNullOrEmpty(postedFile.FileName))
                         {
-                            string directory = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "Files/UFiles/" + UserId);
+                            GuardaBitacora("UploadUserFile()", "Entra al 2o If");
+                            string directory = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "Files\\UFiles\\" + UserId);
 
+                            GuardaBitacora("UploadUserFile()", directory);
                             Directory.CreateDirectory(directory);
 
                             var filePath = Server.MapPath("~/Files/UFiles/" + UserId + "/" + newFileName);
+                            GuardaBitacora("UploadUserFile()", "Entra al MapPath");
                             //postedFile.SaveAs(filePath);
                             Stream strm = postedFile.InputStream;
                             GenerateThumbnails(0.5, strm, filePath);
 
+                            GuardaBitacora("UploadUserFile()", "GenerateThumbnails");
 
 
                             //Generamos imagen Base 64
@@ -107,14 +118,17 @@ namespace CaseAndMeWeb.Controllers
                             byte[] imageArray = target.ToArray();
                             string base64Img = Convert.ToBase64String(imageArray);
 
+                            GuardaBitacora("UploadUserFile()", "base64Img");
                             //Generamos imagen Base 64 pequeña
                             Image imagen = Image.FromFile(filePath);
                             string base64ImgSmall = ScaleByPercent(imagen, 10);
 
+                            GuardaBitacora("UploadUserFile()", "base64ImgSmall");
                             img.FileName = newFileName;
                             img.Base64Img = base64Img;
                             img.Base64ImgSmall = base64ImgSmall;
                             img.ImageURL = "/Files/UFiles/" + UserId + "/" + newFileName;
+                            GuardaBitacora("UploadUserFile()", "fin");
                         }
                     }
 
@@ -126,6 +140,14 @@ namespace CaseAndMeWeb.Controllers
             }
             catch (Exception ex)
             {
+                BitacoraError bError = new BitacoraError();
+                bError.Metodo = "CreateCustomCase()";
+                bError.Descripcion = ex.Message + ". " + ex.InnerException;
+                bError.FechaAlt = DateTime.UtcNow;
+                bError.FechaMod = DateTime.UtcNow;
+                bError.EsActivo = true;
+                context.BitacoraErrores.Add(bError);
+                context.SaveChanges();
                 return View();
             }
         }
@@ -179,6 +201,7 @@ namespace CaseAndMeWeb.Controllers
                 thumbnailImg.Save(targetPath, image.RawFormat);
             }
         }
+
         //[HttpPost]
         //public ActionResult UploadUserFile(FormCollection collection)
         //{
@@ -356,6 +379,18 @@ namespace CaseAndMeWeb.Controllers
             public string ImageURL { get; set; }
             public string Base64Img { get; set; }
             public string Base64ImgSmall { get; set; }
+        }
+
+        private void GuardaBitacora(string Metodo, string Descripcion)
+        {
+            BitacoraError bError = new BitacoraError();
+            bError.Metodo = Metodo;
+            bError.Descripcion = Descripcion;
+            bError.FechaAlt = DateTime.UtcNow;
+            bError.FechaMod = DateTime.UtcNow;
+            bError.EsActivo = true;
+            context.BitacoraErrores.Add(bError);
+            context.SaveChanges();
         }
     }
 }

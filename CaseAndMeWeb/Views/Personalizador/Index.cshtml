@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "CASE&ME - Crea tu case";
     Layout = "~/Views/Shared/_LayoutLite.cshtml";
 }
 
@@ -46,6 +46,9 @@
                 },
                 progressall: function (e, data) {
                     //cargamos loading...
+                },
+                fail: function (e, data) {
+                    debugger;
                 },
                 done: function (e, data) {
                     if (data != null && data.result != null) {

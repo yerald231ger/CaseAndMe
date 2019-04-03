@@ -272,7 +272,12 @@
     <Compile Include="Migrations\201904010216338_Martin1903311.Designer.cs">
       <DependentUpon>201904010216338_Martin1903311.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904020511497_Martin190401.cs" />
+    <Compile Include="Migrations\201904020511497_Martin190401.Designer.cs">
+      <DependentUpon>201904020511497_Martin190401.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BitacoraError.cs" />
     <Compile Include="Models\Categoria2.cs" />
     <Compile Include="Models\ComponentsViewModel\TableViewModel.cs" />
     <Compile Include="Models\DashboardViewModels\IndexViewModel.cs" />
@@ -1332,6 +1337,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904010216338_Martin1903311.resx">
       <DependentUpon>201904010216338_Martin1903311.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904020511497_Martin190401.resx">
+      <DependentUpon>201904020511497_Martin190401.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

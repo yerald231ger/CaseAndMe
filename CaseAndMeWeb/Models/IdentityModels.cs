@@ -119,6 +119,7 @@ namespace CaseAndMeWeb.Models
         public virtual DbSet<Dispositivo> Dispositivo { get; set; }
         public virtual DbSet<Material> Material { get; set; }
         public virtual DbSet<Inventario> Inventarios { get; set; }
+        public virtual DbSet<BitacoraError> BitacoraErrores { get; set; }
         public object Producto { get; internal set; }
 
         public ApplicationDbContext()
@@ -156,6 +157,9 @@ namespace CaseAndMeWeb.Models
             var tblProducto = builder.Entity<Producto>();
 
             tblProducto.ToTable("tblProductos");
+
+            var tblBitacoraErrores = builder.Entity<BitacoraError>();
+            tblBitacoraErrores.ToTable("tblBitacoraError");
 
             tblProducto.HasRequired(p => p.SubCategoria)
                 .WithMany(sc => sc.Productos)

@@ -296,6 +296,14 @@ namespace CaseAndMeWeb.Controllers
             }
             catch (Exception ex)
             {
+                BitacoraError bError = new BitacoraError();
+                bError.Metodo = "CreateCustomCase()";
+                bError.Descripcion = ex.Message + ". " + ex.InnerException;
+                bError.FechaAlt = DateTime.UtcNow;
+                bError.FechaMod = DateTime.UtcNow;
+                bError.EsActivo = true;
+                context.BitacoraErrores.Add(bError);
+                context.SaveChanges();
             }
             return file;
         }
