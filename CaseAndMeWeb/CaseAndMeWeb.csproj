@@ -295,6 +295,8 @@
     <Compile Include="Models\Estado.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Inventario.cs" />
+    <Compile Include="Models\MailModel.cs" />
+    <Compile Include="Models\MailAdress.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\MetodoEnvio.cs" />
@@ -316,6 +318,7 @@
     <Compile Include="Services\Repository\IRepository.cs" />
     <Compile Include="Services\Repository\IUserRepository.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\Mail.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
