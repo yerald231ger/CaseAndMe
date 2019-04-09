@@ -803,6 +803,8 @@
       <DependentUpon>site.css</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
+    <Content Include="Files\EmailFiles\OrdenCompra.html" />
+    <Content Include="Files\EmailFiles\OrdenVenta.html" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

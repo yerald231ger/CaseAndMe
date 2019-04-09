@@ -17,7 +17,7 @@ namespace CaseAndMeWeb.Utilities
             smtp.Port = 25;// 8889;
             smtp.EnableSsl = false;
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential("pagos@caseandme.com", "Abcd1234#");
+            smtp.Credentials = new NetworkCredential("ventas@caseandme.com", "Abcd1234#");
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             string output = "";
             try
@@ -27,6 +27,7 @@ namespace CaseAndMeWeb.Utilities
                 Msg.From = fromMail;
                 Msg.Subject = email.subject;
                 Msg.Body = email.body;
+                Msg.IsBodyHtml = true;
 
                 foreach (var adress in email.emailsTo)
                 {

@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using CaseAndMeWeb.Utilities;
+using System.Text;
 
 namespace CaseAndMeWeb.Controllers
 {
@@ -159,6 +160,11 @@ namespace CaseAndMeWeb.Controllers
 
             if (charge.Status == "completed")
             {
+                var users = context.Users;
+                var admins = from u in users
+                             where u.Roles.Where(x => x.RoleId == "A").Any()
+                             select u;
+
 
                 //Generamos y guardamos imagenes personalizadas 
                 //y generamos Orden de Venta
@@ -212,24 +218,116 @@ namespace CaseAndMeWeb.Controllers
                         context.OrdenesVentasDetalle.Add(ordenVentaDet);
                         context.SaveChanges();
                     }
+
+                    //ENVIAMOS CORREOS AL CLIENTE 
+                    var objMail = new Mail();
+                    var mail = new MailModel();
+                    var to = new List<MailAdress>();
+                    mail.body = creaOrdenCompraHTML(oList);
+                    mail.subject = "Case&Me - Orden de Compra";
+                    to.Add(new MailAdress { email = user.Email });
+                    mail.emailsTo = to;
+                    objMail.sendMail(mail);
+
+                    //ENVIAMOS CORREOS AL ADMIN 
+                    objMail = new Mail();
+                    mail = new MailModel();
+                    to = new List<MailAdress>();
+                    mail.body = creaOrdenVentaHTML(ordenVenta.Folio);
+                    mail.subject = "Case&Me - Orden de Venta " + ordenVenta.Folio;
+
+                    foreach(var u in admins)
+                    {
+                        to.Add(new MailAdress { email = u.Email });
+                    }
+                    mail.emailsTo = to;
+                    objMail.sendMail(mail);
                 }
 
 
-                //ENVIAMOS CORREOS AL CLIENTE Y A DUEÑO DEL SITIO
-                var objMail = new Mail();
-                var mail = new MailModel();
-                var to = new List<MailAdress>();
-                mail.body = "Este es el body";
-                mail.subject = "Titulo";
-                to.Add(new MailAdress { email = "javierhr_0321@hotmail.com" });
-                to.Add(new MailAdress { email = "javier.hernandez.rangel@gmail.com" });
-                to.Add(new MailAdress { email = "pagos@caseandme.com" });
-                mail.emailsTo = to;
-                objMail.sendMail(mail);
+
 
 
             }
             return View();
+        }
+
+        /// <summary>
+        /// Crea HTML de Orden de Compra 
+        /// </summary>
+        /// <param name="oList"></param>
+        /// <returns></returns>
+        private string creaOrdenCompraHTML(List<oList> oList)
+        {
+            var dispositivos = context.Dispositivo.ToList();
+            var productos = context.Productos.ToList();
+            var materiales = context.Material.ToList();
+
+            string body = "";
+            string directory = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "Files\\EmailFiles\\");
+            string path = directory + "\\" + "OrdenCompra.html";
+            if (System.IO.File.Exists(path))
+            {
+                body = System.IO.File.ReadAllText(path, Encoding.UTF8);
+                string bodyTemp = "";
+                decimal amount = obtenerCostoTotal(oList);
+                var ovdList = oList[0].OVD;
+                for (int i = 0; i < ovdList.Count; i++)
+                {
+                    int rowNo = i + 1;
+                    string row = "<tr>"
+                        + "<th>" + rowNo.ToString() + "</th>"
+                        + "<td>" + ovdList[i].Name + "</td>"
+                        + "<td>" + dispositivos.Where(x => x.Id == ovdList[i].D).FirstOrDefault().Nombre + "</td>"
+                        + "<td>" + materiales.Where(x => x.Id == ovdList[i].M).FirstOrDefault().Nombre + "</td>"
+                        + "<td>" + ovdList[i].Q.ToString() + "</td>"
+                        + "<td>$" + ovdList[i].Price.ToString() + "</td>"
+                        + "<td>$" + (ovdList[i].Q * ovdList[i].Price).ToString() + "</td>"
+                        + "</tr>";
+                    bodyTemp = bodyTemp + row;
+
+                }
+
+                //Agregamos datos de envio
+                var o = oList[0];
+                body = body.Replace("@@@Nombre", o.D.Nombre + " " + o.D.Apellido);
+                body = body.Replace("@@@Pais", o.D.Pais);
+                body = body.Replace("@@@Estado", o.D.Estado);
+                body = body.Replace("@@@Ciudad", o.D.Ciudad);
+                body = body.Replace("@@@Direccion", o.D.Direccion);
+                body = body.Replace("@@@Colonia", o.D.Colonia);
+                body = body.Replace("@@@CP", o.D.CP);
+                body = body.Replace("@@@Telefono", o.D.Telefono);
+
+                string rowAmount = "<tr><td style='text-align:right; '  colspan='7'>Total: <b>$" + amount.ToString() + "</b></td></tr>";
+                bodyTemp = bodyTemp + rowAmount;
+                body = body.Replace("@@@ROWS", bodyTemp);
+            }
+            return body;
+        }
+
+
+        /// <summary>
+        /// Crea HTML de Orden de Venta 
+        /// </summary>
+        /// <param name="oList"></param>
+        /// <returns></returns>
+        private string creaOrdenVentaHTML(string Folio)
+        {
+            var dispositivos = context.Dispositivo.ToList();
+            var productos = context.Productos.ToList();
+            var materiales = context.Material.ToList();
+
+            string body = "";
+            string directory = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "Files\\EmailFiles\\");
+            string path = directory + "\\" + "OrdenVenta.html";
+            if (System.IO.File.Exists(path))
+            {
+                body = System.IO.File.ReadAllText(path, Encoding.UTF8);
+
+                body = body.Replace("@@@FolioOrdenVenta", Folio);
+            }
+            return body;
         }
 
         /// <summary>
