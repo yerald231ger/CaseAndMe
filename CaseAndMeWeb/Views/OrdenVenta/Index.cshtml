@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container m-t-3">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="title"><span>Ordenes de Venta</span></div>
+            <table id="tblOrdenVenta" class="display table table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Folio</th>
+                        <th>Cliente</th>
+                        <th>Correo</th>
+                        <th>Metodo Pago</th>
+                        <th>Metodo Envio</th>
+                        <th>Fecha</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var o in ViewBag.OrdenesVenta)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@o.GetType().GetProperty("Folio").GetValue(o, null)</td>
+                            <td>@o.GetType().GetProperty("NombreCompleto").GetValue(o, null)</td>
+                            <td>@o.GetType().GetProperty("Email").GetValue(o, null)</td>
+                            <td>@o.GetType().GetProperty("MetodoPago").GetValue(o, null)</td>
+                            <td>@o.GetType().GetProperty("MetodoEnvio").GetValue(o, null)</td>
+                            <td>@o.GetType().GetProperty("FechaMod").GetValue(o, null)</td>
+                            <td><a href="~/OrdenVentaDetalle/index/@o.GetType().GetProperty("Id").GetValue(o, null)">Ver Detalle</a></td>
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+@Styles.Render("~/Content/datatables")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datatables")
+    <style>
+        .input-group {
+            width: 60%;
+            float: left;
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+
+            var t = $('#tblOrdenVenta').DataTable({
+                responsive: true,
+                "lengthChange": false,
+                "bFilter": false,
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": 0
+                }],
+
+                "order": [[1, 'asc']]
+            });
+
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        });
+    </script>
+}

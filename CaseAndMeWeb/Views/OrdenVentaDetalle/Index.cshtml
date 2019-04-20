@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container m-t-3">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="title">
+                <span>Detalle de la Orden de Venta</span>
+                <span style="float: right; font-weight: bold;" >Folio: @ViewBag.OrdenVenta.GetType().GetProperty("Folio").GetValue(ViewBag.OrdenVenta, null)</span>
+            </div>
+            <table id="tblOrdenVentaDetalle" class="display table table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Producto</th>
+                        <th>Dispositivo</th>
+                        <th>Material</th>
+                        <th>Cantidad</th>
+                        <th>Precio/U.</th>
+                        <th>Descargar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var o in ViewBag.OrdenesVentaDetalle)
+                    {
+                    <tr>
+                        <td></td>
+                        <td>@o.GetType().GetProperty("NombreProducto").GetValue(o, null)</td>
+                        <td>@o.GetType().GetProperty("NombreDispositivo").GetValue(o, null)</td>
+                        <td>@o.GetType().GetProperty("NombreMaterial").GetValue(o, null)</td>
+                        <td>@o.GetType().GetProperty("Cantidad").GetValue(o, null)</td>
+                        <td>$ @o.GetType().GetProperty("Precio").GetValue(o, null)</td>
+                        @if (o.GetType().GetProperty("NombreProducto").GetValue(o, null) == "Personalizado")
+                        {
+                            @*<td><a onclick="DownloadImage('www.caseandme.com/Files/UFiles/@ViewBag.OrdenVenta.GetType().GetProperty("IdUser").GetValue(ViewBag.OrdenVenta, null)/Custom/@o.GetType().GetProperty("Imagen").GetValue(o, null)','@o.GetType().GetProperty("Imagen").GetValue(o, null)')" href="#" download>Descargar</a></td>*@
+                            <td><a href="~/Files/UFiles/@ViewBag.OrdenVenta.GetType().GetProperty("IdUser").GetValue(ViewBag.OrdenVenta, null)/Custom/@o.GetType().GetProperty("Imagen").GetValue(o, null)" download>Descargar</a></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+
+                    </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+@Styles.Render("~/Content/datatables")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datatables")
+    <style>
+        .input-group {
+            width: 60%;
+            float: left;
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+
+            var t = $('#tblOrdenVentaDetalle').DataTable({
+                responsive: true,
+                "lengthChange": false,
+                "bFilter": false,
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": 0
+                }],
+
+                "order": [[1, 'asc']]
+            });
+
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        });
+
+        function DownloadImage(url, filename) {
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+}
+
